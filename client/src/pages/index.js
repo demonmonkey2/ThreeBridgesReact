@@ -1,0 +1,7 @@
+export { default as HomePage } from './HomePage'
+export { default as LoginPage } from './LoginPage'
+export { default as AdminPage } from './AdminPage'
+export { default as TeamsPage } from './TeamsPage'
+export { default as ScoresPage } from './ScoresPage'
+export { default as VideoPage } from './VideoPage'
+export { default as PitchBookingPage } from './PitchBookingPage'
