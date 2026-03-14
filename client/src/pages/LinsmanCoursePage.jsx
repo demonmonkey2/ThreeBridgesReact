@@ -260,15 +260,16 @@ function drawBadge(canvas, name, score, total) {
 
 function WhatsAppBadge({ name, score, total, passing }) {
   const canvasRef = useRef(null)
-  const [ready, setReady] = useState(false)
+  const [stampVisible, setStampVisible] = useState(false)
 
   useEffect(() => {
+    // Draw the hidden canvas for download
     setTimeout(() => {
-      if (canvasRef.current) {
-        drawBadge(canvasRef.current, name, score, total)
-        setReady(true)
-      }
+      if (canvasRef.current) drawBadge(canvasRef.current, name, score, total)
     }, 50)
+    // Delay stamp slam so badge is visible first
+    const t = setTimeout(() => setStampVisible(true), 600)
+    return () => clearTimeout(t)
   }, [])
 
   const download = () => {
@@ -280,13 +281,101 @@ function WhatsAppBadge({ name, score, total, passing }) {
 
   if (!passing) return null
 
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+
   return (
     <div style={{ marginTop: '1.5rem' }}>
-      <div style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 'var(--radius)', padding: '0.75rem 1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      {/* Keyframe styles */}
+      <style>{`
+        @keyframes stampSlam {
+          0%   { transform: translateY(-120px) scale(1.4); opacity: 0; }
+          60%  { transform: translateY(6px) scale(0.97); opacity: 1; }
+          80%  { transform: translateY(-4px) scale(1.01); opacity: 1; }
+          100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes shimmer {
+          0%   { left: -60%; }
+          100% { left: 160%; }
+        }
+        .badge-stamp {
+          animation: stampSlam 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+        .badge-shimmer::after {
+          content: '';
+          position: absolute;
+          top: 0; left: -60%;
+          width: 50%; height: 100%;
+          background: linear-gradient(120deg, transparent 20%, rgba(255,215,80,0.35) 50%, transparent 80%);
+          animation: shimmer 2s ease-in-out 1.2s infinite;
+          pointer-events: none;
+        }
+      `}</style>
+
+      <div style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 'var(--radius)', padding: '0.75rem 1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
         <span>📱</span>
         <span style={{ color: '#10b981', fontWeight: 600, fontSize: '0.88rem' }}>Share your badge on WhatsApp! Download below.</span>
       </div>
-      <canvas ref={canvasRef} style={{ width: '100%', maxWidth: 360, display: 'block', margin: '0 auto 1rem', borderRadius: 8, border: '1px solid rgba(206,150,45,0.3)' }} />
+
+      {/* Animated on-screen badge */}
+      <div className="badge-shimmer" style={{
+        position: 'relative', overflow: 'hidden',
+        maxWidth: 360, margin: '0 auto 1.25rem',
+        border: '6px solid #ce962d',
+        borderRadius: 8,
+        background: '#ffffff',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+      }}>
+        {/* Dark header */}
+        <div style={{ background: '#0d1820', padding: '0.9rem 1rem 0.7rem', textAlign: 'center' }}>
+          <p style={{ color: '#ce962d', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.15em', margin: '0 0 0.2rem' }}>
+            THREE BRIDGES FC · EST. 1901 · JUBILEE FIELD, CRAWLEY
+          </p>
+          <p style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 900, margin: 0, letterSpacing: '0.05em' }}>
+            THREE BRIDGES ACADEMY
+          </p>
+        </div>
+
+        {/* Body */}
+        <div style={{ padding: '1rem 1.25rem', textAlign: 'center' }}>
+          <p style={{ fontWeight: 900, fontSize: '1.5rem', color: '#0d1820', margin: '0 0 0.3rem', letterSpacing: '0.08em' }}>LINESMAN</p>
+          <div style={{ height: 2, background: '#ce962d', margin: '0 auto 0.9rem', width: '70%' }} />
+
+          {/* TB Crest */}
+          <img
+            src="/api/crest"
+            alt="Three Bridges FC Crest"
+            style={{ width: 100, height: 100, objectFit: 'contain', display: 'block', margin: '0 auto 0.9rem' }}
+          />
+
+          {/* APPROVED stamp */}
+          <div className={stampVisible ? 'badge-stamp' : ''} style={{
+            opacity: stampVisible ? 1 : 0,
+            border: '3px solid #c0392b',
+            display: 'inline-block',
+            padding: '0.3rem 1.5rem',
+            margin: '0 0 0.9rem',
+            position: 'relative',
+          }}>
+            <div style={{ position: 'absolute', inset: 3, border: '1.5px solid #c0392b' }} />
+            <span style={{ color: '#c0392b', fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.1em', opacity: 0.85 }}>APPROVED</span>
+          </div>
+
+          <p style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1a1a1a', margin: '0 0 0.2rem' }}>{name}</p>
+          <p style={{ color: '#888', fontSize: '0.75rem', margin: '0 0 0.25rem' }}>{today}</p>
+          <p style={{ color: '#ce962d', fontWeight: 700, fontSize: '0.8rem', margin: 0 }}>Quiz Score: {score}/{total}</p>
+        </div>
+
+        {/* Dark footer */}
+        <div style={{ background: '#0d1820', padding: '0.4rem', textAlign: 'center' }}>
+          <p style={{ color: '#ce962d', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', margin: 0 }}>
+            threebridgesacademy.co.uk · OFFICIAL LINESMAN CERTIFICATION
+          </p>
+        </div>
+      </div>
+
+      {/* Hidden canvas for download */}
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
+
       <div style={{ textAlign: 'center' }}>
         <button className="btn" onClick={download}>⬇ Download Badge</button>
       </div>
