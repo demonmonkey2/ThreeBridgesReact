@@ -50,6 +50,7 @@ const AGE_GROUPS = [
     sessions: 'Saturdays',
     venue: 'Jubilee Field, Crawley',
     description: 'Full 11v11 football with a strong tactical emphasis. Players develop positional understanding, pressing structures, midfield rotation, counter attacking and finishing in the box.',
+    notice: 'From 2026–27, the FA\'s FutureFit changes will move U13 to 9v9. Current U13s are not affected this season.',
     topics: ['Playing Out', 'Playing Between the Lines', 'Switching Play', 'Midfield Rotation', 'Combination in Wide Areas', 'Finishing in the Box', 'Defending the Box', 'Defending Wide & Central', 'How We Press', 'Attacking Overload', 'Counter Attacks', 'Games Week'],
     icon: '🧠',
     ageGroups: [
@@ -157,6 +158,13 @@ export default function AgeGroupsPage() {
                   <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                     {group.description}
                   </p>
+
+                  {group.notice && (
+                    <div style={{ background: 'rgba(255,193,7,0.08)', border: '1px solid rgba(255,193,7,0.3)', borderRadius: 8, padding: '0.65rem 0.9rem', display: 'flex', alignItems: 'flex-start', gap: '0.5rem', marginBottom: '1rem' }}>
+                      <span style={{ flexShrink: 0 }}>📢</span>
+                      <span style={{ fontSize: '0.8rem', color: '#f5c842', lineHeight: 1.5 }}>{group.notice}</span>
+                    </div>
+                  )}
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {[
