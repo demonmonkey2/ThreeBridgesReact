@@ -302,6 +302,17 @@ function ModuleContent({ id, color }) {
       <p style={{ color: 'var(--muted)', marginBottom: '1rem' }}>
         As a linesman (officially called an <strong style={{ color: 'var(--text)' }}>Assistant Referee</strong> — but everyone still says linesman), your job is to help the referee by watching things they can't always see.
       </p>
+
+      <div style={{ background: 'rgba(206,150,45,0.1)', border: '1px solid rgba(206,150,45,0.3)', borderRadius: 'var(--radius)', padding: '1rem 1.25rem', marginBottom: '1.25rem' }}>
+        <strong style={{ color: 'var(--gold)' }}>⚠️ First things first — talk to the referee!</strong>
+        <p style={{ color: 'var(--muted)', margin: '0.4rem 0 0' }}>
+          Before the game starts, the referee will tell you exactly what they want from you. Every referee is different.
+          Some will want you to handle everything — offside, fouls near the touchline, goal kicks, the lot.
+          Others might just want you to watch the touchline and signal throw-ins, and leave everything else to them.
+          <strong style={{ color: 'var(--text)' }}> Don't assume — always ask the ref what they need before kick-off.</strong>
+        </p>
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         {[
           { title: 'Watch the touchline', desc: 'When the ball goes out of play, you decide which team gets the throw-in. Watch who touched it last.' },
