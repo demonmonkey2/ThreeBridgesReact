@@ -89,6 +89,253 @@ const QUIZ = [
   },
 ]
 
+function drawBadge(canvas, name, score, total) {
+  const ctx = canvas.getContext('2d')
+  const W = 800, H = 800
+  canvas.width = W
+  canvas.height = H
+
+  const GOLD = '#ce962d'
+  const DARK = '#0d1820'
+  const GREEN = '#1a4a2e'
+  const WHITE = '#ffffff'
+  const MUTED = '#8a9aaa'
+
+  // Background
+  ctx.fillStyle = DARK
+  ctx.fillRect(0, 0, W, H)
+
+  // Pitch green strip top and bottom
+  ctx.fillStyle = GREEN
+  ctx.fillRect(0, 0, W, 160)
+  ctx.fillRect(0, H - 160, W, 160)
+
+  // Pitch line markings on green strips
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)'
+  ctx.lineWidth = 1
+  for (let i = 0; i < 6; i++) {
+    ctx.beginPath()
+    ctx.moveTo(0, 26 * i)
+    ctx.lineTo(W, 26 * i)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(0, H - 26 * i)
+    ctx.lineTo(W, H - 26 * i)
+    ctx.stroke()
+  }
+
+  // Outer gold border
+  ctx.strokeStyle = GOLD
+  ctx.lineWidth = 7
+  ctx.strokeRect(14, 14, W - 28, H - 28)
+
+  // Inner thin border
+  ctx.strokeStyle = 'rgba(206,150,45,0.4)'
+  ctx.lineWidth = 1.5
+  ctx.strokeRect(26, 26, W - 52, H - 52)
+
+  // --- THREE BRIDGE ARCHES — top ---
+  const archY = 85
+  const archW = 130, archH = 70
+  const archGap = (W - 3 * archW) / 4
+  for (let i = 0; i < 3; i++) {
+    const ax = archGap + i * (archW + archGap)
+    // Arch pillars
+    ctx.strokeStyle = GOLD
+    ctx.lineWidth = 4
+    ctx.beginPath()
+    ctx.moveTo(ax, archY)
+    ctx.lineTo(ax, archY - archH + 10)
+    ctx.arc(ax + archW / 2, archY - archH + 10, archW / 2, Math.PI, 0, false)
+    ctx.lineTo(ax + archW, archY)
+    ctx.stroke()
+    // Arch fill
+    ctx.fillStyle = 'rgba(206,150,45,0.08)'
+    ctx.beginPath()
+    ctx.moveTo(ax, archY)
+    ctx.lineTo(ax, archY - archH + 10)
+    ctx.arc(ax + archW / 2, archY - archH + 10, archW / 2, Math.PI, 0, false)
+    ctx.lineTo(ax + archW, archY)
+    ctx.closePath()
+    ctx.fill()
+  }
+  // Arch baseline
+  ctx.strokeStyle = GOLD
+  ctx.lineWidth = 3
+  ctx.beginPath()
+  ctx.moveTo(30, archY)
+  ctx.lineTo(W - 30, archY)
+  ctx.stroke()
+
+  // --- THREE BRIDGE ARCHES — bottom (inverted) ---
+  const bArchY = H - 85
+  for (let i = 0; i < 3; i++) {
+    const ax = archGap + i * (archW + archGap)
+    ctx.strokeStyle = GOLD
+    ctx.lineWidth = 4
+    ctx.beginPath()
+    ctx.moveTo(ax, bArchY)
+    ctx.lineTo(ax, bArchY + archH - 10)
+    ctx.arc(ax + archW / 2, bArchY + archH - 10, archW / 2, 0, Math.PI, false)
+    ctx.lineTo(ax + archW, bArchY)
+    ctx.stroke()
+    ctx.fillStyle = 'rgba(206,150,45,0.08)'
+    ctx.beginPath()
+    ctx.moveTo(ax, bArchY)
+    ctx.lineTo(ax, bArchY + archH - 10)
+    ctx.arc(ax + archW / 2, bArchY + archH - 10, archW / 2, 0, Math.PI, false)
+    ctx.lineTo(ax + archW, bArchY)
+    ctx.closePath()
+    ctx.fill()
+  }
+  ctx.strokeStyle = GOLD
+  ctx.lineWidth = 3
+  ctx.beginPath()
+  ctx.moveTo(30, bArchY)
+  ctx.lineTo(W - 30, bArchY)
+  ctx.stroke()
+
+  // --- CORNER LINESMAN FLAGS ---
+  const flagCorners = [[50, 50], [W - 50, 50], [50, H - 50], [W - 50, H - 50]]
+  const flagDirs = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
+  flagCorners.forEach(([fx, fy], fi) => {
+    const [dx, dy] = flagDirs[fi]
+    // Flag pole
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)'
+    ctx.lineWidth = 2.5
+    ctx.beginPath()
+    ctx.moveTo(fx, fy)
+    ctx.lineTo(fx, fy + dy * 36)
+    ctx.stroke()
+    // Flag triangle
+    ctx.fillStyle = GOLD
+    ctx.beginPath()
+    ctx.moveTo(fx, fy + dy * 2)
+    ctx.lineTo(fx + dx * 22, fy + dy * 12)
+    ctx.lineTo(fx, fy + dy * 22)
+    ctx.closePath()
+    ctx.fill()
+  })
+
+  // --- MAIN TEXT ---
+
+  // Club name
+  ctx.fillStyle = GOLD
+  ctx.font = 'bold 22px "Arial", sans-serif'
+  ctx.textAlign = 'center'
+  ctx.letterSpacing = '0.3em'
+  ctx.fillText('THREE BRIDGES ACADEMY', W / 2, 200)
+
+  // Established
+  ctx.fillStyle = MUTED
+  ctx.font = '14px "Arial", sans-serif'
+  ctx.fillText('EST. 1901  ·  JUBILEE FIELD, CRAWLEY', W / 2, 225)
+
+  // Divider
+  ctx.strokeStyle = 'rgba(206,150,45,0.4)'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(120, 242)
+  ctx.lineTo(W - 120, 242)
+  ctx.stroke()
+
+  // Flag emoji
+  ctx.font = '54px serif'
+  ctx.fillText('🚩', W / 2, 315)
+
+  // CERTIFIED heading
+  ctx.fillStyle = WHITE
+  ctx.font = 'bold 38px "Arial", sans-serif'
+  ctx.fillText('CERTIFIED', W / 2, 370)
+
+  // LINESMAN big
+  ctx.fillStyle = GOLD
+  ctx.font = 'bold 64px "Arial", sans-serif'
+  ctx.fillText('LINESMAN', W / 2, 448)
+
+  // Divider
+  ctx.strokeStyle = 'rgba(206,150,45,0.4)'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(120, 468)
+  ctx.lineTo(W - 120, 468)
+  ctx.stroke()
+
+  // "This certifies that"
+  ctx.fillStyle = MUTED
+  ctx.font = '18px "Arial", sans-serif'
+  ctx.fillText('This certifies that', W / 2, 508)
+
+  // Name
+  ctx.fillStyle = WHITE
+  ctx.font = 'bold 46px "Arial", sans-serif'
+  // Scale down name if too long
+  const nameMaxW = 660
+  let nameFontSize = 46
+  ctx.font = `bold ${nameFontSize}px "Arial", sans-serif`
+  while (ctx.measureText(name).width > nameMaxW && nameFontSize > 24) {
+    nameFontSize -= 2
+    ctx.font = `bold ${nameFontSize}px "Arial", sans-serif`
+  }
+  ctx.fillText(name, W / 2, 568)
+
+  // "has passed the Three Bridges Academy Linesman Course"
+  ctx.fillStyle = MUTED
+  ctx.font = '16px "Arial", sans-serif'
+  ctx.fillText('has passed the Three Bridges Academy Linesman Course', W / 2, 602)
+
+  // Score
+  ctx.fillStyle = GOLD
+  ctx.font = 'bold 28px "Arial", sans-serif'
+  ctx.fillText(`${score} / ${total}`, W / 2, 645)
+  ctx.fillStyle = MUTED
+  ctx.font = '13px "Arial", sans-serif'
+  ctx.fillText('QUIZ SCORE', W / 2, 664)
+
+  // Date
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  ctx.fillStyle = MUTED
+  ctx.font = '14px "Arial", sans-serif'
+  ctx.fillText(today, W / 2, 700)
+}
+
+function WhatsAppBadge({ name, score, total, passing }) {
+  const canvasRef = useRef(null)
+  const [ready, setReady] = useState(false)
+
+  useState(() => {
+    // Draw on mount
+    setTimeout(() => {
+      if (canvasRef.current) {
+        drawBadge(canvasRef.current, name, score, total)
+        setReady(true)
+      }
+    }, 50)
+  })
+
+  const download = () => {
+    const link = document.createElement('a')
+    link.download = `${name.replace(/\s+/g, '-')}-linesman-badge.png`
+    link.href = canvasRef.current.toDataURL('image/png')
+    link.click()
+  }
+
+  if (!passing) return null
+
+  return (
+    <div style={{ marginTop: '1.5rem' }}>
+      <div style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 'var(--radius)', padding: '0.75rem 1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <span>📱</span>
+        <span style={{ color: '#10b981', fontWeight: 600, fontSize: '0.88rem' }}>Share your badge on WhatsApp! Download below.</span>
+      </div>
+      <canvas ref={canvasRef} style={{ width: '100%', maxWidth: 360, display: 'block', margin: '0 auto 1rem', borderRadius: 8, border: '1px solid rgba(206,150,45,0.3)' }} />
+      <div style={{ textAlign: 'center' }}>
+        <button className="btn" onClick={download}>⬇ Download Badge</button>
+      </div>
+    </div>
+  )
+}
+
 export default function LinsmanCoursePage() {
   const [openModule, setOpenModule] = useState(null)
   const [quizStarted, setQuizStarted] = useState(false)
@@ -382,6 +629,9 @@ export default function LinsmanCoursePage() {
 
                     <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.72rem', letterSpacing: '0.1em' }}>THREE BRIDGES FC · EST. 1901 · JUBILEE FIELD, CRAWLEY</p>
                   </div>
+
+                  {/* WhatsApp shareable badge */}
+                  <WhatsAppBadge name={participantName} score={score} total={QUIZ.length} passing={score >= 3} />
                 </div>
               )
             })()}
