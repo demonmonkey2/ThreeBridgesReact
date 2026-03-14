@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 const MODULES = [
   {
@@ -222,15 +222,14 @@ function WhatsAppBadge({ name, score, total, passing }) {
   const canvasRef = useRef(null)
   const [ready, setReady] = useState(false)
 
-  useState(() => {
-    // Draw on mount
+  useEffect(() => {
     setTimeout(() => {
       if (canvasRef.current) {
         drawBadge(canvasRef.current, name, score, total)
         setReady(true)
       }
     }, 50)
-  })
+  }, [])
 
   const download = () => {
     const link = document.createElement('a')
