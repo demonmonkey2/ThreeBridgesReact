@@ -192,10 +192,10 @@ function drawBadge(canvas, name, score, total) {
   ctx.lineTo(600, 242)
   ctx.stroke()
 
-  // Load Three Bridges crest
+  // Load Three Bridges crest via proxy to avoid CORS tainted canvas
   const img = new Image()
   img.crossOrigin = 'anonymous'
-  img.src = 'https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png'
+  img.src = '/api/crest'
 
   const finish = () => {
     // APPROVED stamp
