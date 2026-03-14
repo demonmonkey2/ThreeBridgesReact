@@ -26,6 +26,84 @@ const WEEKS_DATA = [
   { week: 14, theme: 'Games Week',             u710: 'Games Week',                       u1112: 'Games Week',                   u1316: 'Games Week',                   cat: 'games'     },
 ]
 
+function ShootingDrillDiagram() {
+  return (
+    <svg viewBox="0 0 420 310" style={{ width: '100%', maxWidth: 420, display: 'block', margin: '1rem auto 0', borderRadius: 8, background: 'rgba(20,50,30,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
+      <defs>
+        <marker id="arrow-white" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="rgba(255,255,255,0.7)" />
+        </marker>
+        <marker id="arrow-yellow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#ffd54f" />
+        </marker>
+        <marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#4dd0e1" />
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#ff8a65" />
+        </marker>
+      </defs>
+
+      {/* Pitch markings */}
+      <rect x="10" y="10" width="400" height="290" rx="4" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+
+      {/* Goal */}
+      <rect x="165" y="15" width="90" height="22" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" />
+      <text x="210" y="31" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="10" fontWeight="bold">GOAL</text>
+
+      {/* GK */}
+      <circle cx="210" cy="55" r="13" fill="rgba(255,193,7,0.2)" stroke="#ffc107" strokeWidth="2" />
+      <text x="210" y="52" textAnchor="middle" fill="#ffc107" fontSize="9" fontWeight="bold">GK</text>
+      <text x="210" y="64" textAnchor="middle" fill="#ffc107" fontSize="8">(Leo)</text>
+
+      {/* === PLAYER 1 path: cone1 → cone2 → goal === */}
+      {/* dribble: cone1 to cone2 (solid yellow) */}
+      <line x1="80" y1="255" x2="135" y2="185" stroke="#ffd54f" strokeWidth="2" markerEnd="url(#arrow-yellow)" />
+      {/* cut + shoot: cone2 to goal area (dashed yellow) */}
+      <line x1="140" y1="178" x2="195" y2="80" stroke="#ffd54f" strokeWidth="2" strokeDasharray="6,4" markerEnd="url(#arrow-yellow)" />
+
+      {/* === PLAYER X: lays ball for P1 first time shot === */}
+      {/* ball pass from X toward P1 run path (solid cyan) */}
+      <line x1="205" y1="248" x2="165" y2="165" stroke="#4dd0e1" strokeWidth="2" markerEnd="url(#arrow-cyan)" />
+
+      {/* === PLAYER Y: runs down right then crosses === */}
+      {/* Y runs down line */}
+      <line x1="350" y1="100" x2="350" y2="220" stroke="#ff8a65" strokeWidth="2" markerEnd="url(#arrow-orange)" />
+      {/* Y crosses into box */}
+      <line x1="345" y1="222" x2="220" y2="95" stroke="#ff8a65" strokeWidth="2" strokeDasharray="6,4" markerEnd="url(#arrow-orange)" />
+
+      {/* === CONES === */}
+      {/* Cone 1 */}
+      <polygon points="80,270 70,285 90,285" fill="#ffd54f" />
+      <text x="80" y="298" textAnchor="middle" fill="#ffd54f" fontSize="11" fontWeight="bold">1</text>
+
+      {/* Cone 2 */}
+      <polygon points="140,185 132,198 148,198" fill="#ffd54f" />
+      <text x="140" y="210" textAnchor="middle" fill="#ffd54f" fontSize="10">cone 2</text>
+
+      {/* Player X */}
+      <circle cx="205" cy="260" r="13" fill="rgba(77,208,225,0.2)" stroke="#4dd0e1" strokeWidth="2" />
+      <text x="205" y="264" textAnchor="middle" fill="#4dd0e1" fontSize="12" fontWeight="bold">X</text>
+
+      {/* Player Y */}
+      <circle cx="350" cy="88" r="13" fill="rgba(255,138,101,0.2)" stroke="#ff8a65" strokeWidth="2" />
+      <text x="350" y="92" textAnchor="middle" fill="#ff8a65" fontSize="12" fontWeight="bold">Y</text>
+
+      {/* Cone Y (bottom right) */}
+      <polygon points="350,235 342,248 358,248" fill="#ff8a65" />
+
+      {/* Legend */}
+      <rect x="14" y="265" width="200" height="32" rx="4" fill="rgba(0,0,0,0.4)" />
+      <line x1="22" y1="276" x2="40" y2="276" stroke="#ffd54f" strokeWidth="2" />
+      <text x="44" y="280" fill="#ffd54f" fontSize="9">Player 1 run / shoot</text>
+      <line x1="22" y1="289" x2="40" y2="289" stroke="#4dd0e1" strokeWidth="2" />
+      <text x="44" y="293" fill="#4dd0e1" fontSize="9">Player X lay-off</text>
+      <line x1="120" y1="289" x2="138" y2="289" stroke="#ff8a65" strokeWidth="2" />
+      <text x="142" y="293" fill="#ff8a65" fontSize="9">Player Y cross</text>
+    </svg>
+  )
+}
+
 // Session plans keyed by "week-agegroup"
 // Each plan has: coach, date, topic, blocks[]
 // block types: warmup | drill | game | note
@@ -61,6 +139,7 @@ const SESSION_PLANS = {
           'Need footballs at each station — return balls to positions 1, X and Y after each rep.',
           'Keep the pitch clear — rotate immediately after shooting.',
         ],
+        diagram: 'shooting-drill',
       },
       {
         type: 'game',
@@ -129,6 +208,7 @@ function SessionPlan({ plan, color }) {
                   <li key={j} style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.85rem', lineHeight: 1.7 }}>{d}</li>
                 ))}
               </ul>
+              {block.diagram === 'shooting-drill' && <ShootingDrillDiagram />}
               {block.notes && block.notes.length > 0 && (
                 <div style={{
                   marginTop: '0.75rem', padding: '0.6rem 0.9rem',
