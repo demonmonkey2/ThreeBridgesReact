@@ -31,63 +31,103 @@ const MODULES = [
   },
 ]
 
-const QUIZ = [
+const QUESTION_POOL = [
   {
     question: 'A player is in an offside position when the ball is played to them. Are they offside?',
-    options: [
-      'Yes, always!',
-      'Only if they are involved in active play',
-      'No, never',
-      'Only on a Tuesday',
-    ],
+    options: ['Yes, always!', 'Only if they are involved in active play', 'No, never', 'Only on a Tuesday'],
     correct: 1,
     explanation: 'Being in an offside position is not an offence by itself. The player must be actively involved in play — touching the ball, interfering with an opponent, or gaining an advantage.',
   },
   {
     question: 'A player can\'t be offside if they receive the ball directly from which of these?',
-    options: [
-      'A regular pass from a teammate',
-      'A throw-in, corner kick, or goal kick',
-      'A goalkeeper\'s punt',
-      'A free kick',
-    ],
+    options: ['A regular pass from a teammate', 'A throw-in, corner kick, or goal kick', 'A goalkeeper\'s punt', 'A free kick'],
     correct: 1,
     explanation: 'Players cannot be offside directly from a throw-in, corner kick, or goal kick. These are special restarts where the offside rule does not apply.',
   },
   {
-    question: 'The ball goes out of play over the touchline. A red player touched it last. What do you signal?',
-    options: [
-      'Flag up for offside',
-      'Flag pointing toward the red team\'s goal — blue team throw-in',
-      'Flag pointing toward the blue team\'s goal — red team throw-in',
-      'Do nothing, that\'s the referee\'s job',
-    ],
+    question: 'The ball goes out over the touchline. A red player touched it last. What do you signal?',
+    options: ['Flag up for offside', 'Flag pointing toward the red team\'s goal — blue team throw-in', 'Flag pointing toward the blue team\'s goal — red team throw-in', 'Do nothing, that\'s the referee\'s job'],
     correct: 1,
-    explanation: 'When the ball goes out, the throw-in is awarded to the team that did NOT touch it last. You point your flag in the direction that team is attacking.',
+    explanation: 'The throw-in is awarded to the team that did NOT touch it last. Point your flag in the direction that team is attacking.',
   },
   {
-    question: 'How many players (excluding the goalkeeper) must be between an attacker and the goal line for the attacker to be onside?',
-    options: [
-      'One',
-      'Two',
-      'Three',
-      'Zero — the goalkeeper counts as two!',
-    ],
+    question: 'How many outfield defenders must be between an attacker and the goal line for them to be onside?',
+    options: ['One', 'Two', 'Three', 'Zero — the goalkeeper counts as two!'],
     correct: 0,
-    explanation: 'An attacker is onside if at least ONE outfield opponent (or the goalkeeper) is level with or closer to the goal line than them. So only ONE defender needs to be between them and the line.',
+    explanation: 'At least ONE outfield defender (or the goalkeeper) must be level with or closer to the goal line. The goalkeeper is always the last defender behind them.',
   },
   {
     question: 'What do you do if you\'re not 100% sure whether a player was offside?',
-    options: [
-      'Flag immediately just in case',
-      'Shout "OFFSIDE!" loudly',
-      'Keep your flag down and let play continue',
-      'Ask the nearest parent what they think',
-    ],
+    options: ['Flag immediately just in case', 'Shout "OFFSIDE!" loudly', 'Keep your flag down and let play continue', 'Ask the nearest parent what they think'],
     correct: 2,
-    explanation: 'When in doubt, keep your flag down! The golden rule is: only flag when you are certain. A wrongly disallowed goal causes much more disruption than letting a borderline call go.',
+    explanation: 'When in doubt, keep your flag down. Only flag when you are certain — a wrongly disallowed goal causes far more disruption than letting a borderline call go.',
+  },
+  {
+    question: 'Before the match, what should you always do?',
+    options: ['Warm up with some jogging', 'Ask the referee what they want from you', 'Study the offside rule one more time', 'Pick the side closest to the car park'],
+    correct: 1,
+    explanation: 'Always speak to the referee before kick-off. Some refs want the full assistant referee duties; others just want throw-ins. Never assume — always ask.',
+  },
+  {
+    question: 'A defender last touches the ball before it crosses the goal line (no goal). What is awarded?',
+    options: ['Corner kick to the attacking team', 'Goal kick to the defending team', 'Throw-in to the nearest player', 'Free kick to the attacking team'],
+    correct: 1,
+    explanation: 'If a defender (including the goalkeeper) last touches the ball before it crosses the goal line without a goal, the restart is a goal kick for the defending team.',
+  },
+  {
+    question: 'An attacker last touches the ball and it goes behind the goal line (no goal). What is awarded?',
+    options: ['Goal kick', 'Free kick', 'Corner kick to the attacking team', 'Throw-in'],
+    correct: 2,
+    explanation: 'If an attacker last touches the ball before it crosses the goal line without a goal, the restart is a corner kick — awarded to the attacking team.',
+  },
+  {
+    question: 'How do you signal to the referee that you\'ve spotted a foul on your side of the pitch they may have missed?',
+    options: ['Raise the flag straight up and hold still', 'Wave the flag vigorously to get their attention', 'Blow a whistle', 'Run onto the pitch'],
+    correct: 1,
+    explanation: 'Wave your flag to attract the referee\'s attention. Once they look at you, stop waving and indicate what happened. Don\'t keep waving once you\'ve been seen.',
+  },
+  {
+    question: 'Can a player be offside from inside their own half?',
+    options: ['Yes, if they\'re near the halfway line', 'No — a player cannot be offside in their own half', 'Only if no defenders are behind them', 'Yes, always'],
+    correct: 1,
+    explanation: 'A player cannot be offside if they are in their own half of the pitch at the moment the ball is played. They must be in the opponent\'s half for offside to apply.',
+  },
+  {
+    question: 'Where should you try to position yourself on the touchline during play?',
+    options: ['Stay near the halfway line at all times', 'Level with the last outfield defender', 'Level with the ball at all times', 'Stay in the corner near the goal'],
+    correct: 1,
+    explanation: 'Keep yourself level with the last outfield defender — this is your offside reference point. Move up and down the touchline to stay level with them throughout the game.',
+  },
+  {
+    question: 'The referee overrules your offside flag and waves play on. What do you do?',
+    options: ['Keep the flag raised to show you disagree', 'Argue your case loudly', 'Lower your flag and continue — the referee has the final say', 'Walk off in protest'],
+    correct: 2,
+    explanation: 'The referee always has the final say. Lower your flag, move on, and keep doing your job. They may have had a better angle or different information.',
+  },
+  {
+    question: 'What does it mean if your flag is pointing horizontally in the direction of play?',
+    options: ['Offside', 'Foul', 'Throw-in — indicating which team takes it', 'Goal kick'],
+    correct: 2,
+    explanation: 'A horizontal flag pointing in the direction of attack signals a throw-in, indicating which team takes it. Point toward the goal the attacking team is heading for.',
+  },
+  {
+    question: 'A player is level with the last outfield defender when the ball is played. Are they offside?',
+    options: ['Yes — they must be behind the defender', 'No — level counts as onside', 'Only if they\'re on the left side', 'The referee decides'],
+    correct: 1,
+    explanation: 'Being level with the last outfield defender is onside. A player only needs to be ahead of the defender to be in an offside position.',
+  },
+  {
+    question: 'Which of these is NOT one of your jobs as a linesman?',
+    options: ['Signalling throw-ins', 'Watching for offside', 'Deciding on yellow and red cards', 'Attracting the referee\'s attention for fouls'],
+    correct: 2,
+    explanation: 'Only the referee can show yellow or red cards. As a linesman you assist — but disciplinary decisions are entirely the referee\'s call.',
   },
 ]
+
+function pickQuestions() {
+  const shuffled = [...QUESTION_POOL].sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, 5)
+}
 
 function drawBadge(canvas, name, score, total) {
   const ctx = canvas.getContext('2d')
@@ -257,6 +297,7 @@ function WhatsAppBadge({ name, score, total, passing }) {
 export default function LinsmanCoursePage() {
   const [openModule, setOpenModule] = useState(null)
   const [quizStarted, setQuizStarted] = useState(false)
+  const [quizQuestions, setQuizQuestions] = useState([])
   const [quizIndex, setQuizIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [score, setScore] = useState(0)
@@ -266,14 +307,23 @@ export default function LinsmanCoursePage() {
 
   const toggleModule = (id) => setOpenModule(prev => prev === id ? null : id)
 
+  const startQuiz = () => {
+    setQuizQuestions(pickQuestions())
+    setQuizIndex(0)
+    setSelected(null)
+    setScore(0)
+    setFinished(false)
+    setQuizStarted(true) // kept for state flag only — questions set via startQuiz
+  }
+
   const handleAnswer = (idx) => {
     if (selected !== null) return
     setSelected(idx)
-    if (idx === QUIZ[quizIndex].correct) setScore(s => s + 1)
+    if (idx === quizQuestions[quizIndex].correct) setScore(s => s + 1)
   }
 
   const nextQuestion = () => {
-    if (quizIndex + 1 >= QUIZ.length) {
+    if (quizIndex + 1 >= quizQuestions.length) {
       setFinished(true)
     } else {
       setQuizIndex(i => i + 1)
@@ -282,11 +332,11 @@ export default function LinsmanCoursePage() {
   }
 
   const restartQuiz = () => {
+    setQuizStarted(false)
+    setFinished(false)
     setQuizIndex(0)
     setSelected(null)
     setScore(0)
-    setFinished(false)
-    setQuizStarted(false)
   }
 
   const printCertificate = () => {
@@ -294,7 +344,7 @@ export default function LinsmanCoursePage() {
   }
 
   const getScoreMessage = () => {
-    if (score === QUIZ.length) return { emoji: '🏆', msg: 'Perfect score! You\'re basically a professional referee now.' }
+    if (score === quizQuestions.length) return { emoji: '🏆', msg: 'Perfect score! You\'re basically a professional referee now.' }
     if (score >= 3) return { emoji: '👏', msg: 'Great effort! You\'re ready to take that flag onto the touchline.' }
     if (score >= 2) return { emoji: '📚', msg: 'Not bad! Give the modules another read and try again.' }
     return { emoji: '😅', msg: 'Don\'t worry — even referees get it wrong sometimes. Have another go!' }
@@ -528,7 +578,7 @@ export default function LinsmanCoursePage() {
                     textAlign: 'center',
                   }}
                 />
-                <button className="btn" onClick={() => setQuizStarted(true)} disabled={!participantName.trim()}>
+                <button className="btn" onClick={startQuiz} disabled={!participantName.trim()}>
                   Start Quiz
                 </button>
               </div>
@@ -537,19 +587,19 @@ export default function LinsmanCoursePage() {
             {quizStarted && !finished && (
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-                  <span style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Question {quizIndex + 1} of {QUIZ.length}</span>
+                  <span style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Question {quizIndex + 1} of {quizQuestions.length}</span>
                   <span style={{ color: 'var(--gold)', fontSize: '0.9rem', fontWeight: 700 }}>Score: {score}</span>
                 </div>
                 <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius)', padding: '1rem 1.25rem', marginBottom: '1.25rem' }}>
-                  <p style={{ margin: 0, fontWeight: 600, fontSize: '1.05rem' }}>{QUIZ[quizIndex].question}</p>
+                  <p style={{ margin: 0, fontWeight: 600, fontSize: '1.05rem' }}>{quizQuestions[quizIndex].question}</p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1rem' }}>
-                  {QUIZ[quizIndex].options.map((opt, idx) => {
+                  {quizQuestions[quizIndex].options.map((opt, idx) => {
                     let bg = 'rgba(255,255,255,0.04)'
                     let border = '1px solid var(--border)'
                     let color = 'var(--text)'
                     if (selected !== null) {
-                      if (idx === QUIZ[quizIndex].correct) { bg = 'rgba(16,185,129,0.15)'; border = '1px solid #10b981'; color = '#10b981' }
+                      if (idx === quizQuestions[quizIndex].correct) { bg = 'rgba(16,185,129,0.15)'; border = '1px solid #10b981'; color = '#10b981' }
                       else if (idx === selected) { bg = 'rgba(239,68,68,0.15)'; border = '1px solid #ef4444'; color = '#ef4444' }
                     }
                     return (
@@ -571,14 +621,14 @@ export default function LinsmanCoursePage() {
                 {selected !== null && (
                   <div style={{ background: 'rgba(206,150,45,0.1)', border: '1px solid rgba(206,150,45,0.25)', borderRadius: 'var(--radius)', padding: '0.75rem 1rem', marginBottom: '1rem' }}>
                     <strong style={{ color: 'var(--gold)' }}>
-                      {selected === QUIZ[quizIndex].correct ? '✅ Correct!' : '❌ Not quite!'}
+                      {selected === quizQuestions[quizIndex].correct ? '✅ Correct!' : '❌ Not quite!'}
                     </strong>
-                    <p style={{ margin: '0.3rem 0 0', color: 'var(--muted)', fontSize: '0.9rem' }}>{QUIZ[quizIndex].explanation}</p>
+                    <p style={{ margin: '0.3rem 0 0', color: 'var(--muted)', fontSize: '0.9rem' }}>{quizQuestions[quizIndex].explanation}</p>
                   </div>
                 )}
                 {selected !== null && (
                   <button className="btn" onClick={nextQuestion}>
-                    {quizIndex + 1 >= QUIZ.length ? 'See Results' : 'Next Question →'}
+                    {quizIndex + 1 >= quizQuestions.length ? 'See Results' : 'Next Question →'}
                   </button>
                 )}
               </div>
@@ -591,7 +641,7 @@ export default function LinsmanCoursePage() {
                 <div>
                   <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
                     <div style={{ fontSize: '3.5rem', marginBottom: '0.5rem' }}>{emoji}</div>
-                    <h3 style={{ color: 'var(--gold)', marginBottom: '0.25rem' }}>You scored {score} out of {QUIZ.length}</h3>
+                    <h3 style={{ color: 'var(--gold)', marginBottom: '0.25rem' }}>You scored {score} out of {quizQuestions.length}</h3>
                     <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>{msg}</p>
                     <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                       <button className="btn" onClick={printCertificate}>🖨 Print Certificate</button>
@@ -640,7 +690,7 @@ export default function LinsmanCoursePage() {
 
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
                       <div style={{ textAlign: 'center' }}>
-                        <p style={{ color: '#ce962d', fontWeight: 800, fontSize: '1.4rem' }}>{score}/{QUIZ.length}</p>
+                        <p style={{ color: '#ce962d', fontWeight: 800, fontSize: '1.4rem' }}>{score}/{quizQuestions.length}</p>
                         <p style={{ color: 'var(--muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Quiz Score</p>
                       </div>
                       <div style={{ textAlign: 'center' }}>
@@ -653,7 +703,7 @@ export default function LinsmanCoursePage() {
                   </div>
 
                   {/* WhatsApp shareable badge */}
-                  <WhatsAppBadge name={participantName} score={score} total={QUIZ.length} passing={score >= 3} />
+                  <WhatsAppBadge name={participantName} score={score} total={quizQuestions.length} passing={score >= 3} />
                 </div>
               )
             })()}
