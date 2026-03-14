@@ -1,6 +1,18 @@
 import { useState } from 'react'
 
-const COACH_PASSWORD = 'academy2026'
+const TOKEN_KEY = 'coaches_token'
+
+function isTokenValid(token) {
+  if (!token) return false
+  try {
+    const [dataB64] = token.split('.')
+    const base64 = dataB64.replace(/-/g, '+').replace(/_/g, '/')
+    const expiry = parseInt(atob(base64), 10)
+    return expiry > Date.now()
+  } catch {
+    return false
+  }
+}
 
 const CAT_COLORS = {
   attacking: '#e74c3c',
@@ -733,13 +745,38 @@ function WeekPlan({ week }) {
 export default function CoachesPage() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(() => isTokenValid(localStorage.getItem(TOKEN_KEY)))
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-  const handleLogin = e => {
+  const handleLogin = async e => {
     e.preventDefault()
-    if (password === COACH_PASSWORD) { setLoggedIn(true); setError(null) }
-    else setError('Incorrect password. Please contact the Academy Director.')
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/coaches-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.error || 'Incorrect password. Please contact the Academy Director.')
+      } else {
+        localStorage.setItem(TOKEN_KEY, data.token)
+        setLoggedIn(true)
+      }
+    } catch {
+      setError('Could not reach the server. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem(TOKEN_KEY)
+    setLoggedIn(false)
+    setPassword('')
   }
 
   if (!loggedIn) {
@@ -789,7 +826,9 @@ export default function CoachesPage() {
                   </button>
                 </div>
               </div>
-              <button type="submit" className="btn" style={{ width: '100%', justifyContent: 'center' }}>Access Portal</button>
+              <button type="submit" className="btn" disabled={loading} style={{ width: '100%', justifyContent: 'center', opacity: loading ? 0.7 : 1 }}>
+                {loading ? 'Checking...' : 'Access Portal'}
+              </button>
             </form>
           </div>
           <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.8rem', marginTop: '1.5rem' }}>
@@ -824,7 +863,7 @@ export default function CoachesPage() {
           <span style={{ fontWeight: 600, fontSize: '0.88rem', color: '#2ecc71' }}>
             Welcome, Coach — Three Bridges Academy training plan dashboard.
           </span>
-          <button onClick={() => setLoggedIn(false)} style={{ marginLeft: 'auto', background: 'transparent', border: 'none', color: 'var(--muted)', fontSize: '0.78rem', cursor: 'pointer' }}>
+          <button onClick={handleLogout} style={{ marginLeft: 'auto', background: 'transparent', border: 'none', color: 'var(--muted)', fontSize: '0.78rem', cursor: 'pointer' }}>
             Log out
           </button>
         </div>
