@@ -60,8 +60,7 @@ export default function HomePage() {
             {[
               { to: '/age-groups', icon: '👥', label: 'Age Groups' },
               { to: '/curriculum', icon: '📋', label: 'Curriculum' },
-              { to: '/media', icon: '▶️', label: 'Media' },
-              { to: '/training-guides', icon: '📚', label: 'Training Guides' },
+              { to: '/linesman-course', icon: '🚩', label: 'Linesman Course' },
               { to: '/coaches', icon: '🔒', label: 'Coaches Portal' },
             ].map(item => (
               <Link key={item.to} to={item.to} style={{
