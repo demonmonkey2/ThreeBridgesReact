@@ -1,0 +1,485 @@
+import { useState } from 'react'
+
+const MODULES = [
+  {
+    id: 'role',
+    icon: '🚩',
+    title: 'Your Role as a Linesman',
+    subtitle: 'You\'re more important than you think!',
+    color: '#ce962d',
+  },
+  {
+    id: 'offside',
+    icon: '⚽',
+    title: 'The Offside Rule',
+    subtitle: 'Everyone\'s favourite argument starter',
+    color: '#3b82f6',
+  },
+  {
+    id: 'signals',
+    icon: '🏁',
+    title: 'Flag Signals',
+    subtitle: 'What to do with that flag',
+    color: '#10b981',
+  },
+  {
+    id: 'restarts',
+    icon: '🔄',
+    title: 'Throw-ins, Corners & Goal Kicks',
+    subtitle: 'Who gets the ball?',
+    color: '#8b5cf6',
+  },
+]
+
+const QUIZ = [
+  {
+    question: 'A player is in an offside position when the ball is played to them. Are they offside?',
+    options: [
+      'Yes, always!',
+      'Only if they are involved in active play',
+      'No, never',
+      'Only on a Tuesday',
+    ],
+    correct: 1,
+    explanation: 'Being in an offside position is not an offence by itself. The player must be actively involved in play — touching the ball, interfering with an opponent, or gaining an advantage.',
+  },
+  {
+    question: 'A player can\'t be offside if they receive the ball directly from which of these?',
+    options: [
+      'A regular pass from a teammate',
+      'A throw-in, corner kick, or goal kick',
+      'A goalkeeper\'s punt',
+      'A free kick',
+    ],
+    correct: 1,
+    explanation: 'Players cannot be offside directly from a throw-in, corner kick, or goal kick. These are special restarts where the offside rule does not apply.',
+  },
+  {
+    question: 'The ball goes out of play over the touchline. A red player touched it last. What do you signal?',
+    options: [
+      'Flag up for offside',
+      'Flag pointing toward the red team\'s goal — blue team throw-in',
+      'Flag pointing toward the blue team\'s goal — red team throw-in',
+      'Do nothing, that\'s the referee\'s job',
+    ],
+    correct: 1,
+    explanation: 'When the ball goes out, the throw-in is awarded to the team that did NOT touch it last. You point your flag in the direction that team is attacking.',
+  },
+  {
+    question: 'How many players (excluding the goalkeeper) must be between an attacker and the goal line for the attacker to be onside?',
+    options: [
+      'One',
+      'Two',
+      'Three',
+      'Zero — the goalkeeper counts as two!',
+    ],
+    correct: 0,
+    explanation: 'An attacker is onside if at least ONE outfield opponent (or the goalkeeper) is level with or closer to the goal line than them. So only ONE defender needs to be between them and the line.',
+  },
+  {
+    question: 'What do you do if you\'re not 100% sure whether a player was offside?',
+    options: [
+      'Flag immediately just in case',
+      'Shout "OFFSIDE!" loudly',
+      'Keep your flag down and let play continue',
+      'Ask the nearest parent what they think',
+    ],
+    correct: 2,
+    explanation: 'When in doubt, keep your flag down! The golden rule is: only flag when you are certain. A wrongly disallowed goal causes much more disruption than letting a borderline call go.',
+  },
+]
+
+export default function LinsmanCoursePage() {
+  const [openModule, setOpenModule] = useState(null)
+  const [quizStarted, setQuizStarted] = useState(false)
+  const [quizIndex, setQuizIndex] = useState(0)
+  const [selected, setSelected] = useState(null)
+  const [score, setScore] = useState(0)
+  const [finished, setFinished] = useState(false)
+
+  const toggleModule = (id) => setOpenModule(prev => prev === id ? null : id)
+
+  const handleAnswer = (idx) => {
+    if (selected !== null) return
+    setSelected(idx)
+    if (idx === QUIZ[quizIndex].correct) setScore(s => s + 1)
+  }
+
+  const nextQuestion = () => {
+    if (quizIndex + 1 >= QUIZ.length) {
+      setFinished(true)
+    } else {
+      setQuizIndex(i => i + 1)
+      setSelected(null)
+    }
+  }
+
+  const restartQuiz = () => {
+    setQuizIndex(0)
+    setSelected(null)
+    setScore(0)
+    setFinished(false)
+    setQuizStarted(true)
+  }
+
+  const getScoreMessage = () => {
+    if (score === QUIZ.length) return { emoji: '🏆', msg: 'Perfect score! You\'re basically a professional referee now.' }
+    if (score >= 3) return { emoji: '👏', msg: 'Great effort! You\'re ready to take that flag onto the touchline.' }
+    if (score >= 2) return { emoji: '📚', msg: 'Not bad! Give the modules another read and try again.' }
+    return { emoji: '😅', msg: 'Don\'t worry — even referees get it wrong sometimes. Have another go!' }
+  }
+
+  return (
+    <>
+      {/* Page Header */}
+      <div className="page-header">
+        <div className="page-header-inner">
+          <p className="page-header-eyebrow">Parent Volunteer Programme</p>
+          <h1>Linesman Course</h1>
+          <p style={{ color: 'rgba(255,255,255,0.75)', maxWidth: 560, margin: '0 auto', fontSize: '1.05rem' }}>
+            Everything you need to confidently run the line — without having a meltdown about offside.
+          </p>
+        </div>
+      </div>
+
+      <div className="page">
+
+        {/* Intro banner */}
+        <div className="alert-info fade-up" style={{ marginBottom: '2.5rem', borderRadius: 'var(--radius)', padding: '1.25rem 1.5rem', background: 'rgba(206,150,45,0.12)', border: '1px solid rgba(206,150,45,0.3)' }}>
+          <strong style={{ color: 'var(--gold)' }}>Welcome, brave volunteer! 🙋</strong>
+          <p style={{ margin: '0.4rem 0 0', color: 'var(--muted)' }}>
+            You've agreed to be a linesman. Whether that was a brave decision or a moment of weakness, we salute you.
+            Work through the four modules below, then test yourself with our quiz. It takes about 10 minutes — less time than arguing about offside at half-time.
+          </p>
+        </div>
+
+        {/* What you'll need */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h2 className="section-title fade-up">What You'll Need on the Day</h2>
+          <div className="grid-3 fade-up delay-1">
+            {[
+              { icon: '🚩', label: 'A flag', note: 'Usually provided by the club. Bright colours. Hard to miss.' },
+              { icon: '👟', label: 'Comfy shoes', note: 'You\'ll be walking the length of the pitch. A lot.' },
+              { icon: '🧠', label: 'This knowledge', note: 'That\'s what this course is for. You\'ve got this.' },
+            ].map(item => (
+              <div key={item.label} className="card" style={{ textAlign: 'center', padding: '1.5rem' }}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{item.icon}</div>
+                <strong style={{ color: 'var(--gold)', display: 'block', marginBottom: '0.25rem' }}>{item.label}</strong>
+                <p style={{ color: 'var(--muted)', margin: 0, fontSize: '0.9rem' }}>{item.note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Modules */}
+        <div style={{ marginBottom: '3rem' }}>
+          <h2 className="section-title fade-up">The Four Modules</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {MODULES.map((mod, i) => (
+              <div key={mod.id} className={`card fade-up delay-${i + 1}`} style={{ overflow: 'hidden' }}>
+                <button
+                  onClick={() => toggleModule(mod.id)}
+                  style={{
+                    width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: '1rem',
+                    padding: '1.25rem 1.5rem', color: 'var(--text)', textAlign: 'left',
+                  }}
+                >
+                  <span style={{
+                    fontSize: '1.75rem', width: 48, height: 48, borderRadius: '50%',
+                    background: mod.color + '22', display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', flexShrink: 0,
+                  }}>{mod.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 700, fontSize: '1.05rem' }}>Module {i + 1}: {mod.title}</div>
+                    <div style={{ color: 'var(--muted)', fontSize: '0.88rem' }}>{mod.subtitle}</div>
+                  </div>
+                  <span style={{ color: 'var(--gold)', fontSize: '1.2rem', transition: 'transform 0.2s', transform: openModule === mod.id ? 'rotate(180deg)' : 'none' }}>▾</span>
+                </button>
+
+                {openModule === mod.id && (
+                  <div style={{ padding: '0 1.5rem 1.5rem', borderTop: '1px solid var(--border)' }}>
+                    <ModuleContent id={mod.id} color={mod.color} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quiz */}
+        <div style={{ marginBottom: '3rem' }}>
+          <h2 className="section-title fade-up">Test Your Knowledge</h2>
+          <div className="card fade-up delay-1" style={{ padding: '2rem' }}>
+            {!quizStarted && !finished && (
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>🧠</div>
+                <h3 style={{ marginBottom: '0.5rem' }}>Ready for the quiz?</h3>
+                <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>
+                  5 questions. No time limit. No one is watching. You've totally got this.
+                </p>
+                <button className="btn" onClick={() => setQuizStarted(true)}>Start Quiz</button>
+              </div>
+            )}
+
+            {quizStarted && !finished && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                  <span style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Question {quizIndex + 1} of {QUIZ.length}</span>
+                  <span style={{ color: 'var(--gold)', fontSize: '0.9rem', fontWeight: 700 }}>Score: {score}</span>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius)', padding: '1rem 1.25rem', marginBottom: '1.25rem' }}>
+                  <p style={{ margin: 0, fontWeight: 600, fontSize: '1.05rem' }}>{QUIZ[quizIndex].question}</p>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1rem' }}>
+                  {QUIZ[quizIndex].options.map((opt, idx) => {
+                    let bg = 'rgba(255,255,255,0.04)'
+                    let border = '1px solid var(--border)'
+                    let color = 'var(--text)'
+                    if (selected !== null) {
+                      if (idx === QUIZ[quizIndex].correct) { bg = 'rgba(16,185,129,0.15)'; border = '1px solid #10b981'; color = '#10b981' }
+                      else if (idx === selected) { bg = 'rgba(239,68,68,0.15)'; border = '1px solid #ef4444'; color = '#ef4444' }
+                    }
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => handleAnswer(idx)}
+                        style={{
+                          background: bg, border, borderRadius: 'var(--radius)',
+                          padding: '0.75rem 1rem', color, textAlign: 'left',
+                          cursor: selected === null ? 'pointer' : 'default',
+                          transition: 'all 0.2s', fontFamily: 'inherit', fontSize: '0.95rem',
+                        }}
+                      >
+                        {opt}
+                      </button>
+                    )
+                  })}
+                </div>
+                {selected !== null && (
+                  <div style={{ background: 'rgba(206,150,45,0.1)', border: '1px solid rgba(206,150,45,0.25)', borderRadius: 'var(--radius)', padding: '0.75rem 1rem', marginBottom: '1rem' }}>
+                    <strong style={{ color: 'var(--gold)' }}>
+                      {selected === QUIZ[quizIndex].correct ? '✅ Correct!' : '❌ Not quite!'}
+                    </strong>
+                    <p style={{ margin: '0.3rem 0 0', color: 'var(--muted)', fontSize: '0.9rem' }}>{QUIZ[quizIndex].explanation}</p>
+                  </div>
+                )}
+                {selected !== null && (
+                  <button className="btn" onClick={nextQuestion}>
+                    {quizIndex + 1 >= QUIZ.length ? 'See Results' : 'Next Question →'}
+                  </button>
+                )}
+              </div>
+            )}
+
+            {finished && (() => {
+              const { emoji, msg } = getScoreMessage()
+              return (
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '3.5rem', marginBottom: '0.5rem' }}>{emoji}</div>
+                  <h3 style={{ color: 'var(--gold)', marginBottom: '0.25rem' }}>You scored {score} out of {QUIZ.length}</h3>
+                  <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>{msg}</p>
+                  <button className="btn" onClick={restartQuiz}>Try Again</button>
+                </div>
+              )
+            })()}
+          </div>
+        </div>
+
+        {/* Footer note */}
+        <div style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.85rem', paddingBottom: '2rem' }}>
+          Questions? Speak to any Three Bridges Academy coach on match day. And thank you for volunteering — it genuinely makes a difference. 🙏
+        </div>
+
+      </div>
+    </>
+  )
+}
+
+function ModuleContent({ id, color }) {
+  if (id === 'role') return (
+    <div style={{ paddingTop: '1.25rem' }}>
+      <p style={{ color: 'var(--muted)', marginBottom: '1rem' }}>
+        As a linesman (officially called an <strong style={{ color: 'var(--text)' }}>Assistant Referee</strong> — but everyone still says linesman), your job is to help the referee by watching things they can't always see.
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        {[
+          { title: 'Watch the touchline', desc: 'When the ball goes out of play, you decide which team gets the throw-in. Watch who touched it last.' },
+          { title: 'Watch for offside', desc: 'Your main job. Stay level with the second-to-last defender and watch whether attackers are ahead of them when the ball is played.' },
+          { title: 'Signal with your flag', desc: 'Raise it clearly for the referee to see. Don\'t be shy — a small wave does nothing.' },
+          { title: 'Stay level with play', desc: 'Move up and down the touchline to stay level with the second-to-last defender (usually the last outfield player). This is your key reference point.' },
+          { title: 'Don\'t argue', desc: 'The referee has the final say. Signal what you see, but if they overrule you, that\'s fine — they may have a better angle.' },
+        ].map(item => (
+          <div key={item.title} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+            <span style={{ color, fontWeight: 900, fontSize: '1.1rem', flexShrink: 0 }}>→</span>
+            <div>
+              <strong style={{ color: 'var(--text)' }}>{item.title}:</strong>{' '}
+              <span style={{ color: 'var(--muted)' }}>{item.desc}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+
+  if (id === 'offside') return (
+    <div style={{ paddingTop: '1.25rem' }}>
+      <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>
+        The offside rule is the one everyone argues about. Here's the simple version — and we promise it's not as scary as it sounds.
+      </p>
+
+      <div style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 'var(--radius)', padding: '1rem 1.25rem', marginBottom: '1.25rem' }}>
+        <strong style={{ color: '#3b82f6' }}>The Basic Rule:</strong>
+        <p style={{ color: 'var(--text)', margin: '0.4rem 0 0' }}>
+          A player is offside if they are in the opponent's half <em>AND</em> closer to the goal line than both the ball and the second-to-last defender (usually the last outfield player) when the ball is played to them.
+        </p>
+      </div>
+
+      {/* Simple pitch diagram */}
+      <div style={{ marginBottom: '1.25rem' }}>
+        <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '0.5rem' }}>Visual example — ball is played from left to right:</p>
+        <svg viewBox="0 0 400 120" style={{ width: '100%', maxWidth: 480, background: '#2d5a3d', borderRadius: 8, display: 'block', border: '2px solid rgba(255,255,255,0.15)' }}>
+          {/* Pitch markings */}
+          <rect x="0" y="0" width="400" height="120" fill="#2d5a3d" />
+          <line x1="200" y1="0" x2="200" y2="120" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+          <rect x="2" y="2" width="396" height="116" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+          {/* Goal areas */}
+          <rect x="2" y="35" width="40" height="50" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+          <rect x="358" y="35" width="40" height="50" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+          {/* Offside line */}
+          <line x1="300" y1="0" x2="300" y2="120" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4,3" />
+          <text x="303" y="12" fill="#ef4444" fontSize="8" fontFamily="sans-serif">offside line</text>
+          {/* Defender (second to last) */}
+          <circle cx="300" cy="60" r="10" fill="#1e40af" />
+          <text x="300" y="64" textAnchor="middle" fill="white" fontSize="9" fontFamily="sans-serif">DEF</text>
+          {/* Goalkeeper */}
+          <circle cx="385" cy="60" r="10" fill="#1e40af" />
+          <text x="385" y="64" textAnchor="middle" fill="white" fontSize="8" fontFamily="sans-serif">GK</text>
+          {/* Attacker ONSIDE */}
+          <circle cx="270" cy="35" r="10" fill="#ce962d" />
+          <text x="270" y="39" textAnchor="middle" fill="white" fontSize="8" fontFamily="sans-serif">ATT</text>
+          <text x="270" y="22" textAnchor="middle" fill="#10b981" fontSize="8" fontFamily="sans-serif" fontWeight="bold">✓ ONSIDE</text>
+          {/* Attacker OFFSIDE */}
+          <circle cx="330" cy="85" r="10" fill="#ce962d" />
+          <text x="330" y="89" textAnchor="middle" fill="white" fontSize="8" fontFamily="sans-serif">ATT</text>
+          <text x="330" y="107" textAnchor="middle" fill="#ef4444" fontSize="8" fontFamily="sans-serif" fontWeight="bold">✗ OFFSIDE</text>
+          {/* Ball */}
+          <circle cx="160" cy="60" r="7" fill="white" />
+          <text x="160" y="80" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="7" fontFamily="sans-serif">ball</text>
+          {/* Arrow */}
+          <line x1="168" y1="60" x2="240" y2="50" stroke="rgba(255,255,255,0.5)" strokeWidth="1" markerEnd="url(#arr)" />
+          <defs>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.5)" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+        {[
+          { emoji: '✅', text: 'Player is level with the second-to-last defender — ONSIDE' },
+          { emoji: '✅', text: 'Player receives from a throw-in, corner, or goal kick — cannot be offside' },
+          { emoji: '✅', text: 'Player is in their own half — cannot be offside' },
+          { emoji: '❌', text: 'Player is ahead of the second-to-last defender when the ball is played — OFFSIDE' },
+          { emoji: '⚠️', text: 'Player in offside position but not involved in play — NOT offside (wait and watch!)' },
+        ].map(item => (
+          <div key={item.text} style={{ display: 'flex', gap: '0.6rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
+            <span>{item.emoji}</span><span>{item.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+
+  if (id === 'signals') return (
+    <div style={{ paddingTop: '1.25rem' }}>
+      <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>
+        Your flag is your voice. Here's what to do with it in each situation.
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {[
+          {
+            signal: 'Flag raised straight up',
+            when: 'Offside',
+            detail: 'Raise the flag vertically above your head. Hold it there until the referee acknowledges you. Then lower and indicate direction.',
+            emoji: '🚩',
+          },
+          {
+            signal: 'Flag pointing at 45° downward toward corner',
+            when: 'Offside on the far side of the pitch',
+            detail: 'Point the flag downward at a 45° angle toward the corner flag on the far side. This tells the referee which side of the pitch the offside occurred.',
+            emoji: '↙️',
+          },
+          {
+            signal: 'Flag pointing horizontally — direction of attack',
+            when: 'Throw-in — indicating who takes it',
+            detail: 'Point the flag horizontally in the direction the team taking the throw-in is attacking. This makes it crystal clear to everyone.',
+            emoji: '➡️',
+          },
+          {
+            signal: 'Flag waved vigorously',
+            when: 'Foul or incident on your side that the referee missed',
+            detail: 'Wave the flag to attract the referee\'s attention. Once they look at you, stop waving and indicate what happened. Don\'t keep waving like you\'re flagging down a taxi.',
+            emoji: '🏁',
+          },
+          {
+            signal: 'Flag down, no movement',
+            when: 'Everything is fine — play on!',
+            detail: 'This is the most common position. Hold the flag loosely in your hand, angled slightly downward. You\'re watching, not signalling.',
+            emoji: '🤫',
+          },
+        ].map(item => (
+          <div key={item.when} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+              <span style={{ fontSize: '1.25rem' }}>{item.emoji}</span>
+              <strong style={{ color: color }}>{item.when}</strong>
+            </div>
+            <p style={{ color: 'var(--text)', fontWeight: 600, fontSize: '0.9rem', margin: '0 0 0.25rem' }}>{item.signal}</p>
+            <p style={{ color: 'var(--muted)', margin: 0, fontSize: '0.88rem' }}>{item.detail}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+
+  if (id === 'restarts') return (
+    <div style={{ paddingTop: '1.25rem' }}>
+      <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>
+        When the ball goes out of play, you decide what happens next. Here's the quick guide.
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {[
+          {
+            type: '🤾 Throw-in',
+            rule: 'Awarded to the team that did NOT touch the ball last before it crossed the touchline.',
+            tip: 'Watch closely as the ball approaches. If it\'s close, stay calm and decide — then signal clearly with the flag.',
+          },
+          {
+            type: '🚩 Corner Kick',
+            rule: 'Awarded to the attacking team when a defender (including the goalkeeper) last touches the ball before it crosses the goal line.',
+            tip: 'If it was last touched by an attacker, it\'s a goal kick. Corner kicks are a reward for the attacking team keeping the pressure on.',
+          },
+          {
+            type: '🥅 Goal Kick',
+            rule: 'Awarded to the defending team when an attacker last touches the ball before it crosses the goal line (without a goal being scored).',
+            tip: 'This is the goalkeeper\'s territory. You don\'t need to do much — just confirm to the referee it\'s a goal kick with a point toward the goal area.',
+          },
+          {
+            type: '⚽ Goal!',
+            rule: 'The whole ball must cross the whole goal line between the posts and under the bar.',
+            tip: 'If a goal is scored and you\'re sure there\'s no offside or foul, you can help the referee by pointing to the centre circle. If you spot an issue, raise your flag immediately.',
+          },
+        ].map(item => (
+          <div key={item.type} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1rem' }}>
+            <strong style={{ color: color, display: 'block', marginBottom: '0.35rem', fontSize: '1rem' }}>{item.type}</strong>
+            <p style={{ color: 'var(--text)', margin: '0 0 0.4rem', fontSize: '0.9rem' }}>{item.rule}</p>
+            <p style={{ color: 'var(--muted)', margin: 0, fontSize: '0.85rem' }}>💡 {item.tip}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+
+  return null
+}
