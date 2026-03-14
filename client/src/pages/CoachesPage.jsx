@@ -104,10 +104,181 @@ function ShootingDrillDiagram() {
   )
 }
 
+function DefendingCentralDiagram() {
+  return (
+    <svg viewBox="0 0 300 340" style={{ width: '100%', maxWidth: 340, display: 'block', margin: '1rem auto 0', borderRadius: 8, background: 'rgba(20,50,30,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
+      {/* Pitch outline */}
+      <rect x="20" y="10" width="260" height="320" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+
+      {/* Goal */}
+      <rect x="110" y="14" width="80" height="20" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" />
+      <text x="150" y="29" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9" fontWeight="bold">GOAL</text>
+
+      {/* 20 yards label */}
+      <line x1="20" y1="318" x2="280" y2="318" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+      <text x="150" y="330" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="9">20 yards</text>
+
+      {/* Band dividers */}
+      <line x1="20" y1="95"  x2="280" y2="95"  stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="4,3" />
+      <line x1="20" y1="175" x2="280" y2="175" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="4,3" />
+      <line x1="20" y1="250" x2="280" y2="250" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="4,3" />
+
+      {/* Band labels */}
+      <text x="287" y="70"  fill="rgba(255,255,255,0.3)" fontSize="7" textAnchor="start">top</text>
+      <text x="287" y="140" fill="rgba(255,255,255,0.3)" fontSize="7" textAnchor="start">mid</text>
+      <text x="287" y="218" fill="rgba(255,255,255,0.3)" fontSize="7" textAnchor="start">low</text>
+      <text x="287" y="290" fill="rgba(255,255,255,0.3)" fontSize="7" textAnchor="start">feed</text>
+
+      {/* TOP BAND — 2 attackers (O) wide */}
+      <circle cx="75"  cy="68" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="75"  cy="68" textAnchor="middle" fill="#ce962d" fontSize="13" fontWeight="bold" y="72">O</text>
+      <circle cx="225" cy="68" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="225" cy="68" textAnchor="middle" fill="#ce962d" fontSize="13" fontWeight="bold" y="72">O</text>
+
+      {/* MIDDLE BAND — 3 defenders (X) */}
+      <circle cx="80"  cy="135" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="80"  textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="bold" y="139">X</text>
+      <circle cx="150" cy="135" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="150" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="bold" y="139">X</text>
+      <circle cx="220" cy="135" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="220" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="bold" y="139">X</text>
+
+      {/* LOWER BAND — 3 attackers (O) */}
+      <circle cx="75"  cy="213" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="75"  textAnchor="middle" fill="#ce962d" fontSize="13" fontWeight="bold" y="217">O</text>
+      <circle cx="150" cy="213" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="150" textAnchor="middle" fill="#ce962d" fontSize="13" fontWeight="bold" y="217">O</text>
+      <circle cx="225" cy="213" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="225" textAnchor="middle" fill="#ce962d" fontSize="13" fontWeight="bold" y="217">O</text>
+
+      {/* BOTTOM BAND — 2 feeders (X) */}
+      <circle cx="100" cy="280" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="100" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="bold" y="284">X</text>
+      <circle cx="200" cy="280" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="200" textAnchor="middle" fill="#3b82f6" fontSize="13" fontWeight="bold" y="284">X</text>
+
+      {/* Pass arrow — feeder into lower O */}
+      <defs>
+        <marker id="arr-gold" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#ce962d" />
+        </marker>
+        <marker id="arr-blue" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#3b82f6" />
+        </marker>
+      </defs>
+      <line x1="150" y1="265" x2="150" y2="228" stroke="#ce962d" strokeWidth="1.5" strokeDasharray="5,3" markerEnd="url(#arr-gold)" />
+      <line x1="150" y1="199" x2="150" y2="150" stroke="#ce962d" strokeWidth="1.5" strokeDasharray="5,3" markerEnd="url(#arr-gold)" />
+
+      {/* Legend */}
+      <rect x="22" y="12" width="70" height="34" rx="3" fill="rgba(0,0,0,0.45)" />
+      <circle cx="32" cy="22" r="5" fill="rgba(206,150,45,0.3)" stroke="#ce962d" strokeWidth="1.5" />
+      <text x="40" y="26" fill="#ce962d" fontSize="8">Attackers (O)</text>
+      <circle cx="32" cy="38" r="5" fill="rgba(59,130,246,0.3)" stroke="#3b82f6" strokeWidth="1.5" />
+      <text x="40" y="42" fill="#3b82f6" fontSize="8">Defenders (X)</text>
+    </svg>
+  )
+}
+
 // Session plans keyed by "week-agegroup"
 // Each plan has: coach, date, topic, blocks[]
 // block types: warmup | drill | game | note
 const SESSION_PLANS = {
+  '9-u1112': {
+    coach: 'Robert',
+    date: '10 Mar 2026',
+    topic: 'Defending in Central Areas',
+    blocks: [
+      {
+        type: 'warmup',
+        duration: '20 mins',
+        title: 'Warm Up',
+        details: [
+          'Dribbling in a square — players dribble freely inside the area, avoiding each other. Add passing combinations when comfortable.',
+          'Circle with a ball — players stand in a circle, one ball moving around. Vary the pass (inside foot, outside foot, first time).',
+        ],
+      },
+      {
+        type: 'drill',
+        duration: '20 mins',
+        title: 'Defending in Central Areas — Compact Shape & Passing Lanes',
+        subtitle: 'Defenders stay compact · Protect passing lanes · Body shape',
+        details: [
+          'Set up a 20-yard wide zone in front of goal with 4 horizontal bands.',
+          'Top band: 2 attackers (O) wide, close to goal — target players.',
+          'Middle band: 3 defenders (X) — must stay compact and cut passing lanes.',
+          'Lower band: 3 attackers (O) — receive the ball and look to combine.',
+          'Bottom band: 2 feeders (X) — play the ball into the lower O\'s to start.',
+          'Lower O\'s receive, turn and try to play into the top O\'s — who turn and shoot.',
+          'Defenders must get in line quickly to block the through pass.',
+          'Can be run as an overload to increase the challenge for defenders.',
+          'Coaching defenders: body shape (side-on, stay compact), communicate, get in line fast.',
+          'Swap roles after each round.',
+        ],
+        notes: [
+          'Key coaching point: defenders should NOT ball-watch — stay aware of runners behind them.',
+          'Reward defenders who intercept and transition quickly.',
+        ],
+        diagram: 'defending-central',
+      },
+      {
+        type: 'game',
+        duration: '15 mins',
+        title: 'Small Sided Game (SSG)',
+        details: [
+          'Free play — encourage players to apply defensive shape from the drill.',
+          'Coaching point: when out of possession, get compact quickly and protect central areas.',
+        ],
+      },
+    ],
+  },
+  '9-u1316': {
+    coach: 'Robert',
+    date: '10 Mar 2026',
+    topic: 'Defending in Central Areas',
+    blocks: [
+      {
+        type: 'warmup',
+        duration: '20 mins',
+        title: 'Warm Up',
+        details: [
+          'Dribbling in a square — players dribble freely inside the area, avoiding each other. Add passing combinations when comfortable.',
+          'Circle with a ball — players stand in a circle, one ball moving around. Vary the pass (inside foot, outside foot, first time).',
+        ],
+      },
+      {
+        type: 'drill',
+        duration: '20 mins',
+        title: 'Defending in Central Areas — Compact Shape & Passing Lanes',
+        subtitle: 'Defenders stay compact · Protect passing lanes · Body shape',
+        details: [
+          'Set up a 20-yard wide zone in front of goal with 4 horizontal bands.',
+          'Top band: 2 attackers (O) wide, close to goal — target players.',
+          'Middle band: 3 defenders (X) — must stay compact and cut passing lanes.',
+          'Lower band: 3 attackers (O) — receive the ball and look to combine.',
+          'Bottom band: 2 feeders (X) — play the ball into the lower O\'s to start.',
+          'Lower O\'s receive, turn and try to play into the top O\'s — who turn and shoot.',
+          'Defenders must get in line quickly to block the through pass.',
+          'Can be run as an overload to increase the challenge for defenders.',
+          'Coaching defenders: body shape (side-on, stay compact), communicate, get in line fast.',
+          'Swap roles after each round.',
+        ],
+        notes: [
+          'Key coaching point: defenders should NOT ball-watch — stay aware of runners behind them.',
+          'Reward defenders who intercept and transition quickly.',
+        ],
+        diagram: 'defending-central',
+      },
+      {
+        type: 'game',
+        duration: '15 mins',
+        title: 'Small Sided Game (SSG)',
+        details: [
+          'Free play — encourage players to apply defensive shape from the drill.',
+          'Coaching point: when out of possession, get compact quickly and protect central areas.',
+        ],
+      },
+    ],
+  },
   '6-u1112': {
     coach: 'Leo',
     date: '10 Feb 2026',
@@ -209,6 +380,7 @@ function SessionPlan({ plan, color }) {
                 ))}
               </ul>
               {block.diagram === 'shooting-drill' && <ShootingDrillDiagram />}
+              {block.diagram === 'defending-central' && <DefendingCentralDiagram />}
               {block.notes && block.notes.length > 0 && (
                 <div style={{
                   marginTop: '0.75rem', padding: '0.6rem 0.9rem',
