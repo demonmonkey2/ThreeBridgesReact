@@ -480,6 +480,11 @@ export default function LinsmanCoursePage() {
                 <line x1="150" y1="115" x2="150" y2="130" stroke="#555" strokeWidth="1.5" />
                 <polygon points="150,116 142,121 150,126" fill="#ce962d" />
 
+                {/* SAMPLE watermark overlay */}
+                <g transform="rotate(-35, 86, 185)">
+                  <text x="86" y="195" textAnchor="middle" fill="rgba(180,0,0,0.55)" fontSize="28" fontFamily="Arial" fontWeight="bold" letterSpacing="4">SAMPLE</text>
+                </g>
+
                 {/* WhatsApp tick + time */}
                 <text x="130" y="266" fill="rgba(255,255,255,0.4)" fontSize="7" fontFamily="Arial">✓✓ 10:24</text>
 
