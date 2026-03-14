@@ -104,6 +104,104 @@ function ShootingDrillDiagram() {
   )
 }
 
+function DefendingWideDiagram() {
+  return (
+    <svg viewBox="0 0 380 400" style={{ width: '100%', maxWidth: 420, display: 'block', margin: '1rem auto 0', borderRadius: 8, background: 'rgba(20,50,30,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
+      <defs>
+        <marker id="arr-w" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="rgba(255,255,255,0.6)" />
+        </marker>
+        <marker id="arr-att" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#ce962d" />
+        </marker>
+      </defs>
+
+      {/* Main pitch outline */}
+      <rect x="15" y="15" width="350" height="370" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+
+      {/* Left wide channel */}
+      <rect x="15" y="15" width="65" height="370" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+
+      {/* Right wide channel */}
+      <rect x="300" y="15" width="65" height="370" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+
+      {/* Halfway line */}
+      <line x1="15" y1="210" x2="365" y2="210" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="5,4" />
+
+      {/* Small goal top centre */}
+      <rect x="163" y="15" width="54" height="16" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" />
+      <text x="190" y="26" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="8" fontWeight="bold">SMALL GOAL</text>
+
+      {/* Big goal bottom label */}
+      <rect x="138" y="372" width="104" height="14" rx="2" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.4)" strokeWidth="1" />
+      <text x="190" y="382" textAnchor="middle" fill="#10b981" fontSize="8">BIG GOAL (if defenders win ball)</text>
+
+      {/* === TOP HALF — Defenders === */}
+      {/* Def Balance (left) */}
+      <circle cx="95"  cy="100" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="95"  y="104" textAnchor="middle" fill="#3b82f6" fontSize="10" fontWeight="bold">DEF</text>
+      <text x="95"  y="122" textAnchor="middle" fill="#3b82f6" fontSize="8">Balance</text>
+
+      {/* Def Cover (centre) */}
+      <circle cx="190" cy="100" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="190" y="104" textAnchor="middle" fill="#3b82f6" fontSize="10" fontWeight="bold">DEF</text>
+      <text x="190" y="122" textAnchor="middle" fill="#3b82f6" fontSize="8">Cover</text>
+
+      {/* Def Press (right) */}
+      <circle cx="285" cy="100" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="285" y="104" textAnchor="middle" fill="#3b82f6" fontSize="10" fontWeight="bold">DEF</text>
+      <text x="285" y="122" textAnchor="middle" fill="#3b82f6" fontSize="8">Press</text>
+
+      {/* Cone in right channel */}
+      <polygon points="335,75 328,90 342,90" fill="#ffd54f" />
+      <text x="335" y="103" textAnchor="middle" fill="#ffd54f" fontSize="8">Cone</text>
+
+      {/* Arrow — attacker runs to cone then crosses */}
+      <path d="M335,255 Q355,170 335,92" fill="none" stroke="#ce962d" strokeWidth="1.5" strokeDasharray="5,3" markerEnd="url(#arr-att)" />
+
+      {/* === BOTTOM HALF — Attackers === */}
+      {/* Attack far left */}
+      <circle cx="47"  cy="270" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="47"  y="274" textAnchor="middle" fill="#ce962d" fontSize="10" fontWeight="bold">ATT</text>
+
+      {/* Def left-centre */}
+      <circle cx="125" cy="270" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="125" y="274" textAnchor="middle" fill="#3b82f6" fontSize="10" fontWeight="bold">DEF</text>
+
+      {/* Attack centre */}
+      <circle cx="190" cy="260" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="190" y="264" textAnchor="middle" fill="#ce962d" fontSize="10" fontWeight="bold">ATT</text>
+
+      {/* Def right-centre */}
+      <circle cx="255" cy="270" r="14" fill="rgba(59,130,246,0.2)" stroke="#3b82f6" strokeWidth="2" />
+      <text x="255" y="274" textAnchor="middle" fill="#3b82f6" fontSize="10" fontWeight="bold">DEF</text>
+
+      {/* Attack right channel (wide attacker who will cross) */}
+      <circle cx="335" cy="255" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="335" y="259" textAnchor="middle" fill="#ce962d" fontSize="10" fontWeight="bold">ATT</text>
+
+      {/* Attack bottom-left */}
+      <circle cx="125" cy="340" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="125" y="344" textAnchor="middle" fill="#ce962d" fontSize="10" fontWeight="bold">ATT</text>
+
+      {/* Attack bottom-right */}
+      <circle cx="255" cy="340" r="14" fill="rgba(206,150,45,0.2)" stroke="#ce962d" strokeWidth="2" />
+      <text x="255" y="344" textAnchor="middle" fill="#ce962d" fontSize="10" fontWeight="bold">ATT</text>
+
+      {/* Channel labels */}
+      <text x="47" y="35" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="8">WIDE</text>
+      <text x="335" y="35" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="8">WIDE</text>
+
+      {/* Legend */}
+      <rect x="18" y="18" width="84" height="34" rx="3" fill="rgba(0,0,0,0.5)" />
+      <circle cx="28" cy="28" r="5" fill="rgba(206,150,45,0.3)" stroke="#ce962d" strokeWidth="1.5" />
+      <text x="36" y="32" fill="#ce962d" fontSize="8">Attacker</text>
+      <circle cx="28" cy="44" r="5" fill="rgba(59,130,246,0.3)" stroke="#3b82f6" strokeWidth="1.5" />
+      <text x="36" y="48" fill="#3b82f6" fontSize="8">Defender</text>
+    </svg>
+  )
+}
+
 function DefendingCentralDiagram() {
   return (
     <svg viewBox="0 0 300 340" style={{ width: '100%', maxWidth: 340, display: 'block', margin: '1rem auto 0', borderRadius: 8, background: 'rgba(20,50,30,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -183,6 +281,106 @@ function DefendingCentralDiagram() {
 // Each plan has: coach, date, topic, blocks[]
 // block types: warmup | drill | game | note
 const SESSION_PLANS = {
+  '8-u1112': {
+    coach: 'Robert',
+    date: '10 Mar 2026',
+    topic: 'Defending in Wide Areas',
+    blocks: [
+      {
+        type: 'warmup',
+        duration: '20 mins',
+        title: 'Warm Up',
+        details: [
+          'Dribbling in a square — players dribble freely inside the area, avoiding each other.',
+          'Circle with a ball — players stand in a circle, one ball moving around. Vary the pass (inside foot, outside foot, first time).',
+        ],
+      },
+      {
+        type: 'drill',
+        duration: '20 mins',
+        title: 'Defending Wide Areas — Dealing with the Cross',
+        subtitle: 'Body shape · Direct to corner · Stay on feet · Two arm\'s length',
+        details: [
+          'Set up a pitch with two wide channels and a small goal at the top.',
+          'Wide attacker starts at the bottom of the right (or left) channel with the ball.',
+          'Defending team: Def Press tracks the wide attacker up the channel, Def Cover shifts across, Def Balance holds the other side.',
+          'Wide attacker dribbles to the cone near the byline and attempts to cross.',
+          'Defending team must deal with the cross — clear or catch.',
+          'If defenders win the ball they break to the big goal at the bottom.',
+        ],
+        coachingPoints: [
+          'Body shape — stay side-on, show the attacker toward the corner flag, not inside.',
+          'Direct the attacker away from goal — force them to the byline where the angle is tightest.',
+          'Don\'t dive in — stay on your feet, wait for the right moment.',
+          'Two arm\'s length away — close enough to pressure, far enough not to be beaten easily.',
+        ],
+        notes: [
+          'Rotate attackers and defenders so everyone experiences both roles.',
+          'Progress: add more attackers in the box to increase the challenge for defenders dealing with the cross.',
+        ],
+        diagram: 'defending-wide',
+      },
+      {
+        type: 'game',
+        duration: '15 mins',
+        title: 'Small Sided Game (SSG)',
+        details: [
+          'Free play — encourage players to apply wide defending principles.',
+          'Coaching point: track runners into wide areas early, don\'t wait until they receive the ball.',
+        ],
+      },
+    ],
+  },
+  '8-u1316': {
+    coach: 'Robert',
+    date: '10 Mar 2026',
+    topic: 'Defending in Wide Areas',
+    blocks: [
+      {
+        type: 'warmup',
+        duration: '20 mins',
+        title: 'Warm Up',
+        details: [
+          'Dribbling in a square — players dribble freely inside the area, avoiding each other.',
+          'Circle with a ball — players stand in a circle, one ball moving around. Vary the pass (inside foot, outside foot, first time).',
+        ],
+      },
+      {
+        type: 'drill',
+        duration: '20 mins',
+        title: 'Defending Wide Areas — Dealing with the Cross',
+        subtitle: 'Body shape · Direct to corner · Stay on feet · Two arm\'s length',
+        details: [
+          'Set up a pitch with two wide channels and a small goal at the top.',
+          'Wide attacker starts at the bottom of the right (or left) channel with the ball.',
+          'Defending team: Def Press tracks the wide attacker up the channel, Def Cover shifts across, Def Balance holds the other side.',
+          'Wide attacker dribbles to the cone near the byline and attempts to cross.',
+          'Defending team must deal with the cross — clear or catch.',
+          'If defenders win the ball they break to the big goal at the bottom.',
+        ],
+        coachingPoints: [
+          'Body shape — stay side-on, show the attacker toward the corner flag, not inside.',
+          'Direct the attacker away from goal — force them to the byline where the angle is tightest.',
+          'Don\'t dive in — stay on your feet, wait for the right moment.',
+          'Two arm\'s length away — close enough to pressure, far enough not to be beaten easily.',
+        ],
+        notes: [
+          'Rotate attackers and defenders so everyone experiences both roles.',
+          'Progress: add more attackers in the box to increase the challenge for defenders dealing with the cross.',
+        ],
+        diagram: 'defending-wide',
+      },
+      {
+        type: 'game',
+        duration: '15 mins',
+        title: 'Small Sided Game (SSG)',
+        details: [
+          'Free play — encourage players to apply wide defending principles.',
+          'Coaching point: track runners into wide areas early, don\'t wait until they receive the ball.',
+        ],
+      },
+    ],
+  },
   '9-u1112': {
     coach: 'Robert',
     date: '10 Mar 2026',
@@ -381,6 +579,15 @@ function SessionPlan({ plan, color }) {
               </ul>
               {block.diagram === 'shooting-drill' && <ShootingDrillDiagram />}
               {block.diagram === 'defending-central' && <DefendingCentralDiagram />}
+              {block.diagram === 'defending-wide' && <DefendingWideDiagram />}
+              {block.coachingPoints && block.coachingPoints.length > 0 && (
+                <div style={{ marginTop: '0.75rem', padding: '0.6rem 0.9rem', background: 'rgba(59,130,246,0.08)', borderRadius: 6, borderLeft: '3px solid #3b82f6' }}>
+                  <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#3b82f6', margin: '0 0 0.35rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Coaching Points</p>
+                  {block.coachingPoints.map((cp, j) => (
+                    <p key={j} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, margin: '0.15rem 0' }}>• {cp}</p>
+                  ))}
+                </div>
+              )}
               {block.notes && block.notes.length > 0 && (
                 <div style={{
                   marginTop: '0.75rem', padding: '0.6rem 0.9rem',
