@@ -18,14 +18,20 @@ const AGE_GROUPS = [
     label: 'U11–12',
     format: '9v9',
     color: '#e74c3c',
-    coach: 'TBC',
+    coach: null,
     coachRole: 'Head Coach',
-    players: '18–22 players',
-    sessions: 'Saturdays · 10:30am',
+    players: '4 teams',
+    sessions: 'Saturdays',
     venue: 'Jubilee Field, Crawley',
     description: 'The 9v9 group begins to introduce tactical concepts alongside technical development. Players learn to play out from the back, switch play, combine in wide areas and organise defensively.',
     topics: ['Playing Out', 'Playing Between the Lines', 'Switching Play', 'Rotation', 'Combination in Wide Areas', 'Finishing', 'Defending the Box', 'Defending Wide & Central', 'Pressing from the Front', 'Attacking Overload', 'Games Week'],
     icon: '🏃',
+    teams: [
+      { name: 'Blacks', coach: 'TBC' },
+      { name: 'Youth Saturday', coach: 'TBC' },
+      { name: 'Amber', coach: 'TBC' },
+      { name: 'TBC', coach: 'TBC' },
+    ],
   },
   {
     id: 'u13-16',
@@ -106,7 +112,24 @@ export default function AgeGroupsPage() {
 
                 {/* Right: coach + topics */}
                 <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                  {/* Coach card */}
+                  {/* Coach card — or no head coach + teams */}
+                  {group.teams ? (
+                    <div>
+                      <div style={{ background: 'rgba(255,100,100,0.08)', border: '1px solid rgba(255,100,100,0.2)', borderRadius: 8, padding: '0.75rem 1rem', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '1rem' }}>⚠️</span>
+                        <span style={{ fontSize: '0.82rem', color: '#ff8080', fontWeight: 600 }}>No Head Coach appointed for this group</span>
+                      </div>
+                      <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>Teams</div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                        {group.teams.map(team => (
+                          <div key={team.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.5rem 0.75rem' }}>
+                            <span style={{ fontWeight: 700, fontSize: '0.88rem' }}>{group.label} {team.name}</span>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Coach: {team.coach}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
                   <div style={{
                     background: 'rgba(255,255,255,0.03)',
                     border: '1px solid var(--border)',
@@ -126,6 +149,7 @@ export default function AgeGroupsPage() {
                       <div style={{ fontSize: '0.78rem', color: group.color, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{group.coachRole} · {group.label}</div>
                     </div>
                   </div>
+                  )}
 
                   {/* Curriculum topics */}
                   <div>
