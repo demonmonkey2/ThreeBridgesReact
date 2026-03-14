@@ -59,6 +59,25 @@ const AGE_GROUPS = [
       { age: 'U16', teams: ['MSYFL'] },
     ],
   },
+  {
+    id: 'girls',
+    label: 'Girls',
+    format: '7v7 / 9v9',
+    color: '#9b59b6',
+    coach: 'TBC',
+    coachRole: 'Head Coach',
+    players: '3 teams',
+    sessions: 'Saturdays',
+    venue: 'Jubilee Field, Crawley',
+    description: 'Three Bridges Girls section competes in the Sussex County Women & Girls Football League. We welcome players of all abilities and are committed to growing the girls\' game in Crawley.',
+    topics: ['Dribbling', 'Passing', 'Receiving', '1v1 Play', 'Small-Sided Games', 'Combination Play', 'Switching Play', 'Finishing'],
+    icon: '⭐',
+    ageGroups: [
+      { age: 'U10', teams: ['Youth'] },
+      { age: 'U11', teams: ['Amber'] },
+      { age: 'U12', teams: ['Black'] },
+    ],
+  },
 ]
 
 function TeamGrid({ ageGroups, color }) {
@@ -101,7 +120,7 @@ export default function AgeGroupsPage() {
           <p className="page-header-eyebrow">Three Bridges Academy</p>
           <h1>Age Groups</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem', fontSize: '0.95rem' }}>
-            Structured development pathways from U7 through to U16 · 28 teams
+            Structured development pathways from U7 through to U16 · Boys &amp; Girls · 31 teams
           </p>
         </div>
       </div>
@@ -216,15 +235,23 @@ export default function AgeGroupsPage() {
           ))}
         </div>
 
-        {/* FA Full Time link */}
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+        {/* FA Full Time links */}
+        <div style={{ marginTop: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           <a
             href="https://fulltime.thefa.com/home/club/734867993.html"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: 'var(--muted)', fontSize: '0.82rem', textDecoration: 'none' }}
           >
-            View all teams on FA Full Time →
+            View all boys teams on FA Full Time →
+          </a>
+          <a
+            href="https://fulltime.thefa.com/home/club/153906691.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--muted)', fontSize: '0.82rem', textDecoration: 'none' }}
+          >
+            View all girls teams on FA Full Time →
           </a>
         </div>
 
