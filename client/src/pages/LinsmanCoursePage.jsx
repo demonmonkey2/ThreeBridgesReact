@@ -305,9 +305,9 @@ function ModuleContent({ id, color }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         {[
           { title: 'Watch the touchline', desc: 'When the ball goes out of play, you decide which team gets the throw-in. Watch who touched it last.' },
-          { title: 'Watch for offside', desc: 'Your main job. Stay level with the second-to-last defender and watch whether attackers are ahead of them when the ball is played.' },
+          { title: 'Watch for offside', desc: 'Your main job. Stay level with the last outfield defender and watch whether attackers are ahead of them when the ball is played. The goalkeeper is always the last defender behind them.' },
           { title: 'Signal with your flag', desc: 'Raise it clearly for the referee to see. Don\'t be shy — a small wave does nothing.' },
-          { title: 'Stay level with play', desc: 'Move up and down the touchline to stay level with the second-to-last defender (usually the last outfield player). This is your key reference point.' },
+          { title: 'Stay level with play', desc: 'Move up and down the touchline to stay level with the last outfield defender (the goalkeeper is always the last, so this is the defender in front of them). This is your key reference point.' },
           { title: 'Don\'t argue', desc: 'The referee has the final say. Signal what you see, but if they overrule you, that\'s fine — they may have a better angle.' },
         ].map(item => (
           <div key={item.title} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
@@ -331,7 +331,7 @@ function ModuleContent({ id, color }) {
       <div style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 'var(--radius)', padding: '1rem 1.25rem', marginBottom: '1.25rem' }}>
         <strong style={{ color: '#3b82f6' }}>The Basic Rule:</strong>
         <p style={{ color: 'var(--text)', margin: '0.4rem 0 0' }}>
-          A player is offside if they are in the opponent's half <em>AND</em> closer to the goal line than both the ball and the second-to-last defender (usually the last outfield player) when the ball is played to them.
+          A player is offside if they are in the opponent's half <em>AND</em> closer to the goal line than both the ball and the last outfield defender when the ball is played to them. Think of it this way — the goalkeeper is always the last defender, so the attacker must have at least one outfield player between them and the goal.
         </p>
       </div>
 
@@ -378,10 +378,10 @@ function ModuleContent({ id, color }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
         {[
-          { emoji: '✅', text: 'Player is level with the second-to-last defender — ONSIDE' },
+          { emoji: '✅', text: 'Player is level with the last outfield defender — ONSIDE (the goalkeeper is always behind them)' },
           { emoji: '✅', text: 'Player receives from a throw-in, corner, or goal kick — cannot be offside' },
           { emoji: '✅', text: 'Player is in their own half — cannot be offside' },
-          { emoji: '❌', text: 'Player is ahead of the second-to-last defender when the ball is played — OFFSIDE' },
+          { emoji: '❌', text: 'Player is ahead of the last outfield defender when the ball is played — OFFSIDE' },
           { emoji: '⚠️', text: 'Player in offside position but not involved in play — NOT offside (wait and watch!)' },
         ].map(item => (
           <div key={item.text} style={{ display: 'flex', gap: '0.6rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
