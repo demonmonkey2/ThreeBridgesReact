@@ -11,10 +11,10 @@ export default function Navbar() {
       {/* Top bar */}
       <div className="topbar">
         <div className="topbar-inner">
-          <span className="topbar-left">Isthmian League South East · Jubilee Field, Crawley</span>
+          <span className="topbar-left">Three Bridges FC · Est. 1901 · Jubilee Field, Crawley</span>
           <div className="topbar-right">
-            <a href="https://threebridgesfc.co.uk" target="_blank" rel="noopener noreferrer">Official Site</a>
-            <a href="/login">Admin</a>
+            <a href="https://threebridgesfc.co.uk" target="_blank" rel="noopener noreferrer">Club Site</a>
+            <NavLink to="/coaches">Coaches Portal</NavLink>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@ export default function Navbar() {
             />
             <div className="navbar-name">
               <span className="navbar-name-top">Est. 1901 · Crawley</span>
-              <span className="navbar-name-main">THREE BRIDGES <em>FC</em></span>
+              <span className="navbar-name-main">THREE BRIDGES <em>ACADEMY</em></span>
             </div>
           </NavLink>
 
@@ -40,11 +40,11 @@ export default function Navbar() {
 
           <ul className={`navbar-links${open ? ' open' : ''}`}>
             <li><NavLink to="/" end onClick={close}>Home</NavLink></li>
-            <li><NavLink to="/teams" onClick={close}>Teams</NavLink></li>
-            <li><NavLink to="/scores" onClick={close}>Results</NavLink></li>
-            <li><NavLink to="/videos" onClick={close}>Videos</NavLink></li>
-            <li><NavLink to="/book-pitch" onClick={close}>Pitch Hire</NavLink></li>
-            <li className="nav-cta"><NavLink to="/login" onClick={close}>Login</NavLink></li>
+            <li><NavLink to="/age-groups" onClick={close}>Age Groups</NavLink></li>
+            <li><NavLink to="/curriculum" onClick={close}>Curriculum</NavLink></li>
+            <li><NavLink to="/media" onClick={close}>Media</NavLink></li>
+            <li><NavLink to="/training-guides" onClick={close}>Training Guides</NavLink></li>
+            <li className="nav-cta"><NavLink to="/coaches" onClick={close}>🔒 Coaches</NavLink></li>
           </ul>
         </div>
       </nav>
