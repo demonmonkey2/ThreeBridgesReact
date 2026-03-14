@@ -620,30 +620,34 @@ function WeekPlan({ week }) {
 
   const planKey = `${week.week}-${activeTab}`
   const plan = SESSION_PLANS[planKey] || null
+  const hasAnyPlan = AGE_TABS.some(tab => !!SESSION_PLANS[`${week.week}-${tab.key}`])
+
+  const effectiveColor = hasAnyPlan ? color : 'var(--muted)'
 
   return (
     <div style={{
-      border: `1px solid ${open ? color : 'var(--border)'}`,
+      border: `1px solid ${open ? effectiveColor : 'var(--border)'}`,
       borderRadius: 8, overflow: 'hidden', transition: 'border-color 0.2s',
+      opacity: hasAnyPlan ? 1 : 0.45,
     }}>
       {/* Header row */}
       <button onClick={() => setOpen(o => !o)} style={{
         width: '100%', display: 'flex', alignItems: 'center', gap: '1rem',
         padding: '1rem 1.25rem',
-        background: open ? `${color}10` : 'var(--card)',
+        background: open ? `${effectiveColor}10` : 'var(--card)',
         border: 'none', cursor: 'pointer', textAlign: 'left',
         transition: 'background 0.2s',
       }}>
         <span style={{
           minWidth: 36, height: 36, borderRadius: '50%',
-          background: `${color}20`, border: `2px solid ${color}50`,
+          background: `${effectiveColor}20`, border: `2px solid ${effectiveColor}50`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '0.78rem', fontWeight: 800, color,
+          fontSize: '0.78rem', fontWeight: 800, color: effectiveColor,
           flexShrink: 0,
         }}>{week.week}</span>
         <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text)' }}>Week {week.week}</div>
-          <div style={{ fontSize: '0.78rem', color, fontWeight: 600 }}>{week.theme}</div>
+          <div style={{ fontWeight: 700, fontSize: '0.9rem', color: hasAnyPlan ? 'var(--text)' : 'var(--muted)' }}>Week {week.week}</div>
+          <div style={{ fontSize: '0.78rem', color: effectiveColor, fontWeight: 600 }}>{week.theme}</div>
         </div>
         {/* Show which age groups have plans */}
         <div style={{ display: 'flex', gap: '0.3rem' }} className="hide-mobile">
@@ -653,7 +657,7 @@ function WeekPlan({ week }) {
               <span key={tab.key} style={{
                 fontSize: '0.65rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: 3,
                 background: hasPlan ? `${color}20` : 'rgba(255,255,255,0.05)',
-                color: hasPlan ? color : 'var(--muted)',
+                color: hasPlan ? color : 'rgba(255,255,255,0.2)',
                 border: `1px solid ${hasPlan ? `${color}40` : 'transparent'}`,
               }}>{tab.label}</span>
             )
