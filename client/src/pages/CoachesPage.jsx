@@ -269,6 +269,7 @@ function WeekPlan({ week }) {
 
 export default function CoachesPage() {
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [error, setError] = useState(null)
 
@@ -302,7 +303,28 @@ export default function CoachesPage() {
             <form onSubmit={handleLogin}>
               <div className="form-group">
                 <label>Coach Password</label>
-                <input type="password" placeholder="Enter coach password" value={password} onChange={e => setPassword(e.target.value)} required autoFocus />
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter coach password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required autoFocus
+                    style={{ paddingRight: '3rem' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(s => !s)}
+                    style={{
+                      position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)',
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      color: 'var(--muted)', fontSize: '1rem', lineHeight: 1,
+                    }}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? '🙈' : '👁'}
+                  </button>
+                </div>
               </div>
               <button type="submit" className="btn" style={{ width: '100%', justifyContent: 'center' }}>Access Portal</button>
             </form>
