@@ -404,49 +404,30 @@ export default function LinsmanCoursePage() {
                 <rect x="16" y="90" width="140" height="18" rx="6" fill="#1f2c34" />
                 <text x="24" y="103" fill="rgba(255,255,255,0.5)" fontSize="7" fontFamily="Arial">Robert D · just now</text>
 
-                {/* Badge image preview in chat bubble */}
-                <rect x="16" y="112" width="140" height="148" rx="8" fill="#0d1820" stroke="#ce962d" strokeWidth="2" />
+                {/* Badge image preview — white background with gold border */}
+                <rect x="16" y="112" width="140" height="148" rx="4" fill="white" stroke="#ce962d" strokeWidth="2.5" />
 
-                {/* Mini bridge arches top */}
-                {[0,1,2].map(i => (
-                  <g key={i}>
-                    <path d={`M ${26 + i*44} 138 L ${26 + i*44} 122 A 16 16 0 0 1 ${58 + i*44} 122 L ${58 + i*44} 138`}
-                      fill="rgba(206,150,45,0.15)" stroke="#ce962d" strokeWidth="1.5" />
-                  </g>
-                ))}
-                {/* Arch baseline */}
-                <line x1="20" y1="138" x2="152" y2="138" stroke="#ce962d" strokeWidth="1" />
+                {/* Dark header band */}
+                <rect x="16" y="112" width="140" height="28" rx="4" fill="#0d1820" />
+                <text x="86" y="121" textAnchor="middle" fill="#ce962d" fontSize="5" fontFamily="Arial" fontWeight="bold">THREE BRIDGES FC · EST. 1901</text>
+                <text x="86" y="132" textAnchor="middle" fill="white" fontSize="7" fontFamily="Arial" fontWeight="bold">THREE BRIDGES ACADEMY</text>
 
-                {/* Mini bridge arches bottom */}
-                {[0,1,2].map(i => (
-                  <g key={i}>
-                    <path d={`M ${26 + i*44} 228 L ${26 + i*44} 244 A 16 16 0 0 0 ${58 + i*44} 244 L ${58 + i*44} 228`}
-                      fill="rgba(206,150,45,0.15)" stroke="#ce962d" strokeWidth="1.5" />
-                  </g>
-                ))}
-                <line x1="20" y1="228" x2="152" y2="228" stroke="#ce962d" strokeWidth="1" />
+                {/* LINESMAN heading */}
+                <text x="86" y="150" textAnchor="middle" fill="#0d1820" fontSize="10" fontFamily="Arial" fontWeight="bold">LINESMAN</text>
+                <line x1="36" y1="154" x2="136" y2="154" stroke="#ce962d" strokeWidth="1" />
 
-                {/* Male figure silhouette — head */}
-                <circle cx="86" cy="162" r="18" fill="#1e3a5a" stroke="#3b82f6" strokeWidth="1.5" />
-                {/* Face details */}
-                <circle cx="80" cy="160" r="2" fill="white" opacity="0.8" />
-                <circle cx="92" cy="160" r="2" fill="white" opacity="0.8" />
-                <path d="M 80 168 Q 86 173 92 168" fill="none" stroke="white" strokeWidth="1.5" opacity="0.8" />
-                {/* Short hair */}
-                <path d="M 68 158 Q 70 148 86 146 Q 102 148 104 158" fill="#2a3a4a" />
-                {/* Shoulders / body */}
-                <path d="M 58 210 Q 62 188 68 184 Q 86 178 104 184 Q 110 188 114 210 Z" fill="#1e3a5a" stroke="#3b82f6" strokeWidth="1" />
-                {/* Polo shirt collar hint */}
-                <path d="M 78 184 L 86 190 L 94 184" fill="none" stroke="#3b82f6" strokeWidth="1.5" />
+                {/* TB Crest image */}
+                <image href="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png" x="61" y="156" width="50" height="50" />
 
-                {/* CERTIFIED LINESMAN text in badge */}
-                <text x="86" y="220" textAnchor="middle" fill="white" fontSize="6" fontWeight="bold" fontFamily="Arial">CERTIFIED LINESMAN</text>
-                <text x="86" y="230" textAnchor="middle" fill="#ce962d" fontSize="5" fontFamily="Arial">Three Bridges Academy</text>
+                {/* APPROVED stamp */}
+                <rect x="30" y="212" width="112" height="24" fill="none" stroke="#c0392b" strokeWidth="2" />
+                <rect x="33" y="215" width="106" height="18" fill="none" stroke="#c0392b" strokeWidth="1" />
+                <text x="86" y="228" textAnchor="middle" fill="#c0392b" fontSize="11" fontFamily="Arial" fontWeight="bold" opacity="0.85">APPROVED</text>
 
                 {/* Corner flags */}
-                <line x1="22" y1="115" x2="22" y2="130" stroke="white" strokeWidth="1.5" />
+                <line x1="22" y1="115" x2="22" y2="130" stroke="#555" strokeWidth="1.5" />
                 <polygon points="22,116 30,121 22,126" fill="#ce962d" />
-                <line x1="150" y1="115" x2="150" y2="130" stroke="white" strokeWidth="1.5" />
+                <line x1="150" y1="115" x2="150" y2="130" stroke="#555" strokeWidth="1.5" />
                 <polygon points="150,116 142,121 150,126" fill="#ce962d" />
 
                 {/* WhatsApp tick + time */}
