@@ -42,8 +42,6 @@ export default function Navbar() {
             <li><NavLink to="/" end onClick={close}>Home</NavLink></li>
             <li><NavLink to="/age-groups" onClick={close}>Age Groups</NavLink></li>
             <li><NavLink to="/curriculum" onClick={close}>Curriculum</NavLink></li>
-            <li><NavLink to="/media" onClick={close}>Media</NavLink></li>
-            <li><NavLink to="/training-guides" onClick={close}>Training Guides</NavLink></li>
             <li><NavLink to="/linesman-course" onClick={close}>🚩 Linesman</NavLink></li>
             <li className="nav-cta"><NavLink to="/coaches" onClick={close}>🔒 Coaches</NavLink></li>
           </ul>
