@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import { HomePage, LoginPage, AgeGroupsPage, CurriculumPage, MediaPage, TrainingGuidesPage, CoachesPage, LinsmanCoursePage, BadgePreviewPage } from './pages'
+import { HomePage, LoginPage, AgeGroupsPage, CurriculumPage, MediaPage, TrainingGuidesPage, CoachesPage, LinsmanCoursePage } from './pages'
 import './App.css'
 
 function App() {
@@ -15,7 +15,6 @@ function App() {
         <Route path="/training-guides" element={<TrainingGuidesPage />} />
         <Route path="/coaches" element={<CoachesPage />} />
         <Route path="/linesman-course" element={<LinsmanCoursePage />} />
-        <Route path="/badge-preview" element={<BadgePreviewPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
