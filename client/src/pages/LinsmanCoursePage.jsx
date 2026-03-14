@@ -428,6 +428,129 @@ export default function LinsmanCoursePage() {
           </p>
         </div>
 
+        {/* What you'll get */}
+        <div style={{ marginBottom: '3rem' }}>
+          <h2 className="section-title fade-up">What You'll Get</h2>
+          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }} className="fade-up delay-1">
+
+            {/* Benefits list */}
+            <div style={{ flex: '1 1 280px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {[
+                { icon: '🎓', title: 'Official completion certificate', desc: 'A printable certificate to show you\'ve completed the Three Bridges Academy Linesman Course.' },
+                { icon: '📱', title: 'WhatsApp shareable badge', desc: 'A downloadable image to share in the group chat — so everyone knows you\'re the one to ask about offside.' },
+                { icon: '🚩', title: 'Confidence on the touchline', desc: 'Know exactly what signals to use, when to flag, and what the referee expects from you.' },
+                { icon: '⚽', title: 'Actually understand the offside rule', desc: 'Once and for all. No more guessing. You\'ll be the knowledgeable one in the car park.' },
+              ].map(item => (
+                <div key={item.title} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '1.5rem', flexShrink: 0, marginTop: '0.1rem' }}>{item.icon}</span>
+                  <div>
+                    <strong style={{ color: 'var(--text)', display: 'block', marginBottom: '0.15rem' }}>{item.title}</strong>
+                    <span style={{ color: 'var(--muted)', fontSize: '0.88rem' }}>{item.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* WhatsApp phone mockup */}
+            <div style={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center' }}>
+              <svg viewBox="0 0 220 400" width="200" style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.5))' }}>
+                {/* Phone body */}
+                <rect x="4" y="4" width="212" height="392" rx="28" fill="#1a1a1a" />
+                <rect x="8" y="8" width="204" height="384" rx="25" fill="#111" />
+                {/* Screen */}
+                <rect x="10" y="30" width="200" height="348" rx="4" fill="#0f0f0f" />
+                {/* Notch */}
+                <rect x="80" y="10" width="60" height="10" rx="5" fill="#2a2a2a" />
+
+                {/* WhatsApp header */}
+                <rect x="10" y="30" width="200" height="52" fill="#075e54" />
+                {/* Back arrow */}
+                <text x="20" y="62" fill="white" fontSize="16">←</text>
+                {/* Avatar circle */}
+                <circle cx="55" cy="56" r="16" fill="#25d366" />
+                <text x="55" y="61" textAnchor="middle" fill="white" fontSize="13">🏆</text>
+                {/* Chat name */}
+                <text x="76" y="53" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">Three Bridges</text>
+                <text x="76" y="66" fill="rgba(255,255,255,0.6)" fontSize="9" fontFamily="Arial">Academy Group</text>
+                {/* Menu dots */}
+                <text x="192" y="60" fill="rgba(255,255,255,0.7)" fontSize="14">⋮</text>
+
+                {/* Chat background */}
+                <rect x="10" y="82" width="200" height="296" fill="#0d1117" />
+                {/* Subtle chat wallpaper dots */}
+                {[...Array(8)].map((_, i) => (
+                  <circle key={i} cx={30 + (i % 4) * 50} cy={100 + Math.floor(i / 4) * 60} r="1.5" fill="rgba(255,255,255,0.04)" />
+                ))}
+
+                {/* Incoming message bubble */}
+                <rect x="16" y="90" width="140" height="18" rx="6" fill="#1f2c34" />
+                <text x="24" y="103" fill="rgba(255,255,255,0.5)" fontSize="7" fontFamily="Arial">Robert D · just now</text>
+
+                {/* Badge image preview in chat bubble */}
+                <rect x="16" y="112" width="140" height="148" rx="8" fill="#0d1820" stroke="#ce962d" strokeWidth="2" />
+
+                {/* Mini bridge arches top */}
+                {[0,1,2].map(i => (
+                  <g key={i}>
+                    <path d={`M ${26 + i*44} 138 L ${26 + i*44} 122 A 16 16 0 0 1 ${58 + i*44} 122 L ${58 + i*44} 138`}
+                      fill="rgba(206,150,45,0.15)" stroke="#ce962d" strokeWidth="1.5" />
+                  </g>
+                ))}
+                {/* Arch baseline */}
+                <line x1="20" y1="138" x2="152" y2="138" stroke="#ce962d" strokeWidth="1" />
+
+                {/* Mini bridge arches bottom */}
+                {[0,1,2].map(i => (
+                  <g key={i}>
+                    <path d={`M ${26 + i*44} 228 L ${26 + i*44} 244 A 16 16 0 0 0 ${58 + i*44} 244 L ${58 + i*44} 228`}
+                      fill="rgba(206,150,45,0.15)" stroke="#ce962d" strokeWidth="1.5" />
+                  </g>
+                ))}
+                <line x1="20" y1="228" x2="152" y2="228" stroke="#ce962d" strokeWidth="1" />
+
+                {/* Male figure silhouette — head */}
+                <circle cx="86" cy="162" r="18" fill="#1e3a5a" stroke="#3b82f6" strokeWidth="1.5" />
+                {/* Face details */}
+                <circle cx="80" cy="160" r="2" fill="white" opacity="0.8" />
+                <circle cx="92" cy="160" r="2" fill="white" opacity="0.8" />
+                <path d="M 80 168 Q 86 173 92 168" fill="none" stroke="white" strokeWidth="1.5" opacity="0.8" />
+                {/* Short hair */}
+                <path d="M 68 158 Q 70 148 86 146 Q 102 148 104 158" fill="#2a3a4a" />
+                {/* Shoulders / body */}
+                <path d="M 58 210 Q 62 188 68 184 Q 86 178 104 184 Q 110 188 114 210 Z" fill="#1e3a5a" stroke="#3b82f6" strokeWidth="1" />
+                {/* Polo shirt collar hint */}
+                <path d="M 78 184 L 86 190 L 94 184" fill="none" stroke="#3b82f6" strokeWidth="1.5" />
+
+                {/* CERTIFIED LINESMAN text in badge */}
+                <text x="86" y="220" textAnchor="middle" fill="white" fontSize="6" fontWeight="bold" fontFamily="Arial">CERTIFIED LINESMAN</text>
+                <text x="86" y="230" textAnchor="middle" fill="#ce962d" fontSize="5" fontFamily="Arial">Three Bridges Academy</text>
+
+                {/* Corner flags */}
+                <line x1="22" y1="115" x2="22" y2="130" stroke="white" strokeWidth="1.5" />
+                <polygon points="22,116 30,121 22,126" fill="#ce962d" />
+                <line x1="150" y1="115" x2="150" y2="130" stroke="white" strokeWidth="1.5" />
+                <polygon points="150,116 142,121 150,126" fill="#ce962d" />
+
+                {/* WhatsApp tick + time */}
+                <text x="130" y="266" fill="rgba(255,255,255,0.4)" fontSize="7" fontFamily="Arial">✓✓ 10:24</text>
+
+                {/* Reply bubble from someone else */}
+                <rect x="20" y="274" width="120" height="28" rx="8" fill="#1f2c34" />
+                <text x="28" y="285" fill="rgba(255,255,255,0.9)" fontSize="7.5" fontFamily="Arial">😂 Get in!! Who's next?</text>
+                <text x="28" y="297" fill="#25d366" fontSize="6.5" fontFamily="Arial">👍 12  🏆 8</text>
+
+                {/* Message input bar */}
+                <rect x="10" y="352" width="200" height="26" fill="#1f2c34" />
+                <rect x="14" y="356" width="160" height="18" rx="9" fill="#2a3a42" />
+                <text x="24" y="368" fill="rgba(255,255,255,0.3)" fontSize="8" fontFamily="Arial">Message</text>
+                <circle cx="196" cy="365" r="10" fill="#25d366" />
+                <text x="196" y="369" textAnchor="middle" fill="white" fontSize="10">🎙</text>
+              </svg>
+            </div>
+
+          </div>
+        </div>
+
         {/* What you'll need */}
         <div style={{ marginBottom: '2.5rem' }}>
           <h2 className="section-title fade-up">What You'll Need on the Day</h2>
