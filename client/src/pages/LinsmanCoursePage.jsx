@@ -396,6 +396,33 @@ export default function LinsmanCoursePage() {
           </p>
         </div>
 
+        {/* Skip to quiz CTA */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }} className="fade-up">
+          <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '0.6rem' }}>
+            Already know your stuff?
+          </p>
+          <a
+            href="#quiz-section"
+            onClick={e => { e.preventDefault(); document.getElementById('quiz-section').scrollIntoView({ behavior: 'smooth' }) }}
+            style={{
+              display: 'inline-block',
+              padding: '0.6rem 1.4rem',
+              borderRadius: 'var(--radius)',
+              border: '1px solid var(--gold)',
+              color: 'var(--gold)',
+              fontWeight: 700,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              textDecoration: 'none',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(206,150,45,0.1)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+          >
+            Skip to the quiz →
+          </a>
+        </div>
+
         {/* What you'll get */}
         <div style={{ marginBottom: '3rem' }}>
           <h2 className="section-title fade-up">What You'll Get</h2>
@@ -560,7 +587,7 @@ export default function LinsmanCoursePage() {
         </div>
 
         {/* Quiz */}
-        <div style={{ marginBottom: '3rem' }}>
+        <div id="quiz-section" style={{ marginBottom: '3rem' }}>
           <h2 className="section-title fade-up">Test Your Knowledge</h2>
           <div className="card fade-up delay-1" style={{ padding: '2rem' }}>
             {!quizStarted && !finished && (
