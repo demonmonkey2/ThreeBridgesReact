@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const TOKEN_KEY = 'coaches_token'
 
@@ -742,12 +742,287 @@ function WeekPlan({ week }) {
   )
 }
 
+const SKILL_GROUPS = [
+  {
+    label: 'Technical',
+    color: '#ce962d',
+    skills: ['Dribbling', 'Passing', 'Receiving', 'Shooting & Finishing', 'Ball Mastery', '1v1 Play'],
+  },
+  {
+    label: 'Tactical',
+    color: '#e74c3c',
+    skills: ['Playing Out from Back', 'Switching Play', 'Pressing', 'Positioning', 'Combination Play', 'Runs in Behind'],
+  },
+  {
+    label: 'Game Qualities',
+    color: '#3498db',
+    skills: ['Work Rate', 'Communication', 'Leadership', 'Resilience', 'Teamwork', 'Attitude'],
+  },
+]
+
+const AGE_GROUP_OPTIONS = ['U7', 'U8', 'U9', 'U10', 'U11', 'U12', 'U13', 'U14', 'U15', 'U16']
+
+function SkillBadge({ label, color, onRemove }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+      background: `${color}20`, border: `1px solid ${color}50`,
+      color, fontSize: '0.78rem', fontWeight: 600,
+      padding: '0.3rem 0.65rem', borderRadius: 20,
+    }}>
+      {label}
+      {onRemove && (
+        <button onClick={onRemove} style={{ background: 'none', border: 'none', cursor: 'pointer', color, lineHeight: 1, padding: 0, fontSize: '0.9rem' }}>×</button>
+      )}
+    </span>
+  )
+}
+
+function PlayerReportBuilder() {
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  const [form, setForm] = useState({
+    playerName: '', ageGroup: '', team: '', coach: '', date: today,
+    strengths: [], focusAreas: [], coachNote: '', gameHighlight: '',
+  })
+  const [preview, setPreview] = useState(false)
+  const cardRef = useRef(null)
+
+  const toggle = (field, skill) => {
+    setForm(f => {
+      const list = f[field]
+      return { ...f, [field]: list.includes(skill) ? list.filter(s => s !== skill) : [...list, skill] }
+    })
+  }
+
+  const handlePrint = () => {
+    const card = cardRef.current
+    if (!card) return
+    const win = window.open('', '_blank')
+    win.document.write(`
+      <html><head><title>Player Report — ${form.playerName}</title>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a1520; color: #fff; font-family: -apple-system, sans-serif; padding: 2rem; }
+        .card { background: #111c2b; border: 2px solid #ce962d; border-radius: 16px; padding: 2rem; max-width: 560px; margin: 0 auto; }
+        .gold { color: #ce962d; }
+        .muted { color: rgba(255,255,255,0.55); }
+        .badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; margin: 0.2rem; }
+        .tick::before { content: '✓ '; }
+        .focus::before { content: '→ '; }
+        @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+      </style></head><body>${card.innerHTML}</body></html>
+    `)
+    win.document.close()
+    win.focus()
+    setTimeout(() => { win.print(); win.close() }, 400)
+  }
+
+  const isReady = form.playerName && form.ageGroup && form.strengths.length > 0
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', alignItems: 'start' }}>
+
+      {/* ── Form ── */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <h3 style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '0.25rem' }}>Build Report Card</h3>
+
+        {/* Player details */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <input placeholder="Player name *" value={form.playerName}
+            onChange={e => setForm(f => ({ ...f, playerName: e.target.value }))}
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: '#fff', fontSize: '0.88rem', width: '100%' }} />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+            <select value={form.ageGroup} onChange={e => setForm(f => ({ ...f, ageGroup: e.target.value }))}
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: form.ageGroup ? '#fff' : 'var(--muted)', fontSize: '0.88rem' }}>
+              <option value="">Age group *</option>
+              {AGE_GROUP_OPTIONS.map(a => <option key={a} value={a}>{a}</option>)}
+            </select>
+            <input placeholder="Team (e.g. Amber)" value={form.team}
+              onChange={e => setForm(f => ({ ...f, team: e.target.value }))}
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: '#fff', fontSize: '0.88rem' }} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+            <input placeholder="Your name" value={form.coach}
+              onChange={e => setForm(f => ({ ...f, coach: e.target.value }))}
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: '#fff', fontSize: '0.88rem' }} />
+            <input type="text" value={form.date}
+              onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: '#fff', fontSize: '0.88rem' }} />
+          </div>
+        </div>
+
+        {/* Strengths */}
+        <div>
+          <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#2ecc71', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
+            What they're doing brilliantly (pick up to 3)
+          </div>
+          {SKILL_GROUPS.map(g => (
+            <div key={g.label} style={{ marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '0.68rem', color: g.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{g.label}</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {g.skills.map(s => {
+                  const active = form.strengths.includes(s)
+                  const maxed = form.strengths.length >= 3 && !active
+                  return (
+                    <button key={s} disabled={maxed} onClick={() => toggle('strengths', s)} style={{
+                      background: active ? `${g.color}25` : 'rgba(255,255,255,0.04)',
+                      border: `1px solid ${active ? g.color : 'rgba(255,255,255,0.12)'}`,
+                      color: active ? g.color : 'var(--muted)',
+                      fontSize: '0.75rem', fontWeight: 600, padding: '0.25rem 0.6rem',
+                      borderRadius: 20, cursor: maxed ? 'not-allowed' : 'pointer', opacity: maxed ? 0.4 : 1,
+                    }}>{active ? '✓ ' : ''}{s}</button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Focus areas */}
+        <div>
+          <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#3498db', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
+            Keep working on (pick 1–2)
+          </div>
+          {SKILL_GROUPS.map(g => (
+            <div key={g.label} style={{ marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '0.68rem', color: g.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{g.label}</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {g.skills.map(s => {
+                  const active = form.focusAreas.includes(s)
+                  const maxed = form.focusAreas.length >= 2 && !active
+                  return (
+                    <button key={s} disabled={maxed} onClick={() => toggle('focusAreas', s)} style={{
+                      background: active ? `${g.color}25` : 'rgba(255,255,255,0.04)',
+                      border: `1px solid ${active ? g.color : 'rgba(255,255,255,0.12)'}`,
+                      color: active ? g.color : 'var(--muted)',
+                      fontSize: '0.75rem', fontWeight: 600, padding: '0.25rem 0.6rem',
+                      borderRadius: 20, cursor: maxed ? 'not-allowed' : 'pointer', opacity: maxed ? 0.4 : 1,
+                    }}>{active ? '✓ ' : ''}{s}</button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Notes */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <textarea placeholder="Coach note — a personal message to the player..." value={form.coachNote}
+            onChange={e => setForm(f => ({ ...f, coachNote: e.target.value }))}
+            rows={3} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: '#fff', fontSize: '0.88rem', resize: 'vertical', fontFamily: 'inherit' }} />
+          <textarea placeholder="Game highlight — what did they do well in the last match?" value={form.gameHighlight}
+            onChange={e => setForm(f => ({ ...f, gameHighlight: e.target.value }))}
+            rows={2} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: '#fff', fontSize: '0.88rem', resize: 'vertical', fontFamily: 'inherit' }} />
+        </div>
+
+        <button className="btn" disabled={!isReady} onClick={handlePrint}
+          style={{ opacity: isReady ? 1 : 0.4, cursor: isReady ? 'pointer' : 'not-allowed' }}>
+          🖨️ Print / Save Report Card
+        </button>
+        {!isReady && <p style={{ fontSize: '0.78rem', color: 'var(--muted)', marginTop: '-0.75rem' }}>Fill in player name, age group and at least one strength to generate.</p>}
+      </div>
+
+      {/* ── Live preview card ── */}
+      <div>
+        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+          Preview
+        </div>
+        <div ref={cardRef} style={{
+          background: 'linear-gradient(145deg, #0d1c2e 0%, #111c2b 100%)',
+          border: '2px solid #ce962d', borderRadius: 16, padding: '1.75rem',
+          position: 'relative', overflow: 'hidden',
+        }}>
+          {/* Gold corner accent */}
+          <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80,
+            background: 'linear-gradient(225deg, rgba(206,150,45,0.15) 0%, transparent 70%)', borderRadius: '0 16px 0 0' }} />
+
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', borderBottom: '1px solid rgba(206,150,45,0.25)', paddingBottom: '1rem' }}>
+            <img src="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png"
+              alt="Three Bridges FC" style={{ height: 44, opacity: 0.9 }} />
+            <div>
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Three Bridges Academy</div>
+              <div style={{ fontSize: '1rem', fontWeight: 900, lineHeight: 1.1 }}>Player Report Card</div>
+            </div>
+          </div>
+
+          {/* Player name */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff', lineHeight: 1 }}>
+              {form.playerName || <span style={{ color: 'rgba(255,255,255,0.2)' }}>Player Name</span>}
+            </div>
+            <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)', marginTop: '0.25rem' }}>
+              {[form.ageGroup, form.team].filter(Boolean).join(' · ') || <span style={{ color: 'rgba(255,255,255,0.2)' }}>Age Group</span>}
+              {form.date && <span> · {form.date}</span>}
+            </div>
+          </div>
+
+          {/* Strengths */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#2ecc71', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
+              ⭐ What you're doing brilliantly
+            </div>
+            {form.strengths.length > 0 ? (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {form.strengths.map(s => (
+                  <span key={s} style={{ background: 'rgba(46,204,113,0.15)', border: '1px solid rgba(46,204,113,0.4)', color: '#2ecc71', fontSize: '0.8rem', fontWeight: 700, padding: '0.3rem 0.75rem', borderRadius: 20 }}>✓ {s}</span>
+                ))}
+              </div>
+            ) : (
+              <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.82rem' }}>Select strengths from the form…</p>
+            )}
+          </div>
+
+          {/* Focus areas */}
+          {form.focusAreas.length > 0 && (
+            <div style={{ marginBottom: '1.25rem' }}>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#3498db', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
+                🎯 Keep working on
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {form.focusAreas.map(s => (
+                  <span key={s} style={{ background: 'rgba(52,152,219,0.15)', border: '1px solid rgba(52,152,219,0.4)', color: '#3498db', fontSize: '0.8rem', fontWeight: 700, padding: '0.3rem 0.75rem', borderRadius: 20 }}>→ {s}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Coach note */}
+          {form.coachNote && (
+            <div style={{ marginBottom: '1.25rem', background: 'rgba(206,150,45,0.06)', border: '1px solid rgba(206,150,45,0.2)', borderRadius: 8, padding: '0.85rem 1rem' }}>
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>Coach's Note</div>
+              <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>{form.coachNote}</p>
+            </div>
+          )}
+
+          {/* Game highlight */}
+          {form.gameHighlight && (
+            <div style={{ marginBottom: '1.25rem', background: 'rgba(155,89,182,0.08)', border: '1px solid rgba(155,89,182,0.25)', borderRadius: 8, padding: '0.85rem 1rem' }}>
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9b59b6', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>⚡ Game Highlight</div>
+              <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>{form.gameHighlight}</p>
+            </div>
+          )}
+
+          {/* Footer */}
+          <div style={{ borderTop: '1px solid rgba(206,150,45,0.2)', paddingTop: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)' }}>
+              Three Bridges FC Academy · threebridgesfc.co.uk
+            </div>
+            {form.coach && <div style={{ fontSize: '0.72rem', color: '#ce962d', fontWeight: 700 }}>{form.coach}</div>}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function CoachesPage() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loggedIn, setLoggedIn] = useState(() => isTokenValid(localStorage.getItem(TOKEN_KEY)))
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [portalSection, setPortalSection] = useState('plans')
 
   const handleLogin = async e => {
     e.preventDefault()
@@ -868,6 +1143,28 @@ export default function CoachesPage() {
           </button>
         </div>
 
+        {/* Section switcher */}
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.75rem', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.3rem' }}>
+          {[
+            { key: 'plans', label: '📋 Training Plans' },
+            { key: 'reports', label: '📄 Player Reports' },
+          ].map(s => (
+            <button key={s.key} onClick={() => setPortalSection(s.key)} style={{
+              flex: 1, padding: '0.6rem 1rem', borderRadius: 6, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem', transition: 'all 0.15s',
+              background: portalSection === s.key ? 'var(--gold)' : 'transparent',
+              color: portalSection === s.key ? '#000' : 'var(--muted)',
+            }}>{s.label}</button>
+          ))}
+        </div>
+
+        {portalSection === 'reports' && (
+          <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, padding: '2rem' }}>
+            <PlayerReportBuilder />
+          </div>
+        )}
+
+        {portalSection === 'plans' && <>
+
         {/* Legend */}
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem', alignItems: 'center' }}>
           {[
@@ -904,6 +1201,8 @@ export default function CoachesPage() {
             Contact Academy Director
           </a>
         </div>
+
+        </>}
       </div>
     </>
   )

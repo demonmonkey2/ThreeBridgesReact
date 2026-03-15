@@ -263,6 +263,84 @@ export default function AgeGroupsPage() {
           </a>
         </div>
 
+        {/* Sample report card */}
+        <div style={{ marginTop: '2rem' }}>
+          <p className="page-header-eyebrow" style={{ marginBottom: '0.35rem' }}>Player Development</p>
+          <h2 style={{ fontWeight: 800, fontSize: '1.3rem', marginBottom: '0.4rem' }}>Player Report Cards</h2>
+          <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '1.25rem' }}>
+            Coaches send personalised report cards each half-term so players and parents know exactly what's going well and what to focus on next.
+          </p>
+          <div style={{
+            background: 'linear-gradient(145deg, #0d1c2e 0%, #111c2b 100%)',
+            border: '2px solid #ce962d', borderRadius: 16, padding: '1.75rem',
+            maxWidth: 480, position: 'relative', overflow: 'hidden',
+          }}>
+            {/* SAMPLE watermark */}
+            <div style={{
+              position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%) rotate(-30deg)',
+              fontSize: '4rem', fontWeight: 900, color: 'rgba(206,150,45,0.07)',
+              textTransform: 'uppercase', letterSpacing: '0.2em', pointerEvents: 'none', userSelect: 'none', whiteSpace: 'nowrap',
+            }}>SAMPLE</div>
+
+            {/* Gold corner */}
+            <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80,
+              background: 'linear-gradient(225deg, rgba(206,150,45,0.15) 0%, transparent 70%)', borderRadius: '0 16px 0 0' }} />
+
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', borderBottom: '1px solid rgba(206,150,45,0.25)', paddingBottom: '1rem' }}>
+              <img src="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png" alt="Three Bridges FC" style={{ height: 40, opacity: 0.9 }} />
+              <div>
+                <div style={{ fontSize: '0.62rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Three Bridges Academy</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 900 }}>Player Report Card</div>
+              </div>
+            </div>
+
+            {/* Player */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 900 }}>Alex Johnson</div>
+              <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.2rem' }}>U12 · Amber · March 2026</div>
+            </div>
+
+            {/* Strengths */}
+            <div style={{ marginBottom: '1.1rem' }}>
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#2ecc71', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem' }}>⭐ What you're doing brilliantly</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {['Dribbling', 'Work Rate', 'Pressing'].map(s => (
+                  <span key={s} style={{ background: 'rgba(46,204,113,0.15)', border: '1px solid rgba(46,204,113,0.4)', color: '#2ecc71', fontSize: '0.78rem', fontWeight: 700, padding: '0.25rem 0.65rem', borderRadius: 20 }}>✓ {s}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Focus */}
+            <div style={{ marginBottom: '1.1rem' }}>
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#3498db', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.45rem' }}>🎯 Keep working on</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {['Receiving', 'Switching Play'].map(s => (
+                  <span key={s} style={{ background: 'rgba(52,152,219,0.15)', border: '1px solid rgba(52,152,219,0.4)', color: '#3498db', fontSize: '0.78rem', fontWeight: 700, padding: '0.25rem 0.65rem', borderRadius: 20 }}>→ {s}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Coach note */}
+            <div style={{ marginBottom: '1.1rem', background: 'rgba(206,150,45,0.06)', border: '1px solid rgba(206,150,45,0.2)', borderRadius: 8, padding: '0.8rem 1rem' }}>
+              <div style={{ fontSize: '0.62rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.35rem' }}>Coach's Note</div>
+              <p style={{ fontSize: '0.82rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)' }}>Alex has had a brilliant half-term — energy and effort every single session. Keep that work rate going and focus on your receiving touch when the ball comes in quickly.</p>
+            </div>
+
+            {/* Game highlight */}
+            <div style={{ marginBottom: '1.1rem', background: 'rgba(155,89,182,0.08)', border: '1px solid rgba(155,89,182,0.25)', borderRadius: 8, padding: '0.8rem 1rem' }}>
+              <div style={{ fontSize: '0.62rem', fontWeight: 700, color: '#9b59b6', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.35rem' }}>⚡ Game Highlight</div>
+              <p style={{ fontSize: '0.82rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)' }}>Brilliant pressing trigger vs Horsham — won the ball back and set up the second goal.</p>
+            </div>
+
+            {/* Footer */}
+            <div style={{ borderTop: '1px solid rgba(206,150,45,0.2)', paddingTop: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)' }}>Three Bridges FC Academy · threebridgesfc.co.uk</div>
+              <div style={{ fontSize: '0.72rem', color: '#ce962d', fontWeight: 700 }}>Coach Roberts</div>
+            </div>
+          </div>
+        </div>
+
         {/* Join section */}
         <div style={{
           marginTop: '2rem',
