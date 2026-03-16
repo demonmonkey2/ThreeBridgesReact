@@ -486,9 +486,9 @@ export default function LinsmanCoursePage() {
         </div>
 
         {/* What you'll get */}
-        <div style={{ marginBottom: '3rem' }}>
-          <h2 className="section-title fade-up">What You'll Get</h2>
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }} className="fade-up delay-1">
+        <div style={{ marginBottom: '1rem' }}>
+          <h2 className="section-title fade-up" style={{ marginBottom: '0.75rem' }}>What You'll Get</h2>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }} className="fade-up delay-1">
 
             {/* Benefits list */}
             <div style={{ flex: '1 1 280px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
