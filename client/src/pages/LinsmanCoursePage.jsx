@@ -491,8 +491,7 @@ export default function LinsmanCoursePage() {
           <div className="grid-3 fade-up delay-1">
             {[
               { icon: '🚩', label: 'A flag', note: 'Usually provided by the club. Bright colours. Hard to miss.' },
-              { icon: '👟', label: 'Comfy shoes', note: 'You\'ll be walking the length of the pitch. A lot.' },
-              { icon: '⚽', label: 'Football boots', note: 'You may need boots if playing on a 3G artificial grass pitch.' },
+              { icon: '👟', label: 'Comfy footwear', note: 'You\'ll be walking the length of the pitch. A lot. Bring boots if playing on a 3G artificial grass pitch.' },
               { icon: '🧠', label: 'This knowledge', note: 'That\'s what this course is for. You\'ve got this.' },
             ].map(item => (
               <div key={item.label} className="card" style={{ textAlign: 'center', padding: '1.5rem' }}>
