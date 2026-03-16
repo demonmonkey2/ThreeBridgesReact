@@ -485,6 +485,25 @@ export default function LinsmanCoursePage() {
           </a>
         </div>
 
+        {/* What you'll need */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h2 className="section-title fade-up">What You'll Need on the Day</h2>
+          <div className="grid-3 fade-up delay-1">
+            {[
+              { icon: '🚩', label: 'A flag', note: 'Usually provided by the club. Bright colours. Hard to miss.' },
+              { icon: '👟', label: 'Comfy shoes', note: 'You\'ll be walking the length of the pitch. A lot.' },
+              { icon: '⚽', label: 'Football boots', note: 'If playing on a 3G pitch, boots are a must — trainers won\'t cut it on artificial grass.' },
+              { icon: '🧠', label: 'This knowledge', note: 'That\'s what this course is for. You\'ve got this.' },
+            ].map(item => (
+              <div key={item.label} className="card" style={{ textAlign: 'center', padding: '1.5rem' }}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{item.icon}</div>
+                <strong style={{ color: 'var(--gold)', display: 'block', marginBottom: '0.25rem' }}>{item.label}</strong>
+                <p style={{ color: 'var(--muted)', margin: 0, fontSize: '0.9rem' }}>{item.note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* What you'll get */}
         <div style={{ marginBottom: '1rem' }}>
           <h2 className="section-title fade-up" style={{ marginBottom: '0.75rem' }}>What You'll Get</h2>
@@ -590,24 +609,6 @@ export default function LinsmanCoursePage() {
               </svg>
             </div>
 
-          </div>
-        </div>
-
-        {/* What you'll need */}
-        <div style={{ marginBottom: '2.5rem' }}>
-          <h2 className="section-title fade-up">What You'll Need on the Day</h2>
-          <div className="grid-3 fade-up delay-1">
-            {[
-              { icon: '🚩', label: 'A flag', note: 'Usually provided by the club. Bright colours. Hard to miss.' },
-              { icon: '👟', label: 'Comfy shoes', note: 'You\'ll be walking the length of the pitch. A lot.' },
-              { icon: '🧠', label: 'This knowledge', note: 'That\'s what this course is for. You\'ve got this.' },
-            ].map(item => (
-              <div key={item.label} className="card" style={{ textAlign: 'center', padding: '1.5rem' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{item.icon}</div>
-                <strong style={{ color: 'var(--gold)', display: 'block', marginBottom: '0.25rem' }}>{item.label}</strong>
-                <p style={{ color: 'var(--muted)', margin: 0, fontSize: '0.9rem' }}>{item.note}</p>
-              </div>
-            ))}
           </div>
         </div>
 
