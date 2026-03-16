@@ -237,9 +237,6 @@ function drawBadge(canvas, name, score, total) {
     // Dark footer band
     ctx.fillStyle = DARK
     ctx.fillRect(16, 752, W - 32, 32)
-    ctx.fillStyle = GOLD
-    ctx.font = 'bold 13px Arial'
-    ctx.fillText('threebridgesacademy.co.uk  ·  OFFICIAL LINESMAN CERTIFICATION', W / 2, 773)
   }
 
   img.onload = () => {
@@ -367,11 +364,6 @@ function WhatsAppBadge({ name, score, total, passing }) {
         </div>
 
         {/* Dark footer */}
-        <div style={{ background: '#0d1820', padding: '0.4rem', textAlign: 'center' }}>
-          <p style={{ color: '#ce962d', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.1em', margin: 0 }}>
-            threebridgesacademy.co.uk · OFFICIAL LINESMAN CERTIFICATION
-          </p>
-        </div>
       </div>
 
       {/* Hidden canvas for download */}
