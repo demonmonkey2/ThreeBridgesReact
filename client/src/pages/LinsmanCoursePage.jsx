@@ -393,8 +393,6 @@ export default function LinsmanCoursePage() {
   const [score, setScore] = useState(0)
   const [finished, setFinished] = useState(false)
   const [participantName, setParticipantName] = useState('')
-  const certificateRef = useRef(null)
-
   const toggleModule = (id) => setOpenModule(prev => prev === id ? null : id)
 
   const startQuiz = () => {
@@ -429,10 +427,6 @@ export default function LinsmanCoursePage() {
     setScore(0)
   }
 
-  const printCertificate = () => {
-    window.print()
-  }
-
   const getScoreMessage = () => {
     if (score === quizQuestions.length) return { emoji: '🏆', msg: 'Perfect score! You\'re basically a professional referee now.' }
     if (score >= 3) return { emoji: '👏', msg: 'Great effort! You\'re ready to take that flag onto the touchline.' }
@@ -442,28 +436,6 @@ export default function LinsmanCoursePage() {
 
   return (
     <>
-      <style>{`
-        @media print {
-          body * { visibility: hidden !important; }
-          #linesman-certificate, #linesman-certificate * { visibility: visible !important; }
-          #linesman-certificate {
-            position: fixed !important;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            background: white !important;
-            color: black !important;
-            border: 4px solid #ce962d !important;
-            border-radius: 0 !important;
-            padding: 3rem !important;
-            box-sizing: border-box;
-          }
-          #linesman-certificate h2 { color: #1a1a1a !important; }
-          #linesman-certificate p, #linesman-certificate div { color: #333 !important; }
-          #linesman-certificate .cert-name { color: #ce962d !important; }
-        }
-      `}</style>
       {/* Page Header */}
       <div className="page-header">
         <div className="page-header-inner">
@@ -521,7 +493,6 @@ export default function LinsmanCoursePage() {
             {/* Benefits list */}
             <div style={{ flex: '1 1 280px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {[
-                { icon: '🎓', title: 'Official completion certificate', desc: 'A printable certificate to show you\'ve completed the ABC FC Academy Linesman Course.' },
                 { icon: '📱', title: 'WhatsApp shareable badge', desc: 'A downloadable image to share in the group chat — so everyone knows you\'re the one to ask about offside.' },
                 { icon: '🚩', title: 'Confidence on the touchline', desc: 'Know exactly what signals to use, when to flag, and what the referee expects from you.' },
                 { icon: '⚽', title: 'Actually understand the offside rule', desc: 'Once and for all. No more guessing. You\'ll be the knowledgeable one in the car park.' },
@@ -689,7 +660,7 @@ export default function LinsmanCoursePage() {
                 </p>
                 <input
                   type="text"
-                  placeholder="Enter your name for the certificate"
+                  placeholder="Enter your name for the badge"
                   value={participantName}
                   onChange={e => setParticipantName(e.target.value)}
                   style={{
@@ -758,7 +729,6 @@ export default function LinsmanCoursePage() {
 
             {finished && (() => {
               const { emoji, msg } = getScoreMessage()
-              const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
               return (
                 <div>
                   <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
@@ -766,62 +736,8 @@ export default function LinsmanCoursePage() {
                     <h3 style={{ color: 'var(--gold)', marginBottom: '0.25rem' }}>You scored {score} out of {quizQuestions.length}</h3>
                     <p style={{ color: 'var(--muted)', marginBottom: '1.25rem' }}>{msg}</p>
                     <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                      <button className="btn" onClick={printCertificate}>🖨 Print Certificate</button>
                       <button className="btn-outline" onClick={restartQuiz} style={{ padding: '0.6rem 1.25rem', borderRadius: 'var(--radius)', border: '1px solid var(--border)', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9rem' }}>Try Again</button>
                     </div>
-                  </div>
-
-                  {/* Certificate — shown on screen + in print */}
-                  <div id="linesman-certificate" ref={certificateRef} style={{
-                    border: '3px solid #ce962d',
-                    borderRadius: 12,
-                    padding: '2.5rem 2rem',
-                    textAlign: 'center',
-                    background: 'radial-gradient(ellipse at 50% 0%, rgba(206,150,45,0.06) 0%, transparent 70%)',
-                    position: 'relative',
-                    marginTop: '1rem',
-                  }}>
-                    {/* Corner decorations */}
-                    {['top-left','top-right','bottom-left','bottom-right'].map(pos => (
-                      <div key={pos} style={{
-                        position: 'absolute',
-                        top: pos.includes('top') ? 8 : 'auto',
-                        bottom: pos.includes('bottom') ? 8 : 'auto',
-                        left: pos.includes('left') ? 8 : 'auto',
-                        right: pos.includes('right') ? 8 : 'auto',
-                        width: 18, height: 18,
-                        borderTop: pos.includes('top') ? '2px solid #ce962d' : 'none',
-                        borderBottom: pos.includes('bottom') ? '2px solid #ce962d' : 'none',
-                        borderLeft: pos.includes('left') ? '2px solid #ce962d' : 'none',
-                        borderRight: pos.includes('right') ? '2px solid #ce962d' : 'none',
-                      }} />
-                    ))}
-
-                    <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🏆</div>
-                    <p style={{ color: '#ce962d', fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>ABC FC Academy</p>
-                    <h2 style={{ fontSize: '1.6rem', fontWeight: 900, letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Certificate of Completion</h2>
-                    <p style={{ color: 'var(--muted)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>Parent Volunteer Linesman Course</p>
-
-                    <div style={{ borderTop: '1px solid rgba(206,150,45,0.3)', borderBottom: '1px solid rgba(206,150,45,0.3)', padding: '1.25rem 0', margin: '0 1rem 1.5rem' }}>
-                      <p style={{ color: 'var(--muted)', fontSize: '0.82rem', marginBottom: '0.3rem' }}>This is to certify that</p>
-                      <p style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ce962d', letterSpacing: '0.02em' }}>{participantName}</p>
-                      <p style={{ color: 'var(--muted)', fontSize: '0.85rem', marginTop: '0.4rem' }}>
-                        has successfully completed the ABC FC Academy<br />Parent Linesman Training Course
-                      </p>
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-                      <div style={{ textAlign: 'center' }}>
-                        <p style={{ color: '#ce962d', fontWeight: 800, fontSize: '1.4rem' }}>{score}/{quizQuestions.length}</p>
-                        <p style={{ color: 'var(--muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Quiz Score</p>
-                      </div>
-                      <div style={{ textAlign: 'center' }}>
-                        <p style={{ color: 'var(--text)', fontWeight: 700, fontSize: '1rem' }}>{today}</p>
-                        <p style={{ color: 'var(--muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Date Completed</p>
-                      </div>
-                    </div>
-
-                    <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.72rem', letterSpacing: '0.1em' }}>ABC FC · EST. 1923 · VICTORIA PARK, SPRINGFIELD</p>
                   </div>
 
                   {/* WhatsApp shareable badge */}
