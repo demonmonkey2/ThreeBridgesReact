@@ -14,15 +14,15 @@ export default function ScoresPage() {
   }, [])
 
   const placeholder = [
-    { id: 'p1', home_team: 'Three Bridges FC', away_team: 'Eastbourne Town',  home_score: 2, away_score: 1, date: '2026-03-08' },
-    { id: 'p2', home_team: 'Lingfield',         away_team: 'Three Bridges FC', home_score: 0, away_score: 3, date: '2026-03-01' },
-    { id: 'p3', home_team: 'Three Bridges FC', away_team: 'Horsham YMCA',     home_score: 1, away_score: 1, date: '2026-02-22' },
+    { id: 'p1', home_team: 'ABC FC', away_team: 'Eastbourne Town',  home_score: 2, away_score: 1, date: '2026-03-08' },
+    { id: 'p2', home_team: 'Lingfield',         away_team: 'ABC FC', home_score: 0, away_score: 3, date: '2026-03-01' },
+    { id: 'p3', home_team: 'ABC FC', away_team: 'Horsham YMCA',     home_score: 1, away_score: 1, date: '2026-02-22' },
   ]
 
   const display = scores.length > 0 ? scores : placeholder
 
   function getResult(s) {
-    const tbHome = s.home_team?.toLowerCase().includes('three bridges')
+    const tbHome = s.home_team?.toLowerCase().includes('abc fc')
     const our = tbHome ? s.home_score : s.away_score
     const their = tbHome ? s.away_score : s.home_score
     if (our > their) return { label: 'W', cls: 'badge-win' }

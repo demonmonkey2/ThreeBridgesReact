@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import crest from '../assets/crest.svg'
 
 export default function HomePage() {
   return (
@@ -32,14 +33,14 @@ export default function HomePage() {
               fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--gold)',
               textTransform: 'uppercase',
             }}>
-              ⚽ Three Bridges FC · Est. 1901 · Crawley
+              ⚽ ABC FC · Est. 1923 · Springfield
             </div>
             <h1 style={{
               fontSize: 'clamp(2.2rem, 6vw, 3.8rem)', fontWeight: 900,
               lineHeight: 1.05, letterSpacing: '-0.02em',
               textTransform: 'uppercase', marginBottom: '1rem',
             }}>
-              Three Bridges<br />
+              ABC FC<br />
               <span style={{ color: 'var(--gold)' }}>Academy</span>
             </h1>
             <p className="delay-1 animate-fadeup" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', color: 'rgba(255,255,255,0.7)', marginBottom: '2rem', lineHeight: 1.6 }}>
@@ -90,7 +91,7 @@ export default function HomePage() {
               Player Development at Every Level
             </h2>
             <p style={{ color: 'var(--muted)', lineHeight: 1.8, marginBottom: '1rem' }}>
-              The Three Bridges Academy provides structured, age-appropriate coaching from grassroots to senior level. Our curriculum follows a 14-week rotating programme designed to develop technical skills, tactical understanding, and physical attributes.
+              The ABC FC Academy provides structured, age-appropriate coaching from grassroots to senior level. Our curriculum follows a 14-week rotating programme designed to develop technical skills, tactical understanding, and physical attributes.
             </p>
             <p style={{ color: 'var(--muted)', lineHeight: 1.8 }}>
               Each age group follows a tailored pathway — from 5v5 fundamentals at U7-10, through 9v9 tactical awareness at U11-12, to full 11v11 game understanding at U13-16.
@@ -145,7 +146,7 @@ export default function HomePage() {
         padding: '2.5rem 1rem', textAlign: 'center',
       }}>
         <h2 style={{ color: '#000', fontWeight: 900, fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', marginBottom: '0.75rem' }}>
-          Are you a coach at Three Bridges Academy?
+          Are you a coach at ABC FC Academy?
         </h2>
         <p style={{ color: 'rgba(0,0,0,0.7)', marginBottom: '1.5rem' }}>
           Log in to access weekly training plans, session guides and resources for your age group.
@@ -162,12 +163,12 @@ export default function HomePage() {
         color: 'var(--muted)', fontSize: '0.82rem',
       }}>
         <img
-          src="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png"
-          alt="Three Bridges FC"
-          style={{ height: 48, margin: '0 auto 1rem', opacity: 0.7 }}
+          src={crest}
+          alt="ABC FC Crest"
+          style={{ height: 64, margin: '0 auto 1rem', opacity: 0.8 }}
         />
-        <p style={{ marginBottom: '0.3rem', fontWeight: 700, color: 'var(--text)' }}>Three Bridges Academy</p>
-        <p>Part of Three Bridges FC · Jubilee Field, Crawley · Est. 1901</p>
+        <p style={{ marginBottom: '0.3rem', fontWeight: 700, color: 'var(--text)' }}>ABC FC Academy</p>
+        <p>ABC FC · Victoria Park, Springfield · Est. 1923</p>
       </footer>
     </>
   )

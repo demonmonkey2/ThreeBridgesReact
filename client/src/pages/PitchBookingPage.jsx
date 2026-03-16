@@ -28,7 +28,7 @@ export default function PitchBookingPage() {
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,18,28,0.78)' }} />
         <div className="page-header-inner animate-fadeup">
-          <p className="page-header-eyebrow">Jubilee Field, Crawley</p>
+          <p className="page-header-eyebrow">Victoria Park, Springfield</p>
           <h1>3G Pitch Hire</h1>
         </div>
       </div>
@@ -40,12 +40,12 @@ export default function PitchBookingPage() {
             <div className="card" style={{ borderLeft: '3px solid var(--gold)' }}>
               <h3 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>About the Pitch</h3>
               <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>
-                Our 3G artificial pitch at Jubilee Field is available for hire for training sessions, 5-a-side, and friendly matches.
+                Our 3G artificial pitch at Victoria Park is available for hire for training sessions, 5-a-side, and friendly matches.
               </p>
             </div>
             {[
               { icon: '⏱', label: 'Sessions', value: '60, 90 or 120 minutes' },
-              { icon: '📍', label: 'Location', value: 'Jubilee Field, Crawley' },
+              { icon: '📍', label: 'Location', value: 'Victoria Park, Springfield' },
               { icon: '📞', label: 'Enquiries', value: 'Contact the club' },
             ].map(item => (
               <div key={item.label} className="card" style={{ display: 'flex', gap: '1rem', alignItems: 'center', padding: '1rem 1.25rem' }}>

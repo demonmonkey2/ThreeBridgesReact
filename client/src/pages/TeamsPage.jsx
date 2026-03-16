@@ -13,7 +13,7 @@ export default function TeamsPage() {
 
   const placeholder = [
     { id: 'p1', name: '1st Team',       description: 'Competing in the Isthmian League South East Division.', manager: 'TBC' },
-    { id: 'p2', name: "Women's Team",   description: "Three Bridges FC Women's team.",                       manager: 'TBC' },
+    { id: 'p2', name: "Women's Team",   description: "ABC FC Women's team.",                       manager: 'TBC' },
     { id: 'p3', name: 'U18s',           description: 'Youth development squad.',                             manager: 'TBC' },
   ]
 
@@ -23,7 +23,7 @@ export default function TeamsPage() {
     <div>
       <div className="page-header">
         <div className="page-header-inner animate-fadeup">
-          <p className="page-header-eyebrow">Three Bridges FC</p>
+          <p className="page-header-eyebrow">ABC FC</p>
           <h1>Our Teams</h1>
         </div>
       </div>

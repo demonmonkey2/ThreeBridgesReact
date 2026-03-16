@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import crest from '../assets/crest.svg'
 
 const MODULES = [
   {
@@ -153,7 +154,7 @@ function drawBadge(canvas, name, score, total) {
   ctx.rotate(-Math.PI / 4)
   for (let row = -6; row <= 6; row++) {
     for (let col = -4; col <= 4; col++) {
-      ctx.fillText('THREE BRIDGES ACADEMY · LINESMAN CERTIFIED', col * 420 - 200, row * 80)
+      ctx.fillText('ABC FC ACADEMY · LINESMAN CERTIFIED', col * 420 - 200, row * 80)
     }
   }
   ctx.restore()
@@ -176,10 +177,10 @@ function drawBadge(canvas, name, score, total) {
   ctx.fillStyle = GOLD
   ctx.font = 'bold 18px Arial'
   ctx.textAlign = 'center'
-  ctx.fillText('THREE BRIDGES FC  ·  EST. 1901  ·  JUBILEE FIELD, CRAWLEY', W / 2, 58)
+  ctx.fillText('ABC FC  ·  EST. 1923  ·  VICTORIA PARK, SPRINGFIELD', W / 2, 58)
   ctx.fillStyle = '#ffffff'
   ctx.font = 'bold 42px Arial'
-  ctx.fillText('THREE BRIDGES ACADEMY', W / 2, 118)
+  ctx.fillText('ABC FC ACADEMY', W / 2, 118)
 
   // LINESMAN title
   ctx.fillStyle = DARK
@@ -192,7 +193,7 @@ function drawBadge(canvas, name, score, total) {
   ctx.lineTo(600, 242)
   ctx.stroke()
 
-  // Load Three Bridges crest via proxy to avoid CORS tainted canvas
+  // Load ABC FC crest via proxy to avoid CORS tainted canvas
   const img = new Image()
   img.crossOrigin = 'anonymous'
   img.src = '/api/crest'
@@ -253,7 +254,7 @@ function drawBadge(canvas, name, score, total) {
     ctx.stroke()
     ctx.fillStyle = GOLD
     ctx.font = 'bold 18px Arial'
-    ctx.fillText('THREE BRIDGES FC', W / 2, 395)
+    ctx.fillText('ABC FC', W / 2, 395)
     finish()
   }
 }
@@ -328,10 +329,10 @@ function WhatsAppBadge({ name, score, total, passing }) {
         {/* Dark header */}
         <div style={{ background: '#0d1820', padding: '0.9rem 1rem 0.7rem', textAlign: 'center' }}>
           <p style={{ color: '#ce962d', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.15em', margin: '0 0 0.2rem' }}>
-            THREE BRIDGES FC · EST. 1901 · JUBILEE FIELD, CRAWLEY
+            ABC FC · EST. 1923 · VICTORIA PARK, SPRINGFIELD
           </p>
           <p style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 900, margin: 0, letterSpacing: '0.05em' }}>
-            THREE BRIDGES ACADEMY
+            ABC FC ACADEMY
           </p>
         </div>
 
@@ -343,7 +344,7 @@ function WhatsAppBadge({ name, score, total, passing }) {
           {/* TB Crest */}
           <img
             src="/api/crest"
-            alt="Three Bridges FC Crest"
+            alt="ABC FC FC Crest"
             style={{ width: 100, height: 100, objectFit: 'contain', display: 'block', margin: '0 auto 0.9rem' }}
           />
 
@@ -520,7 +521,7 @@ export default function LinsmanCoursePage() {
             {/* Benefits list */}
             <div style={{ flex: '1 1 280px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {[
-                { icon: '🎓', title: 'Official completion certificate', desc: 'A printable certificate to show you\'ve completed the Three Bridges Academy Linesman Course.' },
+                { icon: '🎓', title: 'Official completion certificate', desc: 'A printable certificate to show you\'ve completed the ABC FC Academy Linesman Course.' },
                 { icon: '📱', title: 'WhatsApp shareable badge', desc: 'A downloadable image to share in the group chat — so everyone knows you\'re the one to ask about offside.' },
                 { icon: '🚩', title: 'Confidence on the touchline', desc: 'Know exactly what signals to use, when to flag, and what the referee expects from you.' },
                 { icon: '⚽', title: 'Actually understand the offside rule', desc: 'Once and for all. No more guessing. You\'ll be the knowledgeable one in the car park.' },
@@ -554,7 +555,7 @@ export default function LinsmanCoursePage() {
                 <circle cx="55" cy="56" r="16" fill="#25d366" />
                 <text x="55" y="61" textAnchor="middle" fill="white" fontSize="13">🏆</text>
                 {/* Chat name */}
-                <text x="76" y="53" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">Three Bridges</text>
+                <text x="76" y="53" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">ABC FC</text>
                 <text x="76" y="66" fill="rgba(255,255,255,0.6)" fontSize="9" fontFamily="Arial">Academy Group</text>
                 {/* Menu dots */}
                 <text x="192" y="60" fill="rgba(255,255,255,0.7)" fontSize="14">⋮</text>
@@ -575,15 +576,15 @@ export default function LinsmanCoursePage() {
 
                 {/* Dark header band */}
                 <rect x="16" y="112" width="140" height="28" rx="4" fill="#0d1820" />
-                <text x="86" y="121" textAnchor="middle" fill="#ce962d" fontSize="5" fontFamily="Arial" fontWeight="bold">THREE BRIDGES FC · EST. 1901</text>
-                <text x="86" y="132" textAnchor="middle" fill="white" fontSize="7" fontFamily="Arial" fontWeight="bold">THREE BRIDGES ACADEMY</text>
+                <text x="86" y="121" textAnchor="middle" fill="#ce962d" fontSize="5" fontFamily="Arial" fontWeight="bold">ABC FC · EST. 1923</text>
+                <text x="86" y="132" textAnchor="middle" fill="white" fontSize="7" fontFamily="Arial" fontWeight="bold">ABC FC ACADEMY</text>
 
                 {/* LINESMAN heading */}
                 <text x="86" y="150" textAnchor="middle" fill="#0d1820" fontSize="10" fontFamily="Arial" fontWeight="bold">LINESMAN</text>
                 <line x1="36" y1="154" x2="136" y2="154" stroke="#ce962d" strokeWidth="1" />
 
-                {/* TB Crest image */}
-                <image href="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png" x="61" y="156" width="50" height="50" />
+                {/* ABC FC Crest image */}
+                <image href={crest} x="61" y="156" width="50" height="50" />
 
                 {/* APPROVED stamp */}
                 <rect x="30" y="212" width="112" height="24" fill="none" stroke="#c0392b" strokeWidth="2" />
@@ -797,7 +798,7 @@ export default function LinsmanCoursePage() {
                     ))}
 
                     <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🏆</div>
-                    <p style={{ color: '#ce962d', fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Three Bridges Academy</p>
+                    <p style={{ color: '#ce962d', fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>ABC FC Academy</p>
                     <h2 style={{ fontSize: '1.6rem', fontWeight: 900, letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Certificate of Completion</h2>
                     <p style={{ color: 'var(--muted)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>Parent Volunteer Linesman Course</p>
 
@@ -805,7 +806,7 @@ export default function LinsmanCoursePage() {
                       <p style={{ color: 'var(--muted)', fontSize: '0.82rem', marginBottom: '0.3rem' }}>This is to certify that</p>
                       <p style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ce962d', letterSpacing: '0.02em' }}>{participantName}</p>
                       <p style={{ color: 'var(--muted)', fontSize: '0.85rem', marginTop: '0.4rem' }}>
-                        has successfully completed the Three Bridges Academy<br />Parent Linesman Training Course
+                        has successfully completed the ABC FC Academy<br />Parent Linesman Training Course
                       </p>
                     </div>
 
@@ -820,7 +821,7 @@ export default function LinsmanCoursePage() {
                       </div>
                     </div>
 
-                    <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.72rem', letterSpacing: '0.1em' }}>THREE BRIDGES FC · EST. 1901 · JUBILEE FIELD, CRAWLEY</p>
+                    <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.72rem', letterSpacing: '0.1em' }}>ABC FC · EST. 1923 · VICTORIA PARK, SPRINGFIELD</p>
                   </div>
 
                   {/* WhatsApp shareable badge */}
@@ -833,7 +834,7 @@ export default function LinsmanCoursePage() {
 
         {/* Footer note */}
         <div style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.85rem', paddingBottom: '2rem' }}>
-          Questions? Speak to any Three Bridges Academy coach on match day. And thank you for volunteering — it genuinely makes a difference. 🙏
+          Questions? Speak to any ABC FC Academy coach on match day. And thank you for volunteering — it genuinely makes a difference. 🙏
         </div>
 
       </div>

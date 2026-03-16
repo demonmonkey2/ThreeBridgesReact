@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import crest from '../assets/crest.svg'
 import './Navbar.css'
 
 export default function Navbar() {
@@ -11,9 +12,9 @@ export default function Navbar() {
       {/* Top bar */}
       <div className="topbar">
         <div className="topbar-inner">
-          <span className="topbar-left">Three Bridges FC · Est. 1901 · Jubilee Field, Crawley</span>
+          <span className="topbar-left">ABC FC · Est. 1923 · Victoria Park, Springfield</span>
           <div className="topbar-right">
-            <a href="https://threebridgesfc.co.uk" target="_blank" rel="noopener noreferrer">Club Site</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">Club Site</a>
             <NavLink to="/coaches">Coaches Portal</NavLink>
           </div>
         </div>
@@ -24,13 +25,13 @@ export default function Navbar() {
         <div className="navbar-inner">
           <NavLink to="/" className="navbar-brand" onClick={close}>
             <img
-              src="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png"
-              alt="Three Bridges FC Crest"
+              src={crest}
+              alt="ABC FC Crest"
               className="navbar-crest-img"
             />
             <div className="navbar-name">
-              <span className="navbar-name-top">Est. 1901 · Crawley</span>
-              <span className="navbar-name-main">THREE BRIDGES <em>ACADEMY</em></span>
+              <span className="navbar-name-top">Est. 1923 · Springfield</span>
+              <span className="navbar-name-main">ABC FC <em>ACADEMY</em></span>
             </div>
           </NavLink>
 

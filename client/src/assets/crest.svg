@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d2240;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a3a5c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0c040;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ce962d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Shield shape -->
+  <path d="M10,10 L110,10 L110,80 Q110,120 60,132 Q10,120 10,80 Z"
+        fill="url(#shieldGrad)" stroke="url(#goldGrad)" stroke-width="3"/>
+
+  <!-- Inner shield border -->
+  <path d="M18,18 L102,18 L102,78 Q102,112 60,124 Q18,112 18,78 Z"
+        fill="none" stroke="rgba(240,192,64,0.3)" stroke-width="1"/>
+
+  <!-- Horizontal divider -->
+  <line x1="18" y1="62" x2="102" y2="62" stroke="rgba(240,192,64,0.4)" stroke-width="1"/>
+
+  <!-- Football (top centre) -->
+  <circle cx="60" cy="38" r="16" fill="none" stroke="url(#goldGrad)" stroke-width="1.5"/>
+  <!-- Pentagon pattern suggestion -->
+  <circle cx="60" cy="38" r="5" fill="url(#goldGrad)" opacity="0.9"/>
+  <line x1="60" y1="22" x2="60" y2="27" stroke="url(#goldGrad)" stroke-width="1.2"/>
+  <line x1="60" y1="49" x2="60" y2="54" stroke="url(#goldGrad)" stroke-width="1.2"/>
+  <line x1="44" y1="38" x2="49" y2="38" stroke="url(#goldGrad)" stroke-width="1.2"/>
+  <line x1="71" y1="38" x2="76" y2="38" stroke="url(#goldGrad)" stroke-width="1.2"/>
+  <line x1="48" y1="26" x2="51.5" y2="30" stroke="url(#goldGrad)" stroke-width="1.2"/>
+  <line x1="68.5" y1="46" x2="72" y2="50" stroke="url(#goldGrad)" stroke-width="1.2"/>
+  <line x1="72" y1="26" x2="68.5" y2="30" stroke="url(#goldGrad)" stroke-width="1.2"/>
+  <line x1="51.5" y1="46" x2="48" y2="50" stroke="url(#goldGrad)" stroke-width="1.2"/>
+
+  <!-- ABC text -->
+  <text x="60" y="84" text-anchor="middle"
+        font-family="'Arial Black', Arial, sans-serif"
+        font-weight="900" font-size="22" fill="url(#goldGrad)"
+        letter-spacing="3">ABC</text>
+
+  <!-- FC text -->
+  <text x="60" y="102" text-anchor="middle"
+        font-family="'Arial Black', Arial, sans-serif"
+        font-weight="900" font-size="14" fill="url(#goldGrad)"
+        letter-spacing="4">FC</text>
+
+  <!-- Est year at bottom of shield -->
+  <text x="60" y="120" text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-size="7" fill="rgba(240,192,64,0.7)"
+        letter-spacing="1.5">EST. 1923</text>
+</svg>

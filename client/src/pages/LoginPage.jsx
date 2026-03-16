@@ -37,7 +37,7 @@ export default function LoginPage() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>⚽</div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Three Bridges FC</h1>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>ABC FC</h1>
           <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Sign in to your account</p>
         </div>
 
@@ -50,7 +50,7 @@ export default function LoginPage() {
               <input
                 name="email"
                 type="email"
-                placeholder="admin@threebridgesfc.com"
+                placeholder="admin@abcfc.com"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -80,7 +80,7 @@ export default function LoginPage() {
         </div>
 
         <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.8rem', marginTop: '1.5rem' }}>
-          Three Bridges FC · Est. 1901 · Crawley
+          ABC FC · Est. 1923 · Springfield
         </p>
       </div>
     </div>

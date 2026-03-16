@@ -12,7 +12,7 @@ export default function VideoPage() {
   }, [])
 
   const placeholder = [
-    { id: 'p1', title: 'Match Highlights — Three Bridges vs Eastbourne', description: 'Full highlights from our 2-1 victory at Jubilee Field.', url: '#' },
+    { id: 'p1', title: 'Match Highlights — ABC FC vs Eastbourne', description: 'Full highlights from our 2-1 victory at Victoria Park.', url: '#' },
     { id: 'p2', title: 'Training Session — Pre-Season 2025', description: 'Behind the scenes at our pre-season training camp.', url: '#' },
   ]
 
@@ -26,7 +26,7 @@ export default function VideoPage() {
         padding: '2.5rem 1rem',
       }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <p style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>Three Bridges FC</p>
+          <p style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>ABC FC FC</p>
           <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: 700 }}>Videos</h1>
         </div>
       </div>

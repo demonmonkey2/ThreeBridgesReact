@@ -59,7 +59,7 @@ export default function CurriculumPage() {
     <>
       <div className="page-header">
         <div className="page-header-inner">
-          <p className="page-header-eyebrow">Three Bridges Academy</p>
+          <p className="page-header-eyebrow">ABC FC Academy</p>
           <h1>Youth Curriculum</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem', fontSize: '0.95rem' }}>
             14-week rolling programme across all age groups

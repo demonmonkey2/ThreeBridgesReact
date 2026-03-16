@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import crest from '../assets/crest.svg'
 
 const AGE_GROUPS = [
   {
@@ -10,7 +11,7 @@ const AGE_GROUPS = [
     coachRole: 'Head Coach',
     players: '13 teams',
     sessions: 'Saturdays',
-    venue: 'Jubilee Field, Crawley',
+    venue: 'Victoria Park, Springfield',
     description: 'Our youngest age group focuses on individual technical development — dribbling, receiving, passing, and 1v1 play. Sessions are fun, high-touch and built around small-sided games.',
     topics: ['Dribbling', 'Passing', 'Turning & Shielding', 'Tight Area Possession', 'Receiving', '1v1 / 2v2 / 3v3 Games', 'Striking & Finishing', 'Games Week'],
     icon: '⚽',
@@ -30,7 +31,7 @@ const AGE_GROUPS = [
     coachRole: 'Head Coach',
     players: '6 teams',
     sessions: 'Saturdays',
-    venue: 'Jubilee Field, Crawley',
+    venue: 'Victoria Park, Springfield',
     description: 'The 9v9 group begins to introduce tactical concepts alongside technical development. Players learn to play out from the back, switch play, combine in wide areas and organise defensively.',
     topics: ['Playing Out', 'Playing Between the Lines', 'Switching Play', 'Rotation', 'Combination in Wide Areas', 'Finishing', 'Defending the Box', 'Defending Wide & Central', 'Pressing from the Front', 'Attacking Overload', 'Games Week'],
     icon: '🏃',
@@ -48,7 +49,7 @@ const AGE_GROUPS = [
     coachRole: 'Head Coach',
     players: '9 teams',
     sessions: 'Saturdays',
-    venue: 'Jubilee Field, Crawley',
+    venue: 'Victoria Park, Springfield',
     description: 'Full 11v11 football with a strong tactical emphasis. Players develop positional understanding, pressing structures, midfield rotation, counter attacking and finishing in the box.',
     notice: 'From 2026–27, the FA\'s FutureFit changes will move U13 to 9v9. Current U13s are not affected this season.',
     topics: ['Playing Out', 'Playing Between the Lines', 'Switching Play', 'Midfield Rotation', 'Combination in Wide Areas', 'Finishing in the Box', 'Defending the Box', 'Defending Wide & Central', 'How We Press', 'Attacking Overload', 'Counter Attacks', 'Games Week'],
@@ -69,8 +70,8 @@ const AGE_GROUPS = [
     coachRole: 'Head Coach',
     players: '3 teams',
     sessions: 'Saturdays',
-    venue: 'Jubilee Field, Crawley',
-    description: 'Three Bridges Girls section competes in the Sussex County Women & Girls Football League. We welcome players of all abilities and are committed to growing the girls\' game in Crawley.',
+    venue: 'Victoria Park, Springfield',
+    description: 'ABC FC Girls section competes in the county Women & Girls Football League. We welcome players of all abilities and are committed to growing the girls\' game in Springfield.',
     topics: ['Dribbling', 'Passing', 'Receiving', '1v1 Play', 'Small-Sided Games', 'Combination Play', 'Switching Play', 'Finishing'],
     icon: '⭐',
     ageGroups: [
@@ -118,7 +119,7 @@ export default function AgeGroupsPage() {
     <>
       <div className="page-header">
         <div className="page-header-inner">
-          <p className="page-header-eyebrow">Three Bridges Academy</p>
+          <p className="page-header-eyebrow">ABC FC Academy</p>
           <h1>Age Groups</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem', fontSize: '0.95rem' }}>
             Structured development pathways from U7 through to U16 · Boys &amp; Girls · 31 teams
@@ -288,9 +289,9 @@ export default function AgeGroupsPage() {
 
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', borderBottom: '1px solid rgba(206,150,45,0.25)', paddingBottom: '1rem' }}>
-              <img src="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png" alt="Three Bridges FC" style={{ height: 40, opacity: 0.9 }} />
+              <img src={crest} alt="ABC FC Crest" style={{ height: 40, opacity: 0.9 }} />
               <div>
-                <div style={{ fontSize: '0.62rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Three Bridges Academy</div>
+                <div style={{ fontSize: '0.62rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.12em' }}>ABC FC Academy</div>
                 <div style={{ fontSize: '0.95rem', fontWeight: 900 }}>Player Report Card</div>
               </div>
             </div>
@@ -335,7 +336,7 @@ export default function AgeGroupsPage() {
 
             {/* Footer */}
             <div style={{ borderTop: '1px solid rgba(206,150,45,0.2)', paddingTop: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)' }}>Three Bridges FC Academy · threebridgesfc.co.uk</div>
+              <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)' }}>ABC FC Academy · abcfc.com</div>
               <div style={{ fontSize: '0.72rem', color: '#ce962d', fontWeight: 700 }}>Coach Roberts</div>
             </div>
           </div>
@@ -350,9 +351,9 @@ export default function AgeGroupsPage() {
         }}>
           <h3 style={{ fontWeight: 800, fontSize: '1.4rem', marginBottom: '0.5rem' }}>Interested in joining the Academy?</h3>
           <p style={{ color: 'var(--muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-            Get in touch with Three Bridges FC to find out about trials and registration for the upcoming season.
+            Get in touch with ABC FC to find out about trials and registration for the upcoming season.
           </p>
-          <a href="https://threebridgesfc.co.uk" target="_blank" rel="noopener noreferrer" className="btn">
+          <a href="#" className="btn">
             Contact the Club
           </a>
         </div>

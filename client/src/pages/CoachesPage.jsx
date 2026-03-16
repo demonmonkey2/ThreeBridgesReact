@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import crest from '../assets/crest.svg'
 
 const TOKEN_KEY = 'coaches_token'
 
@@ -938,10 +939,9 @@ function PlayerReportBuilder() {
 
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', borderBottom: '1px solid rgba(206,150,45,0.25)', paddingBottom: '1rem' }}>
-            <img src="https://threebridgesfc.co.uk/wp-content/uploads/2023/10/Bridges-Hi-Res-No-Background.png"
-              alt="Three Bridges FC" style={{ height: 44, opacity: 0.9 }} />
+            <img src={crest} alt="ABC FC Crest" style={{ height: 44, opacity: 0.9 }} />
             <div>
-              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Three Bridges Academy</div>
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.12em' }}>ABC FC Academy</div>
               <div style={{ fontSize: '1rem', fontWeight: 900, lineHeight: 1.1 }}>Player Report Card</div>
             </div>
           </div>
@@ -1006,7 +1006,7 @@ function PlayerReportBuilder() {
           {/* Footer */}
           <div style={{ borderTop: '1px solid rgba(206,150,45,0.2)', paddingTop: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)' }}>
-              Three Bridges FC Academy · threebridgesfc.co.uk
+              ABC FC Academy · abcfc.com
             </div>
             {form.coach && <div style={{ fontSize: '0.72rem', color: '#ce962d', fontWeight: 700 }}>{form.coach}</div>}
           </div>
@@ -1071,7 +1071,7 @@ export default function CoachesPage() {
               fontSize: '2rem', margin: '0 auto 1rem',
             }}>🔒</div>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 800 }}>Coaches Portal</h1>
-            <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginTop: '0.25rem' }}>Three Bridges Academy · Staff Only</p>
+            <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginTop: '0.25rem' }}>ABC FC Academy · Staff Only</p>
           </div>
           <div className="card">
             {error && <div className="alert alert-error" style={{ marginBottom: '1rem' }}>{error}</div>}
@@ -1118,7 +1118,7 @@ export default function CoachesPage() {
     <>
       <div className="page-header">
         <div className="page-header-inner">
-          <p className="page-header-eyebrow">Three Bridges Academy · Coaches Portal</p>
+          <p className="page-header-eyebrow">ABC FC Academy · Coaches Portal</p>
           <h1>Weekly Training Plans</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem', fontSize: '0.95rem' }}>
             Click a week, then select an age group tab to view or add session plans
@@ -1136,7 +1136,7 @@ export default function CoachesPage() {
         }}>
           <span>✅</span>
           <span style={{ fontWeight: 600, fontSize: '0.88rem', color: '#2ecc71' }}>
-            Welcome, Coach — Three Bridges Academy training plan dashboard.
+            Welcome, Coach — ABC FC Academy training plan dashboard.
           </span>
           <button onClick={handleLogout} style={{ marginLeft: 'auto', background: 'transparent', border: 'none', color: 'var(--muted)', fontSize: '0.78rem', cursor: 'pointer' }}>
             Log out
@@ -1197,7 +1197,7 @@ export default function CoachesPage() {
           <p style={{ color: 'var(--muted)', marginBottom: '1rem', fontSize: '0.88rem' }}>
             To add a plan for a specific week and age group, contact the Academy Director or developer.
           </p>
-          <a href="https://threebridgesfc.co.uk" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ fontSize: '0.82rem' }}>
+          <a href="#" className="btn btn-outline" style={{ fontSize: '0.82rem' }}>
             Contact Academy Director
           </a>
         </div>

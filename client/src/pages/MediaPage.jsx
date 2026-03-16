@@ -4,7 +4,7 @@ const VIDEOS = [
   {
     id: 1,
     title: 'Academy Training Session Highlights',
-    description: 'Watch our U13-16s work through combination play in wide areas during a recent session at Jubilee Field.',
+    description: 'Watch our U13-16s work through combination play in wide areas during a recent session at Victoria Park.',
     youtubeId: null,
     date: 'Mar 2026',
     tag: 'Training',
@@ -32,7 +32,7 @@ const ARTICLES = [
     id: 1,
     tag: 'Academy News',
     title: 'New 14-Week Curriculum Launches Across All Age Groups',
-    excerpt: 'Three Bridges Academy has rolled out a unified 14-week curriculum across U7-10, U11-12 and U13-16 squads, bringing consistency and progression to player development.',
+    excerpt: 'ABC FC Academy has rolled out a unified 14-week curriculum across U7-10, U11-12 and U13-16 squads, bringing consistency and progression to player development.',
     date: '10 Mar 2026',
     img: 'https://images.unsplash.com/photo-1551958219-acbc595d1e10?w=600&q=80',
     readTime: '3 min read',
@@ -59,7 +59,7 @@ const ARTICLES = [
     id: 4,
     tag: 'Academy News',
     title: 'Coaches Portal Now Live — Weekly Plans Available',
-    excerpt: 'All Three Bridges Academy coaches can now access their weekly session plans, training guides and curriculum resources through the new password-protected Coaches Portal.',
+    excerpt: 'All ABC FC Academy coaches can now access their weekly session plans, training guides and curriculum resources through the new password-protected Coaches Portal.',
     date: '18 Feb 2026',
     img: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80',
     readTime: '2 min read',
@@ -73,7 +73,7 @@ export default function MediaPage() {
     <>
       <div className="page-header">
         <div className="page-header-inner">
-          <p className="page-header-eyebrow">Three Bridges Academy</p>
+          <p className="page-header-eyebrow">ABC FC Academy</p>
           <h1>Media & Articles</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem', fontSize: '0.95rem' }}>
             Videos, training insights and Academy news
@@ -194,7 +194,7 @@ export default function MediaPage() {
               <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '1rem' }}>
                 Have a YouTube video to add? Share the video URL with the Academy admin to get it featured here.
               </p>
-              <a href="https://threebridgesfc.co.uk" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ fontSize: '0.82rem' }}>
+              <a href="#" className="btn btn-outline" style={{ fontSize: '0.82rem' }}>
                 Contact Academy Admin
               </a>
             </div>
