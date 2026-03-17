@@ -1145,28 +1145,11 @@ export default function CoachesPage() {
           </button>
         </div>
 
-        {/* Section switcher */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.75rem', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.3rem' }}>
-          {[
-            { key: 'plans', label: '📋 Training Plans' },
-            { key: 'reports', label: '📄 Player Reports' },
-            { key: 'curriculum', label: '📚 Curriculum' },
-          ].map(s => (
-            <button key={s.key} onClick={() => s.key === 'curriculum' ? navigate('/curriculum') : setPortalSection(s.key)} style={{
-              flex: 1, padding: '0.6rem 1rem', borderRadius: 6, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem', transition: 'all 0.15s',
-              background: portalSection === s.key ? 'var(--gold)' : 'transparent',
-              color: portalSection === s.key ? '#000' : 'var(--muted)',
-            }}>{s.label}</button>
-          ))}
+        <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, padding: '2rem' }}>
+          <PlayerReportBuilder />
         </div>
 
-        {portalSection === 'reports' && (
-          <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, padding: '2rem' }}>
-            <PlayerReportBuilder />
-          </div>
-        )}
-
-        {portalSection === 'plans' && <>
+        {false && <>
 
         {/* Legend */}
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem', alignItems: 'center' }}>
