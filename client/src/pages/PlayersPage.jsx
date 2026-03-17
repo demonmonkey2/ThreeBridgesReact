@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import crest from '../assets/crest.svg'
 
 const SKILLS = [
@@ -194,10 +194,75 @@ function PlayerRow({ index, player, onChange }) {
   )
 }
 
+const CSV_HEADERS = ['Player Name', 'Strength 1', 'Strength 2', 'Strength 3', 'Focus Area', 'Coach Note', 'Game Highlight']
+
+const TEMPLATE_ROWS = [
+  ['Jamie Cole',    'Dribbling',   'Attitude',      '',           'Positioning', 'Great energy every session.',       'Brilliant run and assist vs Horsham'],
+  ['Luca Bennett',  'Passing',     'Communication', '',           'Shooting',    'Your distribution is a real strength.', 'Controlled the midfield superbly'],
+  ['',              '',            '',              '',           '',            '',                                  ''],
+]
+
+function downloadTemplate() {
+  const rows = [CSV_HEADERS, ...TEMPLATE_ROWS]
+  const csv = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n')
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'player-report-template.csv'
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n').filter(Boolean)
+  if (lines.length < 2) return []
+  // skip header row, parse data rows
+  return lines.slice(1).map(line => {
+    // handle quoted fields
+    const fields = []
+    let current = ''
+    let inQuotes = false
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i]
+      if (ch === '"') { inQuotes = !inQuotes }
+      else if (ch === ',' && !inQuotes) { fields.push(current.trim()); current = '' }
+      else { current += ch }
+    }
+    fields.push(current.trim())
+    const [name = '', s1 = '', s2 = '', s3 = '', focusArea = '', note = '', gameHighlight = ''] = fields
+    const strengths = [s1, s2, s3].filter(s => s && SKILLS.some(sk => sk.label === s))
+    return { name, strengths, focusArea: SKILLS.some(sk => sk.label === focusArea) ? focusArea : '', note, gameHighlight }
+  })
+}
+
 export default function PlayersPage() {
   const [players, setPlayers] = useState(buildInitialPlayers)
+  const [importError, setImportError] = useState('')
+  const fileInputRef = useRef(null)
 
   const updatePlayer = (i, data) => setPlayers(prev => prev.map((p, idx) => idx === i ? data : p))
+
+  const handleImport = useCallback(e => {
+    const file = e.target.files[0]
+    if (!file) return
+    setImportError('')
+    const reader = new FileReader()
+    reader.onload = ev => {
+      try {
+        const parsed = parseCSV(ev.target.result)
+        if (!parsed.length) { setImportError('No player rows found. Check the file matches the template.'); return }
+        // pad or trim to match parsed length, minimum 15 slots
+        const count = Math.max(parsed.length, 15)
+        const next = Array.from({ length: count }, (_, i) => parsed[i] || { ...BLANK })
+        setPlayers(next)
+      } catch {
+        setImportError('Could not read file. Make sure it is a valid CSV.')
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ''
+  }, [])
 
   const filledCount = players.filter(p => p.name).length
 
@@ -208,10 +273,29 @@ export default function PlayersPage() {
         <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.4rem' }}>
           Coaches Portal
         </div>
-        <h1 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.35rem' }}>Player Development</h1>
-        <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>
-          {filledCount} of 15 players filled in. Click a player to edit their report card.
+        <h1 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.5rem' }}>Player Development</h1>
+        <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '1rem' }}>
+          {filledCount} of {players.length} players filled in. Click a player to edit their report card.
         </p>
+
+        {/* Import / export bar */}
+        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <button className="btn btn-outline" onClick={downloadTemplate} style={{ fontSize: '0.82rem' }}>
+            ⬇ Download Template
+          </button>
+          <button className="btn btn-outline" onClick={() => fileInputRef.current?.click()} style={{ fontSize: '0.82rem' }}>
+            ⬆ Import CSV
+          </button>
+          <input ref={fileInputRef} type="file" accept=".csv" onChange={handleImport} style={{ display: 'none' }} />
+          <span style={{ fontSize: '0.78rem', color: 'var(--muted)' }}>
+            Fill in the template in Excel, save as CSV, then import.
+          </span>
+        </div>
+        {importError && (
+          <div style={{ marginTop: '0.75rem', background: 'rgba(231,76,60,0.1)', border: '1px solid rgba(231,76,60,0.3)', borderRadius: 6, padding: '0.6rem 0.9rem', fontSize: '0.82rem', color: '#e74c3c' }}>
+            {importError}
+          </div>
+        )}
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
