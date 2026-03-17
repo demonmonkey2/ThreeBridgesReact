@@ -74,7 +74,7 @@ function generateCard(player, index, crestSrc) {
 </body></html>`
 }
 
-function PlayerRow({ index, player, onChange }) {
+function PlayerRow({ index, player, onChange, selected, onSelect }) {
   const [open, setOpen] = useState(false)
   const crestRef = useRef(null)
 
@@ -96,33 +96,44 @@ function PlayerRow({ index, player, onChange }) {
 
   return (
     <div style={{
-      border: `1px solid ${open ? 'rgba(206,150,45,0.4)' : 'var(--border)'}`,
+      border: `1px solid ${selected ? 'rgba(206,150,45,0.5)' : open ? 'rgba(206,150,45,0.3)' : 'var(--border)'}`,
       borderRadius: 10, overflow: 'hidden',
-      background: open ? 'rgba(206,150,45,0.03)' : 'var(--card)',
-      transition: 'border-color 0.15s',
+      background: selected ? 'rgba(206,150,45,0.05)' : open ? 'rgba(206,150,45,0.02)' : 'var(--card)',
+      transition: 'border-color 0.15s, background 0.15s',
     }}>
       {/* Row header */}
-      <button onClick={() => setOpen(o => !o)} style={{
-        width: '100%', display: 'flex', alignItems: 'center', gap: '1rem',
-        padding: '0.85rem 1.1rem', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left',
-      }}>
-        <span style={{
-          width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
-          background: hasData ? 'rgba(206,150,45,0.15)' : 'rgba(255,255,255,0.05)',
-          border: `1px solid ${hasData ? 'rgba(206,150,45,0.4)' : 'rgba(255,255,255,0.1)'}`,
+      <div style={{ display: 'flex', alignItems: 'center', padding: '0.85rem 1.1rem', gap: '0.75rem' }}>
+        {/* Checkbox */}
+        <button onClick={() => onSelect(index)} style={{
+          width: 22, height: 22, borderRadius: 5, flexShrink: 0, cursor: 'pointer',
+          background: selected ? 'var(--gold)' : 'transparent',
+          border: `2px solid ${selected ? 'var(--gold)' : 'rgba(255,255,255,0.2)'}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '0.72rem', fontWeight: 800, color: hasData ? '#ce962d' : 'var(--muted)',
-        }}>{index + 1}</span>
-        <span style={{ fontWeight: hasData ? 700 : 400, color: hasData ? '#fff' : 'var(--muted)', fontSize: '0.9rem', flex: 1 }}>
-          {player.name || `Player ${index + 1}`}
-        </span>
-        {player.strengths.length > 0 && (
-          <span style={{ fontSize: '0.72rem', color: '#2ecc71', fontWeight: 600 }}>
-            {player.strengths.slice(0, 2).join(', ')}{player.strengths.length > 2 ? '…' : ''}
+          color: '#000', fontSize: '0.75rem', fontWeight: 900,
+        }}>{selected ? '✓' : ''}</button>
+
+        <button onClick={() => setOpen(o => !o)} style={{
+          display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1,
+          background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0,
+        }}>
+          <span style={{
+            width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+            background: hasData ? 'rgba(206,150,45,0.15)' : 'rgba(255,255,255,0.05)',
+            border: `1px solid ${hasData ? 'rgba(206,150,45,0.4)' : 'rgba(255,255,255,0.1)'}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '0.72rem', fontWeight: 800, color: hasData ? '#ce962d' : 'var(--muted)',
+          }}>{index + 1}</span>
+          <span style={{ fontWeight: hasData ? 700 : 400, color: hasData ? '#fff' : 'var(--muted)', fontSize: '0.9rem', flex: 1 }}>
+            {player.name || `Player ${index + 1}`}
           </span>
-        )}
-        <span style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>{open ? '▲' : '▼'}</span>
-      </button>
+          {player.strengths.length > 0 && (
+            <span style={{ fontSize: '0.72rem', color: '#2ecc71', fontWeight: 600 }}>
+              {player.strengths.slice(0, 2).join(', ')}{player.strengths.length > 2 ? '…' : ''}
+            </span>
+          )}
+          <span style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>{open ? '▲' : '▼'}</span>
+        </button>
+      </div>
 
       {/* Expanded form */}
       {open && (
@@ -236,12 +247,49 @@ function parseCSV(text) {
   })
 }
 
+function printMultiple(selectedPlayers, crestSrc) {
+  const cards = selectedPlayers.map(({ player, index }) => generateCard(player, index, crestSrc)).join('<div style="page-break-after:always"></div>')
+  const win = window.open('', '_blank')
+  win.document.write(`<!DOCTYPE html><html><head><title>Player Reports</title>
+    <style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a1520;font-family:-apple-system,sans-serif}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style>
+    </head><body>${cards}</body></html>`)
+  win.document.close()
+  win.focus()
+  setTimeout(() => { win.print(); win.close() }, 400)
+}
+
 export default function PlayersPage() {
   const [players, setPlayers] = useState(buildInitialPlayers)
+  const [selected, setSelected] = useState(new Set())
   const [importError, setImportError] = useState('')
   const fileInputRef = useRef(null)
+  const crestRef = useRef(null)
 
   const updatePlayer = (i, data) => setPlayers(prev => prev.map((p, idx) => idx === i ? data : p))
+
+  const toggleSelect = i => setSelected(prev => {
+    const next = new Set(prev)
+    next.has(i) ? next.delete(i) : next.add(i)
+    return next
+  })
+
+  const allFilled = players.filter(p => p.name)
+  const allSelected = allFilled.length > 0 && allFilled.every((_, i) => selected.has(players.indexOf(_)))
+
+  const toggleSelectAll = () => {
+    if (selected.size === players.filter(p => p.name).length) {
+      setSelected(new Set())
+    } else {
+      setSelected(new Set(players.map((p, i) => p.name ? i : null).filter(i => i !== null)))
+    }
+  }
+
+  const handleBulkPrint = () => {
+    const toprint = [...selected].sort((a, b) => a - b).map(i => ({ player: players[i], index: i }))
+    if (!toprint.length) return
+    printMultiple(toprint, crestRef.current?.src || '')
+  }
 
   const handleImport = useCallback(e => {
     const file = e.target.files[0]
@@ -298,9 +346,29 @@ export default function PlayersPage() {
         )}
       </div>
 
+      {/* Bulk actions bar */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+        <button onClick={toggleSelectAll} style={{
+          background: 'transparent', border: '1px solid var(--border)', borderRadius: 6,
+          padding: '0.4rem 0.9rem', color: 'var(--muted)', fontSize: '0.8rem', cursor: 'pointer', fontWeight: 600,
+        }}>
+          {selected.size === players.filter(p => p.name).length && selected.size > 0 ? 'Deselect All' : 'Select All'}
+        </button>
+        {selected.size > 0 && (
+          <button className="btn" onClick={handleBulkPrint} style={{ fontSize: '0.82rem', padding: '0.4rem 1rem' }}>
+            🖨️ Print {selected.size} Card{selected.size > 1 ? 's' : ''}
+          </button>
+        )}
+        {selected.size > 0 && (
+          <span style={{ fontSize: '0.78rem', color: 'var(--muted)' }}>{selected.size} selected</span>
+        )}
+        <img ref={crestRef} src={crest} alt="" style={{ display: 'none' }} />
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         {players.map((p, i) => (
-          <PlayerRow key={i} index={i} player={p} onChange={data => updatePlayer(i, data)} />
+          <PlayerRow key={i} index={i} player={p} onChange={data => updatePlayer(i, data)}
+            selected={selected.has(i)} onSelect={toggleSelect} />
         ))}
       </div>
 
