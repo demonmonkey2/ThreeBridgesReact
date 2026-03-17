@@ -836,7 +836,7 @@ function PlayerReportBuilder() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
             <select value={form.ageGroup} onChange={e => setForm(f => ({ ...f, ageGroup: e.target.value }))}
               style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.9rem', color: form.ageGroup ? '#fff' : 'var(--muted)', fontSize: '0.88rem' }}>
-              <option value="">Age group *</option>
+              <option value="">Player *</option>
               {AGE_GROUP_OPTIONS.map(a => <option key={a} value={a}>{a}</option>)}
             </select>
             <input placeholder="Team (e.g. Amber)" value={form.team}
