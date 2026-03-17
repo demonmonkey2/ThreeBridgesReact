@@ -1,277 +1,225 @@
 import { useState, useRef } from 'react'
 import crest from '../assets/crest.svg'
 
-const SKILL_GROUPS = [
-  {
-    label: 'Technical',
-    color: '#ce962d',
-    skills: ['Dribbling', 'Passing', 'Receiving', 'Shooting & Finishing', 'Ball Mastery', '1v1 Play'],
-  },
-  {
-    label: 'Tactical',
-    color: '#e74c3c',
-    skills: ['Playing Out from Back', 'Switching Play', 'Pressing', 'Positioning', 'Combination Play', 'Runs in Behind'],
-  },
-  {
-    label: 'Game Qualities',
-    color: '#3498db',
-    skills: ['Work Rate', 'Communication', 'Leadership', 'Resilience', 'Teamwork', 'Attitude'],
-  },
+const SKILLS = [
+  { label: 'Dribbling',     color: '#ce962d' },
+  { label: 'Passing',       color: '#ce962d' },
+  { label: 'Shooting',      color: '#ce962d' },
+  { label: 'Ball Mastery',  color: '#ce962d' },
+  { label: 'Pressing',      color: '#e74c3c' },
+  { label: 'Positioning',   color: '#e74c3c' },
+  { label: 'Work Rate',     color: '#3498db' },
+  { label: 'Communication', color: '#3498db' },
+  { label: 'Leadership',    color: '#3498db' },
+  { label: 'Attitude',      color: '#3498db' },
 ]
 
-const AGE_GROUP_OPTIONS = ['U7', 'U8', 'U9', 'U10', 'U11', 'U12', 'U13', 'U14', 'U15', 'U16']
+const BLANK = { name: '', strengths: [], focusArea: '', note: '', gameHighlight: '' }
+
+const EXAMPLE_DATA = [
+  { name: 'Jamie Cole',    strengths: ['Dribbling', 'Attitude'],        focusArea: 'Positioning',   note: 'Great energy every session. Keep pushing.',        gameHighlight: 'Brilliant run and assist vs Horsham' },
+  { name: 'Luca Bennett',  strengths: ['Passing', 'Communication'],     focusArea: 'Shooting',      note: 'Your distribution is a real strength.',            gameHighlight: 'Controlled the midfield superbly' },
+  { name: 'Anya Patel',    strengths: ['Ball Mastery', 'Work Rate'],    focusArea: 'Pressing',      note: 'Never stops running — the team feeds off that.',   gameHighlight: 'Won the ball back 3 times in the second half' },
+  { name: 'Sam Richards',  strengths: ['Leadership', 'Positioning'],    focusArea: 'Dribbling',     note: 'Natural leader — keep organising the defence.',     gameHighlight: 'Commanded the box well against big forwards' },
+  { name: 'Theo Marshall', strengths: ['Shooting', 'Attitude'],         focusArea: 'Ball Mastery',  note: 'Clinical in front of goal. Work on first touch.',   gameHighlight: 'Hat-trick — three great finishes' },
+]
+
+function buildInitialPlayers() {
+  return Array.from({ length: 15 }, (_, i) => ({
+    ...(EXAMPLE_DATA[i] || BLANK),
+  }))
+}
 
 const inputStyle = {
   background: 'rgba(255,255,255,0.06)',
-  border: '1px solid var(--border)',
+  border: '1px solid rgba(255,255,255,0.12)',
   borderRadius: 6,
-  padding: '0.65rem 0.9rem',
+  padding: '0.55rem 0.8rem',
   color: '#fff',
-  fontSize: '0.88rem',
+  fontSize: '0.85rem',
   width: '100%',
   fontFamily: 'inherit',
 }
 
-export default function PlayersPage() {
-  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-  const [form, setForm] = useState({
-    playerName: '', ageGroup: '', team: '', coach: '', date: today,
-    strengths: [], focusAreas: [], coachNote: '', gameHighlight: '',
-  })
-  const cardRef = useRef(null)
+function generateCard(player, index, crestSrc) {
+  const strengths = player.strengths.map(s => `<span style="background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.4);color:#2ecc71;font-size:0.8rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:20px;display:inline-block;margin:0.15rem">✓ ${s}</span>`).join('')
+  const focus = player.focusArea ? `<div style="margin-bottom:1rem"><div style="font-size:0.65rem;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem">🎯 Keep working on</div><span style="background:rgba(52,152,219,0.15);border:1px solid rgba(52,152,219,0.4);color:#3498db;font-size:0.8rem;font-weight:700;padding:0.3rem 0.7rem;border-radius:20px">${player.focusArea}</span></div>` : ''
+  const note = player.note ? `<div style="margin-bottom:1rem;background:rgba(206,150,45,0.08);border:1px solid rgba(206,150,45,0.2);border-radius:8px;padding:0.75rem 1rem"><div style="font-size:0.65rem;font-weight:700;color:#ce962d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem">Coach's Note</div><p style="font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.85)">${player.note}</p></div>` : ''
+  const highlight = player.gameHighlight ? `<div style="margin-bottom:1rem;background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.25);border-radius:8px;padding:0.75rem 1rem"><div style="font-size:0.65rem;font-weight:700;color:#9b59b6;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem">⚡ Game Highlight</div><p style="font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.85)">${player.gameHighlight}</p></div>` : ''
 
-  const toggle = (field, skill) => {
-    setForm(f => {
-      const list = f[field]
-      return { ...f, [field]: list.includes(skill) ? list.filter(s => s !== skill) : [...list, skill] }
-    })
+  return `<!DOCTYPE html><html><head><title>Player Report — ${player.name}</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a1520;color:#fff;font-family:-apple-system,sans-serif;padding:2rem;display:flex;align-items:flex-start;justify-content:center}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style>
+</head><body>
+<div style="background:linear-gradient(145deg,#0d1c2e,#111c2b);border:2px solid #ce962d;border-radius:16px;padding:1.75rem;max-width:520px;width:100%;position:relative;overflow:hidden">
+  <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:linear-gradient(225deg,rgba(206,150,45,0.15),transparent 70%);border-radius:0 16px 0 0"></div>
+  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;border-bottom:1px solid rgba(206,150,45,0.25);padding-bottom:1rem">
+    <img src="${crestSrc}" style="height:44px;opacity:0.9" />
+    <div>
+      <div style="font-size:0.65rem;font-weight:700;color:#ce962d;text-transform:uppercase;letter-spacing:0.12em">ABC FC Academy</div>
+      <div style="font-size:1rem;font-weight:900;line-height:1.1">Player Report Card</div>
+    </div>
+  </div>
+  <div style="margin-bottom:1.25rem">
+    <div style="font-size:1.6rem;font-weight:900;color:#fff;line-height:1">${player.name || `Player ${index + 1}`}</div>
+  </div>
+  <div style="margin-bottom:1rem">
+    <div style="font-size:0.65rem;font-weight:700;color:#2ecc71;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem">⭐ What you're doing brilliantly</div>
+    <div style="display:flex;flex-wrap:wrap;gap:0.3rem">${strengths || '<span style="color:rgba(255,255,255,0.3);font-size:0.82rem">—</span>'}</div>
+  </div>
+  ${focus}${note}${highlight}
+  <div style="border-top:1px solid rgba(206,150,45,0.2);padding-top:0.75rem">
+    <div style="font-size:0.7rem;color:rgba(255,255,255,0.35)">ABC FC Academy</div>
+  </div>
+</div>
+</body></html>`
+}
+
+function PlayerRow({ index, player, onChange }) {
+  const [open, setOpen] = useState(false)
+  const crestRef = useRef(null)
+
+  const toggle = skill => {
+    const list = player.strengths
+    onChange({ ...player, strengths: list.includes(skill) ? list.filter(s => s !== skill) : [...list, skill] })
   }
 
-  const handlePrint = () => {
-    const card = cardRef.current
-    if (!card) return
+  const hasData = player.name || player.strengths.length > 0
+
+  const handleSaveImage = () => {
     const win = window.open('', '_blank')
-    win.document.write(`
-      <html><head><title>Player Report — ${form.playerName}</title>
-      <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a1520; color: #fff; font-family: -apple-system, sans-serif; padding: 2rem; }
-        @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-      </style></head><body>${card.innerHTML}</body></html>
-    `)
+    const imgSrc = crestRef.current?.src || ''
+    win.document.write(generateCard(player, index, imgSrc))
     win.document.close()
     win.focus()
     setTimeout(() => { win.print(); win.close() }, 400)
   }
 
-  const isReady = form.playerName && form.ageGroup && form.strengths.length > 0
+  return (
+    <div style={{
+      border: `1px solid ${open ? 'rgba(206,150,45,0.4)' : 'var(--border)'}`,
+      borderRadius: 10, overflow: 'hidden',
+      background: open ? 'rgba(206,150,45,0.03)' : 'var(--card)',
+      transition: 'border-color 0.15s',
+    }}>
+      {/* Row header */}
+      <button onClick={() => setOpen(o => !o)} style={{
+        width: '100%', display: 'flex', alignItems: 'center', gap: '1rem',
+        padding: '0.85rem 1.1rem', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left',
+      }}>
+        <span style={{
+          width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+          background: hasData ? 'rgba(206,150,45,0.15)' : 'rgba(255,255,255,0.05)',
+          border: `1px solid ${hasData ? 'rgba(206,150,45,0.4)' : 'rgba(255,255,255,0.1)'}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '0.72rem', fontWeight: 800, color: hasData ? '#ce962d' : 'var(--muted)',
+        }}>{index + 1}</span>
+        <span style={{ fontWeight: hasData ? 700 : 400, color: hasData ? '#fff' : 'var(--muted)', fontSize: '0.9rem', flex: 1 }}>
+          {player.name || `Player ${index + 1}`}
+        </span>
+        {player.strengths.length > 0 && (
+          <span style={{ fontSize: '0.72rem', color: '#2ecc71', fontWeight: 600 }}>
+            {player.strengths.slice(0, 2).join(', ')}{player.strengths.length > 2 ? '…' : ''}
+          </span>
+        )}
+        <span style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>{open ? '▲' : '▼'}</span>
+      </button>
+
+      {/* Expanded form */}
+      {open && (
+        <div style={{ padding: '0 1.1rem 1.1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <img ref={crestRef} src={crest} alt="" style={{ display: 'none' }} />
+
+          <input placeholder="Player name" value={player.name}
+            onChange={e => onChange({ ...player, name: e.target.value })}
+            style={inputStyle} />
+
+          {/* Strengths */}
+          <div>
+            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#2ecc71', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              Doing brilliantly (pick up to 3)
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+              {SKILLS.map(s => {
+                const active = player.strengths.includes(s.label)
+                const maxed = player.strengths.length >= 3 && !active
+                return (
+                  <button key={s.label} disabled={maxed} onClick={() => toggle(s.label)} style={{
+                    background: active ? `${s.color}25` : 'rgba(255,255,255,0.04)',
+                    border: `1px solid ${active ? s.color : 'rgba(255,255,255,0.12)'}`,
+                    color: active ? s.color : 'var(--muted)',
+                    fontSize: '0.75rem', fontWeight: 600, padding: '0.25rem 0.6rem',
+                    borderRadius: 20, cursor: maxed ? 'not-allowed' : 'pointer', opacity: maxed ? 0.35 : 1,
+                  }}>{active ? '✓ ' : ''}{s.label}</button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Focus area */}
+          <div>
+            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#3498db', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              Keep working on (pick 1)
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+              {SKILLS.map(s => {
+                const active = player.focusArea === s.label
+                return (
+                  <button key={s.label} onClick={() => onChange({ ...player, focusArea: active ? '' : s.label })} style={{
+                    background: active ? 'rgba(52,152,219,0.2)' : 'rgba(255,255,255,0.04)',
+                    border: `1px solid ${active ? '#3498db' : 'rgba(255,255,255,0.12)'}`,
+                    color: active ? '#3498db' : 'var(--muted)',
+                    fontSize: '0.75rem', fontWeight: 600, padding: '0.25rem 0.6rem',
+                    borderRadius: 20, cursor: 'pointer',
+                  }}>{active ? '→ ' : ''}{s.label}</button>
+                )
+              })}
+            </div>
+          </div>
+
+          <textarea placeholder="Coach note — a personal message to the player…" value={player.note}
+            onChange={e => onChange({ ...player, note: e.target.value })}
+            rows={2} style={{ ...inputStyle, resize: 'vertical' }} />
+
+          <textarea placeholder="Game highlight — what did they do well in the last match?" value={player.gameHighlight}
+            onChange={e => onChange({ ...player, gameHighlight: e.target.value })}
+            rows={2} style={{ ...inputStyle, resize: 'vertical' }} />
+
+          <button className="btn" onClick={handleSaveImage}
+            style={{ alignSelf: 'flex-start', fontSize: '0.85rem' }}>
+            🖨️ Save / Print Card
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function PlayersPage() {
+  const [players, setPlayers] = useState(buildInitialPlayers)
+
+  const updatePlayer = (i, data) => setPlayers(prev => prev.map((p, idx) => idx === i ? data : p))
+
+  const filledCount = players.filter(p => p.name).length
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2rem 1rem' }}>
+    <div style={{ maxWidth: 760, margin: '0 auto', padding: '2rem 1rem' }}>
 
-      {/* Page header */}
-      <div style={{ marginBottom: '2rem' }}>
+      <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.4rem' }}>
           Coaches Portal
         </div>
         <h1 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.35rem' }}>Player Development</h1>
         <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>
-          Build and print a personalised report card for any player.
+          {filledCount} of 15 players filled in. Click a player to edit their report card.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', alignItems: 'start' }}>
-
-        {/* ── Form ── */}
-        <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <h3 style={{ fontWeight: 800, fontSize: '1rem', margin: 0 }}>Player Details</h3>
-
-          <input placeholder="Player name *" value={form.playerName}
-            onChange={e => setForm(f => ({ ...f, playerName: e.target.value }))}
-            style={inputStyle} />
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            <select value={form.ageGroup} onChange={e => setForm(f => ({ ...f, ageGroup: e.target.value }))}
-              style={{ ...inputStyle, color: form.ageGroup ? '#fff' : 'var(--muted)' }}>
-              <option value="">Age group *</option>
-              {AGE_GROUP_OPTIONS.map(a => <option key={a} value={a}>{a}</option>)}
-            </select>
-            <input placeholder="Team (e.g. Amber)" value={form.team}
-              onChange={e => setForm(f => ({ ...f, team: e.target.value }))}
-              style={inputStyle} />
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            <input placeholder="Coach name" value={form.coach}
-              onChange={e => setForm(f => ({ ...f, coach: e.target.value }))}
-              style={inputStyle} />
-            <input type="text" value={form.date}
-              onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
-              style={inputStyle} />
-          </div>
-
-          {/* Strengths */}
-          <div>
-            <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#2ecc71', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
-              What they're doing brilliantly (pick up to 3)
-            </div>
-            {SKILL_GROUPS.map(g => (
-              <div key={g.label} style={{ marginBottom: '0.5rem' }}>
-                <div style={{ fontSize: '0.68rem', color: g.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{g.label}</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-                  {g.skills.map(s => {
-                    const active = form.strengths.includes(s)
-                    const maxed = form.strengths.length >= 3 && !active
-                    return (
-                      <button key={s} disabled={maxed} onClick={() => toggle('strengths', s)} style={{
-                        background: active ? `${g.color}25` : 'rgba(255,255,255,0.04)',
-                        border: `1px solid ${active ? g.color : 'rgba(255,255,255,0.12)'}`,
-                        color: active ? g.color : 'var(--muted)',
-                        fontSize: '0.75rem', fontWeight: 600, padding: '0.25rem 0.6rem',
-                        borderRadius: 20, cursor: maxed ? 'not-allowed' : 'pointer', opacity: maxed ? 0.4 : 1,
-                      }}>{active ? '✓ ' : ''}{s}</button>
-                    )
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Focus areas */}
-          <div>
-            <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#3498db', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>
-              Keep working on (pick 1–2)
-            </div>
-            {SKILL_GROUPS.map(g => (
-              <div key={g.label} style={{ marginBottom: '0.5rem' }}>
-                <div style={{ fontSize: '0.68rem', color: g.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>{g.label}</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-                  {g.skills.map(s => {
-                    const active = form.focusAreas.includes(s)
-                    const maxed = form.focusAreas.length >= 2 && !active
-                    return (
-                      <button key={s} disabled={maxed} onClick={() => toggle('focusAreas', s)} style={{
-                        background: active ? `${g.color}25` : 'rgba(255,255,255,0.04)',
-                        border: `1px solid ${active ? g.color : 'rgba(255,255,255,0.12)'}`,
-                        color: active ? g.color : 'var(--muted)',
-                        fontSize: '0.75rem', fontWeight: 600, padding: '0.25rem 0.6rem',
-                        borderRadius: 20, cursor: maxed ? 'not-allowed' : 'pointer', opacity: maxed ? 0.4 : 1,
-                      }}>{active ? '✓ ' : ''}{s}</button>
-                    )
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Notes */}
-          <textarea placeholder="Coach note — a personal message to the player..." value={form.coachNote}
-            onChange={e => setForm(f => ({ ...f, coachNote: e.target.value }))}
-            rows={3} style={{ ...inputStyle, resize: 'vertical' }} />
-
-          <textarea placeholder="Game highlight — what did they do well in the last match?" value={form.gameHighlight}
-            onChange={e => setForm(f => ({ ...f, gameHighlight: e.target.value }))}
-            rows={2} style={{ ...inputStyle, resize: 'vertical' }} />
-
-          <button className="btn" disabled={!isReady} onClick={handlePrint}
-            style={{ opacity: isReady ? 1 : 0.4, cursor: isReady ? 'pointer' : 'not-allowed' }}>
-            🖨️ Print / Save Report Card
-          </button>
-          {!isReady && (
-            <p style={{ fontSize: '0.78rem', color: 'var(--muted)', marginTop: '-0.75rem' }}>
-              Fill in player name, age group and at least one strength to generate.
-            </p>
-          )}
-        </div>
-
-        {/* ── Live preview card ── */}
-        <div>
-          <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-            Preview
-          </div>
-          <div ref={cardRef} style={{
-            background: 'linear-gradient(145deg, #0d1c2e 0%, #111c2b 100%)',
-            border: '2px solid #ce962d', borderRadius: 16, padding: '1.75rem',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80,
-              background: 'linear-gradient(225deg, rgba(206,150,45,0.15) 0%, transparent 70%)', borderRadius: '0 16px 0 0' }} />
-
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', borderBottom: '1px solid rgba(206,150,45,0.25)', paddingBottom: '1rem' }}>
-              <img src={crest} alt="Crest" style={{ height: 44, opacity: 0.9 }} />
-              <div>
-                <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.12em' }}>ABC FC Academy</div>
-                <div style={{ fontSize: '1rem', fontWeight: 900, lineHeight: 1.1 }}>Player Report Card</div>
-              </div>
-            </div>
-
-            {/* Player name */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff', lineHeight: 1 }}>
-                {form.playerName || <span style={{ color: 'rgba(255,255,255,0.2)' }}>Player Name</span>}
-              </div>
-              <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)', marginTop: '0.25rem' }}>
-                {[form.ageGroup, form.team].filter(Boolean).join(' · ') || <span style={{ color: 'rgba(255,255,255,0.2)' }}>Age Group</span>}
-                {form.date && <span> · {form.date}</span>}
-              </div>
-            </div>
-
-            {/* Strengths */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#2ecc71', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
-                ⭐ What you're doing brilliantly
-              </div>
-              {form.strengths.length > 0 ? (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-                  {form.strengths.map(s => (
-                    <span key={s} style={{ background: 'rgba(46,204,113,0.15)', border: '1px solid rgba(46,204,113,0.4)', color: '#2ecc71', fontSize: '0.8rem', fontWeight: 700, padding: '0.3rem 0.75rem', borderRadius: 20 }}>✓ {s}</span>
-                  ))}
-                </div>
-              ) : (
-                <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.82rem' }}>Select strengths from the form…</p>
-              )}
-            </div>
-
-            {/* Focus areas */}
-            {form.focusAreas.length > 0 && (
-              <div style={{ marginBottom: '1.25rem' }}>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#3498db', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
-                  🎯 Keep working on
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
-                  {form.focusAreas.map(s => (
-                    <span key={s} style={{ background: 'rgba(52,152,219,0.15)', border: '1px solid rgba(52,152,219,0.4)', color: '#3498db', fontSize: '0.8rem', fontWeight: 700, padding: '0.3rem 0.75rem', borderRadius: 20 }}>→ {s}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Coach note */}
-            {form.coachNote && (
-              <div style={{ marginBottom: '1.25rem', background: 'rgba(206,150,45,0.06)', border: '1px solid rgba(206,150,45,0.2)', borderRadius: 8, padding: '0.85rem 1rem' }}>
-                <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#ce962d', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>Coach's Note</div>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>{form.coachNote}</p>
-              </div>
-            )}
-
-            {/* Game highlight */}
-            {form.gameHighlight && (
-              <div style={{ marginBottom: '1.25rem', background: 'rgba(155,89,182,0.08)', border: '1px solid rgba(155,89,182,0.25)', borderRadius: 8, padding: '0.85rem 1rem' }}>
-                <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9b59b6', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>⚡ Game Highlight</div>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>{form.gameHighlight}</p>
-              </div>
-            )}
-
-            {/* Footer */}
-            <div style={{ borderTop: '1px solid rgba(206,150,45,0.2)', paddingTop: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)' }}>ABC FC Academy</div>
-              {form.coach && <div style={{ fontSize: '0.72rem', color: '#ce962d', fontWeight: 700 }}>{form.coach}</div>}
-            </div>
-          </div>
-        </div>
-
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        {players.map((p, i) => (
+          <PlayerRow key={i} index={i} player={p} onChange={data => updatePlayer(i, data)} />
+        ))}
       </div>
+
     </div>
   )
 }
