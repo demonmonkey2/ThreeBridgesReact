@@ -47,8 +47,8 @@ export default function HomePage() {
               Developing technically excellent, tactically aware players from U7 to U16 — built on a structured 14-week curriculum.
             </p>
             <div className="delay-2 animate-fadeup" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <Link to="/age-groups" className="btn">Explore Age Groups</Link>
-              <Link to="/curriculum" className="btn btn-outline">View Curriculum</Link>
+              <Link to="/players" className="btn">Player Development</Link>
+              <Link to="/linesman-course" className="btn btn-outline">Linesman Course</Link>
             </div>
           </div>
         </div>
@@ -59,8 +59,7 @@ export default function HomePage() {
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1rem' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
             {[
-              { to: '/age-groups', icon: '👥', label: 'Age Groups' },
-              { to: '/curriculum', icon: '📋', label: 'Curriculum' },
+              { to: '/players', icon: '⚽', label: 'Player Development' },
               { to: '/linesman-course', icon: '🚩', label: 'Linesman Course' },
               { to: '/coaches', icon: '🔒', label: 'Coaches Portal' },
             ].map(item => (
