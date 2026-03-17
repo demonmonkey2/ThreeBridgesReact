@@ -52,12 +52,9 @@ function generateCard(player, index, crestSrc) {
 </head><body>
 <div style="background:linear-gradient(145deg,#0d1c2e,#111c2b);border:2px solid #ce962d;border-radius:16px;padding:1.75rem;max-width:520px;width:100%;position:relative;overflow:hidden">
   <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:linear-gradient(225deg,rgba(206,150,45,0.15),transparent 70%);border-radius:0 16px 0 0"></div>
-  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;border-bottom:1px solid rgba(206,150,45,0.25);padding-bottom:1rem">
-    <img src="${crestSrc}" style="height:44px;opacity:0.9" />
-    <div>
-      <div style="font-size:0.65rem;font-weight:700;color:#ce962d;text-transform:uppercase;letter-spacing:0.12em">ABC FC Academy</div>
-      <div style="font-size:1rem;font-weight:900;line-height:1.1">Player Report Card</div>
-    </div>
+  <div style="margin-bottom:1.25rem;border-bottom:1px solid rgba(206,150,45,0.25);padding-bottom:1rem">
+    <div style="font-size:0.65rem;font-weight:700;color:#ce962d;text-transform:uppercase;letter-spacing:0.12em">ABC FC Academy</div>
+    <div style="font-size:1rem;font-weight:900;line-height:1.1">Player Report Card</div>
   </div>
   <div style="margin-bottom:1.25rem">
     <div style="font-size:1.6rem;font-weight:900;color:#fff;line-height:1">${player.name || `Player ${index + 1}`}</div>
@@ -313,9 +310,6 @@ function MotmBadge({ form, crestSrc }) {
       <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60,
         background: 'linear-gradient(225deg, rgba(206,150,45,0.2), transparent 70%)', borderRadius: '0 16px 0 0' }} />
 
-      {/* Crest */}
-      {crestSrc && <img src={crestSrc} alt="" style={{ height: 48, marginBottom: '0.75rem', opacity: 0.9 }} />}
-
       {/* Star */}
       <div style={{ fontSize: '3.5rem', lineHeight: 1, marginBottom: '0.25rem',
         animation: 'starPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both' }}>
@@ -386,13 +380,6 @@ function drawMotmCanvas(form, crestImg) {
   ctx.stroke()
 
   let y = 55
-
-  // crest
-  if (crestImg) {
-    const cw = 70, ch = 70
-    ctx.drawImage(crestImg, W / 2 - cw / 2, y, cw, ch)
-    y += ch + 18
-  }
 
   // star
   ctx.font = '72px serif'
