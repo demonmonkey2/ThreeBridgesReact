@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import crest from '../assets/crest.svg'
 
 const TOKEN_KEY = 'coaches_token'
@@ -1023,6 +1024,7 @@ export default function CoachesPage() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const [portalSection, setPortalSection] = useState('plans')
+  const navigate = useNavigate()
 
   const handleLogin = async e => {
     e.preventDefault()
@@ -1148,8 +1150,9 @@ export default function CoachesPage() {
           {[
             { key: 'plans', label: '📋 Training Plans' },
             { key: 'reports', label: '📄 Player Reports' },
+            { key: 'curriculum', label: '📚 Curriculum' },
           ].map(s => (
-            <button key={s.key} onClick={() => setPortalSection(s.key)} style={{
+            <button key={s.key} onClick={() => s.key === 'curriculum' ? navigate('/curriculum') : setPortalSection(s.key)} style={{
               flex: 1, padding: '0.6rem 1rem', borderRadius: 6, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem', transition: 'all 0.15s',
               background: portalSection === s.key ? 'var(--gold)' : 'transparent',
               color: portalSection === s.key ? '#000' : 'var(--muted)',
