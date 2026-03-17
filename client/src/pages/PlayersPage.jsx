@@ -318,9 +318,6 @@ export default function PlayersPage() {
     <div style={{ maxWidth: 760, margin: '0 auto', padding: '2rem 1rem' }}>
 
       <div style={{ marginBottom: '1.75rem' }}>
-        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.4rem' }}>
-          Coaches Portal
-        </div>
         <h1 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.5rem' }}>Player Development</h1>
         <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '1rem' }}>
           {filledCount} of {players.length} players filled in. Click a player to edit their report card.
