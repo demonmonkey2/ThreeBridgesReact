@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import { HomePage, LoginPage, AgeGroupsPage, CurriculumPage, MediaPage, TrainingGuidesPage, CoachesPage, LinsmanCoursePage } from './pages'
+import { HomePage, LoginPage, AgeGroupsPage, CurriculumPage, MediaPage, TrainingGuidesPage, CoachesPage, LinsmanCoursePage, PlayersPage } from './pages'
 import './App.css'
 
 const TOKEN_KEY = 'coaches_token'
@@ -30,6 +30,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/age-groups" element={<AgeGroupsPage />} />
         <Route path="/curriculum" element={<ProtectedRoute element={<CurriculumPage />} />} />
+        <Route path="/players" element={<ProtectedRoute element={<PlayersPage />} />} />
         <Route path="/media" element={<MediaPage />} />
         <Route path="/training-guides" element={<TrainingGuidesPage />} />
         <Route path="/coaches" element={<CoachesPage />} />

@@ -1145,10 +1145,6 @@ export default function CoachesPage() {
           </button>
         </div>
 
-        <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, padding: '2rem' }}>
-          <PlayerReportBuilder />
-        </div>
-
         {false && <>
 
         {/* Legend */}
