@@ -259,7 +259,289 @@ function printMultiple(selectedPlayers, crestSrc) {
   setTimeout(() => { win.print(); win.close() }, 400)
 }
 
+// ─────────────────────────────────────────
+// MAN OF THE MATCH
+// ─────────────────────────────────────────
+
+const MOTM_STYLE = `
+  @keyframes starPop {
+    0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+    60%  { transform: scale(1.15) rotate(4deg); opacity: 1; }
+    80%  { transform: scale(0.95) rotate(-2deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  @keyframes shimmer {
+    0%   { left: -60%; }
+    100% { left: 160%; }
+  }
+`
+
+function MotmBadge({ form, crestSrc }) {
+  const isReady = form.playerName && form.opponent
+
+  if (!isReady) {
+    return (
+      <div style={{
+        border: '2px dashed rgba(206,150,45,0.2)', borderRadius: 16, padding: '3rem',
+        textAlign: 'center', color: 'var(--muted)', fontSize: '0.88rem',
+      }}>
+        Fill in player name and opponent to preview the badge
+      </div>
+    )
+  }
+
+  return (
+    <div style={{
+      background: 'linear-gradient(145deg, #0d1c2e 0%, #111c2b 100%)',
+      border: '3px solid #ce962d', borderRadius: 16, padding: '2rem',
+      textAlign: 'center', position: 'relative', overflow: 'hidden',
+      boxShadow: '0 0 40px rgba(206,150,45,0.15)',
+    }}>
+      <style>{MOTM_STYLE}</style>
+
+      {/* shimmer sweep */}
+      <div style={{
+        position: 'absolute', top: 0, left: '-60%', width: '40%', height: '100%',
+        background: 'linear-gradient(90deg, transparent, rgba(206,150,45,0.08), transparent)',
+        animation: 'shimmer 2.5s ease-in-out infinite',
+        pointerEvents: 'none',
+      }} />
+
+      {/* corner accents */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: 60, height: 60,
+        background: 'linear-gradient(135deg, rgba(206,150,45,0.2), transparent 70%)', borderRadius: '16px 0 0 0' }} />
+      <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60,
+        background: 'linear-gradient(225deg, rgba(206,150,45,0.2), transparent 70%)', borderRadius: '0 16px 0 0' }} />
+
+      {/* Crest */}
+      {crestSrc && <img src={crestSrc} alt="" style={{ height: 48, marginBottom: '0.75rem', opacity: 0.9 }} />}
+
+      {/* Star */}
+      <div style={{ fontSize: '3.5rem', lineHeight: 1, marginBottom: '0.25rem',
+        animation: 'starPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both' }}>
+        ⭐
+      </div>
+
+      {/* Heading */}
+      <div style={{
+        fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em',
+        color: '#ce962d', textTransform: 'uppercase', marginBottom: '0.5rem',
+      }}>
+        Man of the Match
+      </div>
+
+      {/* Player name */}
+      <div style={{
+        fontSize: 'clamp(1.6rem, 5vw, 2.4rem)', fontWeight: 900, lineHeight: 1.05,
+        color: '#fff', textTransform: 'uppercase', letterSpacing: '-0.01em',
+        marginBottom: '0.4rem',
+      }}>
+        {form.playerName}
+      </div>
+
+      {/* Game details */}
+      <div style={{ fontSize: '0.9rem', color: '#ce962d', fontWeight: 700, marginBottom: '0.2rem' }}>
+        vs {form.opponent}
+      </div>
+      {(form.competition || form.date) && (
+        <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.45)', marginBottom: '1rem' }}>
+          {[form.competition, form.date].filter(Boolean).join(' · ')}
+        </div>
+      )}
+
+      {/* Gold divider */}
+      <div style={{ width: 60, height: 2, background: 'linear-gradient(90deg, transparent, #ce962d, transparent)', margin: '0 auto 1rem' }} />
+
+      <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+        ABC FC Academy
+      </div>
+    </div>
+  )
+}
+
+function drawMotmCanvas(form, crestImg) {
+  const W = 600, H = 700
+  const canvas = document.createElement('canvas')
+  canvas.width = W; canvas.height = H
+  const ctx = canvas.getContext('2d')
+
+  // background
+  const bg = ctx.createLinearGradient(0, 0, W, H)
+  bg.addColorStop(0, '#0d1c2e')
+  bg.addColorStop(1, '#111c2b')
+  ctx.fillStyle = bg
+  ctx.roundRect(0, 0, W, H, 20)
+  ctx.fill()
+
+  // border
+  ctx.strokeStyle = '#ce962d'
+  ctx.lineWidth = 5
+  ctx.roundRect(4, 4, W - 8, H - 8, 18)
+  ctx.stroke()
+
+  // inner gold line
+  ctx.strokeStyle = 'rgba(206,150,45,0.3)'
+  ctx.lineWidth = 1
+  ctx.roundRect(14, 14, W - 28, H - 28, 14)
+  ctx.stroke()
+
+  let y = 55
+
+  // crest
+  if (crestImg) {
+    const cw = 70, ch = 70
+    ctx.drawImage(crestImg, W / 2 - cw / 2, y, cw, ch)
+    y += ch + 18
+  }
+
+  // star
+  ctx.font = '72px serif'
+  ctx.textAlign = 'center'
+  ctx.fillText('⭐', W / 2, y + 60)
+  y += 80
+
+  // MAN OF THE MATCH label
+  ctx.font = 'bold 18px -apple-system, sans-serif'
+  ctx.fillStyle = '#ce962d'
+  ctx.letterSpacing = '6px'
+  ctx.fillText('MAN OF THE MATCH', W / 2, y + 10)
+  y += 36
+
+  // divider line
+  ctx.strokeStyle = 'rgba(206,150,45,0.4)'
+  ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(80, y); ctx.lineTo(W - 80, y); ctx.stroke()
+  y += 28
+
+  // player name
+  ctx.font = 'bold 58px -apple-system, sans-serif'
+  ctx.fillStyle = '#ffffff'
+  const nameSize = form.playerName.length > 14 ? 40 : 58
+  ctx.font = `bold ${nameSize}px -apple-system, sans-serif`
+  ctx.fillText(form.playerName.toUpperCase(), W / 2, y + nameSize)
+  y += nameSize + 18
+
+  // opponent
+  ctx.font = 'bold 26px -apple-system, sans-serif'
+  ctx.fillStyle = '#ce962d'
+  ctx.fillText(`vs ${form.opponent}`, W / 2, y + 26)
+  y += 44
+
+  // competition + date
+  if (form.competition || form.date) {
+    ctx.font = '18px -apple-system, sans-serif'
+    ctx.fillStyle = 'rgba(255,255,255,0.45)'
+    ctx.fillText([form.competition, form.date].filter(Boolean).join(' · '), W / 2, y + 18)
+    y += 36
+  }
+
+  // gold divider
+  y += 16
+  const grd = ctx.createLinearGradient(W / 2 - 80, y, W / 2 + 80, y)
+  grd.addColorStop(0, 'transparent')
+  grd.addColorStop(0.5, '#ce962d')
+  grd.addColorStop(1, 'transparent')
+  ctx.strokeStyle = grd
+  ctx.lineWidth = 2
+  ctx.beginPath(); ctx.moveTo(W / 2 - 80, y); ctx.lineTo(W / 2 + 80, y); ctx.stroke()
+  y += 24
+
+  // footer
+  ctx.font = '13px -apple-system, sans-serif'
+  ctx.fillStyle = 'rgba(255,255,255,0.25)'
+  ctx.fillText('ABC FC ACADEMY', W / 2, y + 13)
+
+  return canvas
+}
+
+function ManOfTheMatch() {
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  const [form, setForm] = useState({ playerName: '', opponent: '', competition: '', date: today })
+  const crestRef = useRef(null)
+
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+
+  const handleDownload = () => {
+    const img = new window.Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      const canvas = drawMotmCanvas(form, img)
+      const link = document.createElement('a')
+      link.download = `motm-${form.playerName.replace(/\s+/g, '-').toLowerCase()}.png`
+      link.href = canvas.toDataURL('image/png')
+      link.click()
+    }
+    img.onerror = () => {
+      const canvas = drawMotmCanvas(form, null)
+      const link = document.createElement('a')
+      link.download = `motm-${form.playerName.replace(/\s+/g, '-').toLowerCase()}.png`
+      link.href = canvas.toDataURL('image/png')
+      link.click()
+    }
+    img.src = '/api/crest'
+  }
+
+  const inputSt = {
+    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: 6, padding: '0.65rem 0.9rem', color: '#fff', fontSize: '0.88rem',
+    width: '100%', fontFamily: 'inherit',
+  }
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', alignItems: 'start' }}>
+
+      {/* Form */}
+      <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <h3 style={{ fontWeight: 800, fontSize: '1rem', margin: 0 }}>Badge Details</h3>
+
+        <div>
+          <label style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.35rem' }}>Player Name *</label>
+          <input placeholder="e.g. Jamie Cole" value={form.playerName} onChange={e => set('playerName', e.target.value)} style={inputSt} />
+        </div>
+
+        <div>
+          <label style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.35rem' }}>Opponent *</label>
+          <input placeholder="e.g. Horsham FC" value={form.opponent} onChange={e => set('opponent', e.target.value)} style={inputSt} />
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+          <div>
+            <label style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.35rem' }}>Competition</label>
+            <input placeholder="e.g. MSYFL" value={form.competition} onChange={e => set('competition', e.target.value)} style={inputSt} />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.35rem' }}>Date</label>
+            <input value={form.date} onChange={e => set('date', e.target.value)} style={inputSt} />
+          </div>
+        </div>
+
+        <button className="btn" onClick={handleDownload}
+          disabled={!form.playerName || !form.opponent}
+          style={{ opacity: form.playerName && form.opponent ? 1 : 0.4, cursor: form.playerName && form.opponent ? 'pointer' : 'not-allowed', marginTop: '0.5rem' }}>
+          ⬇ Download Badge (PNG)
+        </button>
+        <p style={{ fontSize: '0.78rem', color: 'var(--muted)', margin: '-0.5rem 0 0' }}>
+          Downloads as a PNG — perfect for sharing on WhatsApp.
+        </p>
+      </div>
+
+      {/* Preview */}
+      <div>
+        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>Preview</div>
+        <MotmBadge form={form} crestSrc={crestRef.current?.src} />
+        <img ref={crestRef} src={crest} alt="" style={{ display: 'none' }} />
+      </div>
+
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────
+// PAGE
+// ─────────────────────────────────────────
+
 export default function PlayersPage() {
+  const [tab, setTab] = useState('reports')
   const [players, setPlayers] = useState(buildInitialPlayers)
   const [selected, setSelected] = useState(new Set())
   const [importError, setImportError] = useState('')
@@ -315,10 +597,35 @@ export default function PlayersPage() {
   const filledCount = players.filter(p => p.name).length
 
   return (
-    <div style={{ maxWidth: 760, margin: '0 auto', padding: '2rem 1rem' }}>
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1rem' }}>
 
-      <div style={{ marginBottom: '1.75rem' }}>
-        <h1 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.5rem' }}>Player Development</h1>
+      {/* Page header */}
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h1 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.25rem' }}>Player Development</h1>
+        <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Tools to celebrate and develop your players.</p>
+      </div>
+
+      {/* Sub-menu tabs */}
+      <div style={{ display: 'flex', gap: '0.35rem', marginBottom: '2rem', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 10, padding: '0.3rem', width: 'fit-content' }}>
+        {[
+          { key: 'reports', label: '📋 Report Cards' },
+          { key: 'motm',    label: '⭐ Man of the Match' },
+        ].map(t => (
+          <button key={t.key} onClick={() => setTab(t.key)} style={{
+            padding: '0.55rem 1.1rem', borderRadius: 7, border: 'none', cursor: 'pointer',
+            fontWeight: 700, fontSize: '0.85rem', transition: 'all 0.15s',
+            background: tab === t.key ? 'var(--gold)' : 'transparent',
+            color: tab === t.key ? '#000' : 'var(--muted)',
+          }}>{t.label}</button>
+        ))}
+      </div>
+
+      {/* Man of the Match */}
+      {tab === 'motm' && <ManOfTheMatch />}
+
+      {/* Report Cards */}
+      {tab === 'reports' && <>
+      <div style={{ marginBottom: '1.25rem' }}>
         <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '1rem' }}>
           {filledCount} of {players.length} players filled in. Click a player to edit their report card.
         </p>
@@ -368,6 +675,7 @@ export default function PlayersPage() {
             selected={selected.has(i)} onSelect={toggleSelect} />
         ))}
       </div>
+      </>}
 
     </div>
   )
